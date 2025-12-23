@@ -77,6 +77,23 @@ app.use(express.urlencoded({ extended: true, limit: constants.JSON_BODY_LIMIT })
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Root endpoint - API information
+app.get('/', (req, res) => {
+  res.status(200).json({
+    name: 'Job Portal API',
+    version: '1.2.0',
+    status: 'running',
+    endpoints: {
+      health: '/api/health',
+      auth: '/api/auth',
+      jobs: '/api/jobs',
+      users: '/api/users',
+      admin: '/api/admin'
+    },
+    documentation: 'See README.md for API documentation'
+  });
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.status(200).json({ 
