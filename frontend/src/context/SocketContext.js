@@ -59,7 +59,7 @@ export const SocketProvider = ({ children }) => {
         setConnected(false);
       }
     }
-  }, [user, admin]);
+  }, [user, admin, socket]);
 
   // Add notification to state
   const addNotification = useCallback((notification) => {

@@ -1,7 +1,7 @@
 // src/components/NotificationSnackbar.js
 
 import React, { useState, useEffect } from 'react';
-import { Snackbar, Alert, IconButton, Badge } from '@mui/material';
+import { Snackbar, Alert, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSocket } from '../context/SocketContext';
 

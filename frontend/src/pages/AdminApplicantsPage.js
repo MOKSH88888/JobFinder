@@ -16,7 +16,6 @@ import {
   TableRow,
   Button,
   CircularProgress,
-  Chip,
   Avatar,
   MenuItem,
   Select,
@@ -32,6 +31,7 @@ const AdminApplicantsPage = () => {
 
   useEffect(() => {
     fetchApplicants();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jobId]);
 
   const fetchApplicants = async () => {
