@@ -49,7 +49,6 @@ const HomePage = () => {
   });
   const [searchInput, setSearchInput] = useState('');
   const navigate = useNavigate();
-  const hasAnimated = useRef(false);
 
   useEffect(() => {
     loadJobs();

@@ -9,19 +9,13 @@ import {
   Box,
   Typography,
   Paper,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  Divider,
   CircularProgress,
   Chip,
   Card,
   CardContent,
   CardActions,
   Button,
-  Grid,
-  Badge
+  Grid
 } from '@mui/material';
 import WorkIcon from '@mui/icons-material/Work';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
