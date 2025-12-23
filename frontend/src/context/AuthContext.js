@@ -73,12 +73,23 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const loginUser = async (email, password) => {
-    const { data } = await API.post('/auth/login', { email, password });
-    localStorage.setItem('userToken', data.token);
-    const { data: profile } = await API.get('/users/profile', {
-      headers: { Authorization: `Bearer ${data.token}` }
-    });
-    setUser(profile);
+    try {
+      console.log('Attempting login to:', process.env.REACT_APP_API_BASE_URL);
+      const { data } = await API.post('/auth/login', { email, password });
+      localStorage.setItem('userToken', data.token);
+      const { data: profile } = await API.get('/users/profile', {
+        headers: { Authorization: `Bearer ${data.token}` }
+      });
+      setUser(profile);
+    } catch (error) {
+      console.error('Login error details:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        url: error.config?.url
+      });
+      throw error;
+    }
   };
   
   const loginAdmin = async (username, password) => {
