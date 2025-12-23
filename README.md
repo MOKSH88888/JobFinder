@@ -40,7 +40,7 @@ Password: SecureAdmin@2025
 
 **Test User (after seeding):**
 ```
-Email: john.doe@example.com
+Email: rajesh.kumar@example.com
 Password: User@1234
 ```
 

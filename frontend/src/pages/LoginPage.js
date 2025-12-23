@@ -19,7 +19,6 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import GroupsIcon from '@mui/icons-material/Groups';
 import { validateEmail, validatePassword, getErrorMessage } from '../utils/errorHandler';
-import EnvDebug from '../components/EnvDebug';
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -106,9 +105,6 @@ const LoginPage = () => {
         }}
       >
         <Box sx={{ maxWidth: 460, width: '100%' }}>
-          {/* Debug Component - Remove after fixing */}
-          <EnvDebug />
-          
           {/* Header with better hierarchy */}
           <Box sx={{ mb: 6, textAlign: 'center' }}>
             <Typography 
