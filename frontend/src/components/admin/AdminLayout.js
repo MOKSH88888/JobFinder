@@ -29,8 +29,7 @@ import {
   AdminPanelSettings as AdminIcon,
   Logout as LogoutIcon,
   Menu as MenuIcon,
-  Notifications as NotificationsIcon,
-  Person as PersonIcon
+  Notifications as NotificationsIcon
 } from '@mui/icons-material';
 import { useSocket } from '../../context/SocketContext';
 
