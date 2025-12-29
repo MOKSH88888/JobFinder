@@ -1,4 +1,5 @@
 // src/components/JobCard.js
+// Reusable job card component with bookmark and apply functionality
 
 import React, { useState, useMemo } from 'react';
 import { 
@@ -86,7 +87,6 @@ const JobCard = ({ job }) => {
       // Refresh to sync with backend
       await refreshUser();
     } catch (error) {
-      console.error('Bookmark error:', error);
       const errorMsg = error.response?.data?.message || 'Failed to update bookmark';
       showToast(errorMsg, 'error');
       // Revert optimistic update on error

@@ -37,7 +37,7 @@ exports.getJobById = asyncHandler(async (req, res) => {
     .populate('postedBy', 'username');
   
   if (!job) {
-    throw new APIError('Job not found', 404);
+    throw new APIError(constants.ERROR_MESSAGES.JOB_NOT_FOUND, 404);
   }
   
   res.json({ success: true, job });

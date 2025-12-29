@@ -56,7 +56,6 @@ const UserDashboard = () => {
     setResume(e.target.files[0]);
   };
 
-  // New corrected code
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
     setSuccessMessage('');
@@ -82,7 +81,6 @@ const UserDashboard = () => {
       setResume(null);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
-      console.error('Failed to update profile', error);
       if (error.code === 'ECONNABORTED') {
         setErrorMessage('Upload timed out. Your backend may be starting up (cold start on Render free tier takes 30-60 seconds). Please try again in a moment.');
       } else {

@@ -128,7 +128,6 @@ const MyApplicationsPage = () => {
         const apps = data?.appliedJobs || [];
         setAppliedJobs(Array.isArray(apps) ? apps : []);
       } catch (error) {
-        console.error("Failed to fetch applied jobs", error);
         setAppliedJobs([]); // Set to empty array on error
       } finally {
         setLoading(false);

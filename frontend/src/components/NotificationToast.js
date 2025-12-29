@@ -1,3 +1,6 @@
+// src/components/NotificationToast.js
+// User-facing notification toast for application status updates
+
 import React from 'react';
 import {
   Snackbar,

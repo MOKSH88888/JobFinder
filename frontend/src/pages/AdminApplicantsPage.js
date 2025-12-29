@@ -52,9 +52,6 @@ const AdminApplicantsPage = () => {
       setApplicants(mappedApplicants);
       setLoading(false);
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Error fetching applicants:', error);
-      }
       setApplicants([]);
       setLoading(false);
     }
@@ -71,7 +68,6 @@ const AdminApplicantsPage = () => {
         app._id === applicantId ? { ...app, status: newStatus } : app
       ));
     } catch (error) {
-      console.error('Error updating status:', error.response?.data || error.message);
       alert('Failed to update status. Please try again.');
     }
   };

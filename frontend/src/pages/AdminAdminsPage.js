@@ -46,7 +46,6 @@ const AdminAdminsPage = () => {
       setAdmins(Array.isArray(adminsArray) ? adminsArray : []);
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching admins:', error);
       setAdmins([]); // Set to empty array on error
       setLoading(false);
     }
@@ -61,7 +60,6 @@ const AdminAdminsPage = () => {
       await fetchAdmins();
       setTimeout(() => setMessage({ text: '', severity: 'success' }), 3000);
     } catch (error) {
-      console.error('Error deleting admin:', error);
       const errorMsg = error.response?.data?.msg || 'Error deleting admin';
       setMessage({ text: errorMsg, severity: 'error' });
       setTimeout(() => setMessage({ text: '', severity: 'success' }), 5000);
@@ -90,7 +88,6 @@ const AdminAdminsPage = () => {
       setMessage({ text: 'Admin created successfully', severity: 'success' });
       setTimeout(() => setMessage({ text: '', severity: 'success' }), 3000);
     } catch (error) {
-      console.error('Error creating admin:', error);
       const errorMsg = error.response?.data?.msg || 'Error creating admin';
       setMessage({ text: errorMsg, severity: 'error' });
       setTimeout(() => setMessage({ text: '', severity: 'success' }), 5000);

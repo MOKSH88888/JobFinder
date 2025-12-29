@@ -32,7 +32,6 @@ const AdminLoginPage = () => {
       navigate('/admin-dashboard');
     } catch (err) {
       setError(err.response?.data?.msg || 'Login failed. Please try again.');
-      console.error('Admin login error:', err);
     }
   };
 

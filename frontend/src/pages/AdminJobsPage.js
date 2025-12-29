@@ -62,7 +62,6 @@ const AdminJobsPage = () => {
       setJobs(Array.isArray(jobsArray) ? jobsArray : []);
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching jobs:', error);
       setJobs([]);
       setLoading(false);
     }
@@ -77,7 +76,6 @@ const AdminJobsPage = () => {
       fetchJobs();
       setTimeout(() => setMessage(''), 3000);
     } catch (error) {
-      console.error('Error deleting job:', error);
       setMessage('Error deleting job');
     }
   };
@@ -185,7 +183,6 @@ const AdminJobsPage = () => {
       fetchJobs();
       setTimeout(() => setMessage(''), 3000);
     } catch (error) {
-      console.error('Error creating job:', error);
       setMessage('Error creating job');
     }
   };

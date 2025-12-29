@@ -1,12 +1,10 @@
+// src/pages/HomePage.js
+
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { 
-  Container, Typography, Box, Grid,
-  Alert, Chip, Paper, Collapse, IconButton, Skeleton,
-  Fade, Badge, Stack, alpha, Card, CardContent
-} from '@mui/material';
-import { 
-  TextField, Select, MenuItem, FormControl, InputLabel, InputAdornment,
-  Button
+  Container, Typography, Box, Grid, Alert, Chip, Paper, Collapse, IconButton, 
+  Skeleton, Fade, Badge, Stack, alpha, Card, CardContent, TextField, Select, 
+  MenuItem, FormControl, InputLabel, InputAdornment, Button
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { fetchJobs } from '../api';
@@ -92,7 +90,6 @@ const HomePage = () => {
     } catch (err) {
       setError('Failed to load jobs. Please try again later.');
       setJobs([]); // Set to empty array on error
-      console.error(err);
     } finally {
       setLoading(false);
     }

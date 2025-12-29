@@ -14,7 +14,7 @@ const { asyncHandler, APIError } = require('../middleware/errorMiddleware');
 exports.getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findOne({ _id: req.user.id, isDeleted: false }).select('-password');
   if (!user) {
-    throw new APIError('User not found', 404);
+    throw new APIError(constants.ERROR_MESSAGES.USER_NOT_FOUND, 404);
   }
   res.json({ success: true, user });
 });
@@ -77,17 +77,17 @@ exports.applyForJob = asyncHandler(async (req, res) => {
     const user = await User.findOne({ _id: req.user.id, isDeleted: false }).session(session);
 
     if (!job) {
-      throw new APIError('Job not found', 404);
+      throw new APIError(constants.ERROR_MESSAGES.JOB_NOT_FOUND, 404);
     }
 
     if (!user) {
-      throw new APIError('User not found', 404);
+      throw new APIError(constants.ERROR_MESSAGES.USER_NOT_FOUND, 404);
     }
 
     // Check if user has already applied
     const alreadyApplied = user.appliedJobs.some(app => app.jobId.equals(job._id));
     if (alreadyApplied) {
-      throw new APIError('You have already applied for this job', 400);
+      throw new APIError(constants.ERROR_MESSAGES.ALREADY_APPLIED, 400);
     }
 
     // Add application to both job and user within transaction
@@ -182,7 +182,7 @@ exports.bookmarkJob = asyncHandler(async (req, res) => {
   const job = await Job.findOne({ _id: jobId, isDeleted: false });
 
   if (!job) {
-    throw new APIError('Job not found', 404);
+    throw new APIError(constants.ERROR_MESSAGES.JOB_NOT_FOUND, 404);
   }
 
   // Check if already bookmarked using string comparison

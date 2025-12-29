@@ -207,7 +207,6 @@ const NewsPage = () => {
       setNews(response.data.articles || []);
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching news:', error);
       setError('Failed to load news. Please try again later.');
       setLoading(false);
     }

@@ -1,4 +1,5 @@
 // src/context/AuthContext.js
+// Authentication context for user and admin login/logout management
 
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
@@ -43,7 +44,6 @@ export const AuthProvider = ({ children }) => {
             setUser(data?.user || null);
           }
         } catch (error) {
-          console.error("Invalid user token:", error);
           localStorage.removeItem('userToken');
           setUser(null);
         }
@@ -62,7 +62,6 @@ export const AuthProvider = ({ children }) => {
             setAdmin({ id: decoded.admin.id, isDefault: decoded.admin.isDefault });
           }
         } catch (error) {
-          console.error("Invalid admin token:", error);
           localStorage.removeItem('adminToken');
           setAdmin(null);
         }
@@ -86,14 +85,6 @@ export const AuthProvider = ({ children }) => {
       // Extract user from response wrapper
       setUser(profile?.user || null);
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Login error details:', {
-          message: error.message,
-          response: error.response?.data,
-          status: error.response?.status,
-          url: error.config?.url
-        });
-      }
       throw error;
     }
   };
@@ -114,7 +105,6 @@ export const AuthProvider = ({ children }) => {
       // Don't auto-login after registration, just return success
       return data;
     } catch (error) {
-      console.error('Registration error:', error);
       throw error;
     }
   };
@@ -149,7 +139,6 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       // If the token is invalid or expired, it will throw an error
-      console.error("Failed to refresh user, logging out user.", error);
       logoutUser();
     }
   };

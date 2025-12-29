@@ -68,7 +68,6 @@ const AdminDashboard = () => {
       setRecentJobs(Array.isArray(jobsData) ? jobsData.slice(0, 5) : []); // Get first 5 jobs
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching dashboard data:', error);
       setRecentJobs([]);
       setLoading(false);
     }

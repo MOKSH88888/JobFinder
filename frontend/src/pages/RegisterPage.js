@@ -1,4 +1,4 @@
-// frontend/src/pages/RegisterPage.js
+// src/pages/RegisterPage.js
 
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
@@ -137,8 +137,6 @@ const RegisterPage = () => {
       await registerUser(name, email, password, gender);
       navigate('/login');
     } catch (err) {
-      console.error('Registration error:', err);
-      console.error('Error response:', err.response?.data);
       const errorInfo = getErrorMessage(err);
       setError(errorInfo.message);
     } finally {

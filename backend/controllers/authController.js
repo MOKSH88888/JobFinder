@@ -58,7 +58,7 @@ exports.loginUser = asyncHandler(async (req, res) => {
 
   // Check if user is deleted
   if (user.isDeleted) {
-    throw new APIError('Account has been deactivated', 403);
+    throw new APIError(constants.ERROR_MESSAGES.ACCOUNT_DEACTIVATED, 403);
   }
 
   // Compare passwords

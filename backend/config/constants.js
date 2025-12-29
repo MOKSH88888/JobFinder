@@ -70,6 +70,13 @@ module.exports = {
     INVALID_CREDENTIALS: 'Invalid credentials',
     USER_EXISTS: 'User already exists',
     ADMIN_EXISTS: 'Admin already exists',
-    RESOURCE_NOT_FOUND: 'Resource not found'
+    RESOURCE_NOT_FOUND: 'Resource not found',
+    JOB_NOT_FOUND: 'Job not found',
+    USER_NOT_FOUND: 'User not found',
+    APPLICANT_NOT_FOUND: 'Job or applicant not found',
+    ALREADY_APPLIED: 'You have already applied for this job',
+    CANNOT_DELETE_DEFAULT_ADMIN: 'Cannot delete default admin',
+    ACCOUNT_DEACTIVATED: 'Account has been deactivated',
+    INVALID_STATUS: 'Invalid status'
   }
 };

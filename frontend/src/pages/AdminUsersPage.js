@@ -40,7 +40,6 @@ const AdminUsersPage = () => {
       setUsers(Array.isArray(usersArray) ? usersArray : []);
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching users:', error);
       setUsers([]);
       setLoading(false);
     }
@@ -55,7 +54,6 @@ const AdminUsersPage = () => {
       fetchUsers();
       setTimeout(() => setMessage(''), 3000);
     } catch (error) {
-      console.error('Error deleting user:', error);
       setMessage('Error deleting user');
     }
   };

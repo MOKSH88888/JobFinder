@@ -64,11 +64,11 @@ exports.deleteAdmin = asyncHandler(async (req, res) => {
   const admin = await Admin.findById(req.params.id);
   
   if (!admin) {
-    throw new APIError('Admin not found', 404);
+    throw new APIError(constants.ERROR_MESSAGES.ADMIN_NOT_FOUND, 404);
   }
   
   if (admin.isDefault) {
-    throw new APIError('Cannot delete default admin', 403);
+    throw new APIError(constants.ERROR_MESSAGES.CANNOT_DELETE_DEFAULT_ADMIN, 403);
   }
   
   await admin.deleteOne();
@@ -91,7 +91,7 @@ exports.deleteUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id).session(session);
     
     if (!user || user.isDeleted) {
-      throw new APIError('User not found', 404);
+      throw new APIError(constants.ERROR_MESSAGES.USER_NOT_FOUND, 404);
     }
     
     // Soft delete user
@@ -169,7 +169,7 @@ exports.updateJob = asyncHandler(async (req, res) => {
   const job = await Job.findById(req.params.id);
   
   if (!job || job.isDeleted) {
-    throw new APIError('Job not found', 404);
+    throw new APIError(constants.ERROR_MESSAGES.JOB_NOT_FOUND, 404);
   }
   
   const { title, description, companyName, location, salary, experienceRequired, jobType, requirements } = req.body;
@@ -197,7 +197,7 @@ exports.deleteJob = asyncHandler(async (req, res) => {
     const job = await Job.findById(req.params.id).session(session);
     
     if (!job || job.isDeleted) {
-      throw new APIError('Job not found', 404);
+      throw new APIError(constants.ERROR_MESSAGES.JOB_NOT_FOUND, 404);
     }
     
     // Soft delete job
@@ -249,7 +249,7 @@ exports.getJobApplicants = asyncHandler(async (req, res) => {
     });
   
   if (!job) {
-    throw new APIError('Job not found', 404);
+    throw new APIError(constants.ERROR_MESSAGES.JOB_NOT_FOUND, 404);
   }
   
   // Filter out applicants with deleted users and flatten user data
@@ -284,7 +284,7 @@ exports.updateApplicationStatus = asyncHandler(async (req, res) => {
   const { status } = req.body;
 
   if (!['Pending', 'Under Review', 'Shortlisted', 'Rejected'].includes(status)) {
-    throw new APIError('Invalid status', 400);
+    throw new APIError(constants.ERROR_MESSAGES.INVALID_STATUS, 400);
   }
 
   const session = await mongoose.startSession();
@@ -299,7 +299,7 @@ exports.updateApplicationStatus = asyncHandler(async (req, res) => {
     );
 
     if (!job) {
-      throw new APIError('Job or applicant not found', 404);
+      throw new APIError(constants.ERROR_MESSAGES.APPLICANT_NOT_FOUND, 404);
     }
 
     // Update status in User collection
@@ -310,7 +310,7 @@ exports.updateApplicationStatus = asyncHandler(async (req, res) => {
     );
 
     if (!user) {
-      throw new APIError('User not found', 404);
+      throw new APIError(constants.ERROR_MESSAGES.USER_NOT_FOUND, 404);
     }
 
     await session.commitTransaction();

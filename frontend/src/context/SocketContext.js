@@ -1,4 +1,5 @@
 // src/context/SocketContext.js
+// WebSocket context for real-time notifications and updates
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { io } from 'socket.io-client';
@@ -26,50 +27,31 @@ export const SocketProvider = ({ children }) => {
       // More robust Socket URL parsing - removes trailing /api or /api/
       const SOCKET_URL = process.env.REACT_APP_API_BASE_URL?.replace(/\/api\/?$/, '') || 'http://localhost:5000';
       
-      if (process.env.NODE_ENV === 'development') {
-        console.log('Connecting to Socket.io server:', SOCKET_URL);
-      }
-      
       const newSocket = io(SOCKET_URL, {
         auth: { token },
         transports: ['websocket', 'polling'],
       });
 
       newSocket.on('connect', () => {
-        if (process.env.NODE_ENV === 'development') {
-          console.log('Socket connected:', newSocket.id);
-        }
         setConnected(true);
       });
 
       newSocket.on('disconnect', () => {
-        if (process.env.NODE_ENV === 'development') {
-          console.log('Socket disconnected');
-        }
         setConnected(false);
       });
 
       newSocket.on('connect_error', (error) => {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Socket connection error:', error.message);
-        }
         setConnected(false);
       });
 
       setSocket(newSocket);
 
       return () => {
-        if (process.env.NODE_ENV === 'development') {
-          console.log('Closing socket connection');
-        }
         newSocket.close();
       };
     } else {
       // Clean up socket if no token
       if (socket) {
-        if (process.env.NODE_ENV === 'development') {
-          console.log('Cleaning up socket (no token)');
-        }
         socket.close();
         setSocket(null);
         setConnected(false);

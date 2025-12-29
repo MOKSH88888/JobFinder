@@ -43,7 +43,6 @@ const JobDetailsPage = () => {
         }
       } catch (err) {
         setError('Job not found or an error occurred.');
-        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -58,7 +57,6 @@ const JobDetailsPage = () => {
       setHasApplied(true);
       await refreshUser(); // <-- REFRESH aFTER APPLYING
     } catch (err) {
-      console.error(err);
     } finally {
       setActionInProgress(false);
     }
