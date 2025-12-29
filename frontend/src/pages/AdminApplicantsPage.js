@@ -46,7 +46,7 @@ const AdminApplicantsPage = () => {
       const mappedApplicants = Array.isArray(applicantsList) 
         ? applicantsList.map(app => ({
             ...app,
-            status: app.status || 'Pending'
+            status: app.status || 'Under Review'
           }))
         : [];
       setApplicants(mappedApplicants);
@@ -164,7 +164,7 @@ const AdminApplicantsPage = () => {
                     <TableCell>
                       <FormControl size="small" fullWidth>
                         <Select
-                          value={applicant.status || 'Pending'}
+                          value={applicant.status || 'Under Review'}
                           onChange={(e) => handleStatusChange(applicant._id, e.target.value)}
                           sx={{
                             fontWeight: 600,
@@ -180,10 +180,10 @@ const AdminApplicantsPage = () => {
                             }
                           }}
                         >
-                          <MenuItem value="Pending" sx={{ fontWeight: 600 }}>
+                          <MenuItem value="Under Review" sx={{ fontWeight: 600, color: '#3b82f6' }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                              <span style={{ fontSize: '1.2rem' }}>⏳</span>
-                              <span>Pending</span>
+                              <span style={{ fontSize: '1.2rem' }}>👁️</span>
+                              <span>Under Review</span>
                             </Box>
                           </MenuItem>
                           <MenuItem value="Accepted" sx={{ fontWeight: 600, color: '#16a34a' }}>

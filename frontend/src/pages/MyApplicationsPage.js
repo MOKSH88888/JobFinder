@@ -23,6 +23,7 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import BusinessIcon from '@mui/icons-material/Business';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import NotificationToast from '../components/NotificationToast';
 
 const getStatusBadge = (status) => {
@@ -112,18 +113,21 @@ const getStatusBadge = (status) => {
     };
   }
   
+  // Default status for "Under Review" or any unrecognized status
   return {
-    label: 'PENDING REVIEW',
+    label: 'UNDER REVIEW',
+    icon: <VisibilityIcon />,
     sx: {
-      backgroundColor: '#6b7280',
+      backgroundColor: '#3b82f6',
       color: 'white',
       fontWeight: 600,
       fontSize: '0.813rem',
       px: 2,
       py: 0.5,
       letterSpacing: '0.5px',
-      boxShadow: '0 4px 12px rgba(107, 114, 128, 0.25)',
-      border: '2px solid #4b5563'
+      '& .MuiChip-icon': { color: 'white', fontSize: 20 },
+      boxShadow: '0 4px 12px rgba(59, 130, 246, 0.25)',
+      border: '2px solid #2563eb'
     }
   };
 };
@@ -183,7 +187,7 @@ const MyApplicationsPage = () => {
     };
   }, [socket, user, addNotification]);
 
-  // Sort applications: Accepted/Rejected at top, then Pending
+  // Sort applications: Accepted/Rejected at top, then Under Review
   const sortedApplications = useMemo(() => {
     // Defensive check - ensure appliedJobs is always an array
     if (!Array.isArray(appliedJobs)) {
@@ -191,10 +195,10 @@ const MyApplicationsPage = () => {
     }
     
     return [...appliedJobs].sort((a, b) => {
-      const statusA = (a.applicationStatus || 'pending').toLowerCase();
-      const statusB = (b.applicationStatus || 'pending').toLowerCase();
+      const statusA = (a.applicationStatus || 'under review').toLowerCase();
+      const statusB = (b.applicationStatus || 'under review').toLowerCase();
       
-      // Priority: accepted/rejected first, then pending
+      // Priority: accepted/rejected first, then under review
       const getPriority = (status) => {
         if (status === 'accepted' || status === 'rejected') return 0;
         return 1;
@@ -251,10 +255,13 @@ const MyApplicationsPage = () => {
                 }}
               />
               <Chip 
-                label={`⏳ Pending: ${appliedJobs.filter(j => (j.applicationStatus || 'pending').toLowerCase() === 'pending').length}`}
+                label={`👁️ Under Review: ${appliedJobs.filter(j => {
+                  const status = (j.applicationStatus || 'under review').toLowerCase();
+                  return status === 'under review' || status === 'pending' || status === 'reviewed' || status === 'shortlisted';
+                }).length}`}
                 sx={{ 
-                  backgroundColor: '#fff3e0',
-                  color: '#e65100',
+                  backgroundColor: '#e3f2fd',
+                  color: '#1565c0',
                   fontWeight: 600
                 }}
               />
