@@ -46,7 +46,7 @@ const AdminApplicantsPage = () => {
       const mappedApplicants = Array.isArray(applicantsList) 
         ? applicantsList.map(app => ({
             ...app,
-            status: app.status || 'Under Review'
+            status: app.status || 'Pending'
           }))
         : [];
       setApplicants(mappedApplicants);
@@ -164,7 +164,7 @@ const AdminApplicantsPage = () => {
                     <TableCell>
                       <FormControl size="small" fullWidth>
                         <Select
-                          value={applicant.status || 'Under Review'}
+                          value={applicant.status || 'Pending'}
                           onChange={(e) => handleStatusChange(applicant._id, e.target.value)}
                           sx={{
                             fontWeight: 600,
@@ -180,16 +180,22 @@ const AdminApplicantsPage = () => {
                             }
                           }}
                         >
+                          <MenuItem value="Pending" sx={{ fontWeight: 600, color: '#6b7280' }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                              <span style={{ fontSize: '1.2rem' }}>📋</span>
+                              <span>Pending</span>
+                            </Box>
+                          </MenuItem>
                           <MenuItem value="Under Review" sx={{ fontWeight: 600, color: '#3b82f6' }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                               <span style={{ fontSize: '1.2rem' }}>👁️</span>
                               <span>Under Review</span>
                             </Box>
                           </MenuItem>
-                          <MenuItem value="Accepted" sx={{ fontWeight: 600, color: '#16a34a' }}>
+                          <MenuItem value="Shortlisted" sx={{ fontWeight: 600, color: '#16a34a' }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                              <span style={{ fontSize: '1.2rem' }}>✅</span>
-                              <span>Accepted</span>
+                              <span style={{ fontSize: '1.2rem' }}>⭐</span>
+                              <span>Shortlisted</span>
                             </Box>
                           </MenuItem>
                           <MenuItem value="Rejected" sx={{ fontWeight: 600, color: '#dc2626' }}>

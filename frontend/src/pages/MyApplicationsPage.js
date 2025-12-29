@@ -24,15 +24,17 @@ import BusinessIcon from '@mui/icons-material/Business';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import StarIcon from '@mui/icons-material/Star';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import NotificationToast from '../components/NotificationToast';
 
 const getStatusBadge = (status) => {
   const statusLower = status?.toLowerCase();
   
-  if (statusLower === 'accepted') {
+  if (statusLower === 'shortlisted') {
     return {
-      label: 'ACCEPTED',
-      icon: <CheckCircleIcon />,
+      label: 'SHORTLISTED ⭐',
+      icon: <StarIcon />,
       sx: {
         backgroundColor: '#10b981',
         color: 'white',
@@ -72,31 +74,7 @@ const getStatusBadge = (status) => {
     };
   }
   
-  if (statusLower === 'shortlisted') {
-    return {
-      label: 'SHORTLISTED',
-      icon: <CheckCircleIcon />,
-      sx: {
-        backgroundColor: '#f59e0b',
-        color: 'white',
-        fontWeight: 700,
-        fontSize: '0.813rem',
-        px: 2,
-        py: 0.5,
-        letterSpacing: '0.5px',
-        '& .MuiChip-icon': { color: 'white', fontSize: 20 },
-        boxShadow: '0 4px 12px rgba(245, 158, 11, 0.3)',
-        border: '2px solid #d97706',
-        animation: 'gentle-pulse 3s ease-in-out infinite',
-        '@keyframes gentle-pulse': {
-          '0%, 100%': { transform: 'scale(1)', boxShadow: '0 4px 12px rgba(245, 158, 11, 0.3)' },
-          '50%': { transform: 'scale(1.02)', boxShadow: '0 6px 16px rgba(245, 158, 11, 0.4)' }
-        }
-      }
-    };
-  }
-  
-  if (statusLower === 'reviewed') {
+  if (statusLower === 'under review' || statusLower === 'reviewed') {
     return {
       label: 'UNDER REVIEW',
       sx: {
@@ -113,12 +91,12 @@ const getStatusBadge = (status) => {
     };
   }
   
-  // Default status for "Under Review" or any unrecognized status
+  // Default status for "Pending" or any unrecognized status
   return {
-    label: 'UNDER REVIEW',
-    icon: <VisibilityIcon />,
+    label: 'PENDING',
+    icon: <HourglassEmptyIcon />,
     sx: {
-      backgroundColor: '#3b82f6',
+      backgroundColor: '#6b7280',
       color: 'white',
       fontWeight: 600,
       fontSize: '0.813rem',
@@ -126,8 +104,8 @@ const getStatusBadge = (status) => {
       py: 0.5,
       letterSpacing: '0.5px',
       '& .MuiChip-icon': { color: 'white', fontSize: 20 },
-      boxShadow: '0 4px 12px rgba(59, 130, 246, 0.25)',
-      border: '2px solid #2563eb'
+      boxShadow: '0 4px 12px rgba(107, 114, 128, 0.25)',
+      border: '2px solid #4b5563'
     }
   };
 };
@@ -187,7 +165,7 @@ const MyApplicationsPage = () => {
     };
   }, [socket, user, addNotification]);
 
-  // Sort applications: Accepted/Rejected at top, then Under Review
+  // Sort applications: Shortlisted/Rejected at top, then Under Review, then Pending
   const sortedApplications = useMemo(() => {
     // Defensive check - ensure appliedJobs is always an array
     if (!Array.isArray(appliedJobs)) {
@@ -195,13 +173,14 @@ const MyApplicationsPage = () => {
     }
     
     return [...appliedJobs].sort((a, b) => {
-      const statusA = (a.applicationStatus || 'under review').toLowerCase();
-      const statusB = (b.applicationStatus || 'under review').toLowerCase();
+      const statusA = (a.applicationStatus || 'pending').toLowerCase();
+      const statusB = (b.applicationStatus || 'pending').toLowerCase();
       
-      // Priority: accepted/rejected first, then under review
+      // Priority: shortlisted/rejected first, then under review, then pending
       const getPriority = (status) => {
-        if (status === 'accepted' || status === 'rejected') return 0;
-        return 1;
+        if (status === 'shortlisted' || status === 'rejected') return 0;
+        if (status === 'under review' || status === 'reviewed') return 1;
+        return 2; // pending
       };
       
       const priorityDiff = getPriority(statusA) - getPriority(statusB);
@@ -239,7 +218,7 @@ const MyApplicationsPage = () => {
                 sx={{ fontWeight: 600 }}
               />
               <Chip 
-                label={`✓ Accepted: ${appliedJobs.filter(j => (j.applicationStatus || 'pending').toLowerCase() === 'accepted').length}`}
+                label={`⭐ Shortlisted: ${appliedJobs.filter(j => (j.applicationStatus || 'pending').toLowerCase() === 'shortlisted').length}`}
                 sx={{ 
                   backgroundColor: '#e8f5e9',
                   color: '#2e7d32',
@@ -256,12 +235,20 @@ const MyApplicationsPage = () => {
               />
               <Chip 
                 label={`👁️ Under Review: ${appliedJobs.filter(j => {
-                  const status = (j.applicationStatus || 'under review').toLowerCase();
-                  return status === 'under review' || status === 'pending' || status === 'reviewed' || status === 'shortlisted';
+                  const status = (j.applicationStatus || 'pending').toLowerCase();
+                  return status === 'under review' || status === 'reviewed';
                 }).length}`}
                 sx={{ 
                   backgroundColor: '#e3f2fd',
                   color: '#1565c0',
+                  fontWeight: 600
+                }}
+              />
+              <Chip 
+                label={`📋 Pending: ${appliedJobs.filter(j => (j.applicationStatus || 'pending').toLowerCase() === 'pending').length}`}
+                sx={{ 
+                  backgroundColor: '#f5f5f5',
+                  color: '#616161',
                   fontWeight: 600
                 }}
               />

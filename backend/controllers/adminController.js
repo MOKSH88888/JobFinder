@@ -283,7 +283,7 @@ exports.updateApplicationStatus = asyncHandler(async (req, res) => {
   const { jobId, applicantId } = req.params;
   const { status } = req.body;
 
-  if (!['Under Review', 'Accepted', 'Rejected', 'Shortlisted', 'Reviewed'].includes(status)) {
+  if (!['Pending', 'Under Review', 'Shortlisted', 'Rejected'].includes(status)) {
     throw new APIError('Invalid status', 400);
   }
 

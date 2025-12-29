@@ -18,8 +18,8 @@ const jobSchema = new mongoose.Schema({
     appliedAt: { type: Date, default: Date.now },
     status: { 
       type: String, 
-      enum: ['Under Review', 'Accepted', 'Rejected', 'Shortlisted', 'Reviewed'], 
-      default: 'Under Review' 
+      enum: ['Pending', 'Under Review', 'Shortlisted', 'Rejected'], 
+      default: 'Pending' 
     }
   }],
   isDeleted: { type: Boolean, default: false },
