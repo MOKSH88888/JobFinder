@@ -39,7 +39,8 @@ export const AuthProvider = ({ children }) => {
             const { data } = await API.get('/users/profile', {
               headers: { Authorization: `Bearer ${userToken}` }
             });
-            setUser(data);
+            // Extract user from response wrapper
+            setUser(data?.user || null);
           }
         } catch (error) {
           console.error("Invalid user token:", error);
@@ -82,7 +83,8 @@ export const AuthProvider = ({ children }) => {
       const { data: profile } = await API.get('/users/profile', {
         headers: { Authorization: `Bearer ${data.token}` }
       });
-      setUser(profile);
+      // Extract user from response wrapper
+      setUser(profile?.user || null);
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
         console.error('Login error details:', {
@@ -142,7 +144,8 @@ export const AuthProvider = ({ children }) => {
         const { data } = await API.get('/users/profile', {
           headers: { Authorization: `Bearer ${userToken}` }
         });
-        setUser(data);
+        // Extract user from response wrapper
+        setUser(data?.user || null);
       }
     } catch (error) {
       // If the token is invalid or expired, it will throw an error
