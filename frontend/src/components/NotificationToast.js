@@ -9,8 +9,7 @@ import {
   Box,
   Typography,
   IconButton,
-  Slide,
-  Chip
+  Slide
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -56,7 +55,7 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
       'under review': {
         severity: 'info',
         icon: <VisibilityIcon />,
-        title: 'Application Under Review',
+        title: 'Application Being Reviewed',
         color: '#2196f3',
         bgGradient: 'linear-gradient(135deg, #2196f3 0%, #42a5f5 100%)'
       },
@@ -100,9 +99,6 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
         severity={config.severity}
         onClose={onClose}
         sx={{
-          width: '400px',
-          maxWidth: '95vw',
-          background: config.bgGradient,
           width: '400px',
           maxWidth: '95vw',
           background: config.bgGradient,
@@ -162,13 +158,25 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
             color: 'rgba(255,255,255,0.85)', 
             display: 'block', 
             ml: 3.5,
-            mb: 1.5
+            mb: 1
           }}>
             {notification.companyName}
           </Typography>
         )}
 
-        {/* Message */}
+        {/* Status Message */}
+        {notification.jobTitle && notification.companyName && (
+          <Typography variant="body2" sx={{ 
+            color: 'rgba(255,255,255,0.95)',
+            mt: 1.5,
+            mb: 1,
+            lineHeight: 1.5
+          }}>
+            Your application for {notification.jobTitle} at {notification.companyName} has been {notification.status?.toLowerCase() || 'updated'}
+          </Typography>
+        )}
+
+        {/* Custom Message (if provided) */}
         {notification.message && (
           <Typography variant="body2" sx={{ 
             color: 'rgba(255,255,255,0.9)',
