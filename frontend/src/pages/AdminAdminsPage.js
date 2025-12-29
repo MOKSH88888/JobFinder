@@ -150,7 +150,7 @@ const AdminAdminsPage = () => {
     return (
       <AdminLayout>
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
-          <CircularProgress size={60} sx={{ color: '#667eea' }} />
+          <CircularProgress size={60} sx={{ color: '#5568d3' }} />
         </Box>
       </AdminLayout>
     );
@@ -174,7 +174,7 @@ const AdminAdminsPage = () => {
               startIcon={<AddIcon />}
               onClick={() => setOpenDialog(true)}
               sx={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: 'linear-gradient(135deg, #5568d3 0%, #764ba2 100%)',
                 textTransform: 'none',
                 fontWeight: 600,
                 px: 3,
@@ -218,7 +218,14 @@ const AdminAdminsPage = () => {
                   size="small"
                   InputProps={{
                     startAdornment: (
-                      <SearchIcon sx={{ color: '#667eea', mr: 1 }} />
+                      <SearchIcon sx={{ 
+                        background: 'linear-gradient(135deg, #5568d3 0%, #764ba2 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                        mr: 1,
+                        fontSize: '1.4rem'
+                      }} />
                     )
                   }}
                   sx={{
@@ -229,10 +236,10 @@ const AdminAdminsPage = () => {
                         borderColor: 'rgba(0, 0, 0, 0.1)'
                       },
                       '&:hover fieldset': {
-                        borderColor: '#667eea'
+                        borderColor: '#5568d3'
                       },
                       '&.Mui-focused fieldset': {
-                        borderColor: '#667eea'
+                        borderColor: '#5568d3'
                       }
                     }
                   }}
@@ -273,8 +280,8 @@ const AdminAdminsPage = () => {
                         py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        bgcolor: sortConfig.key === 'username' ? alpha('#667eea', 0.08) : 'transparent',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        bgcolor: sortConfig.key === 'username' ? alpha('#5568d3', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#5568d3', 0.12) },
                         transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('username')}
@@ -283,8 +290,8 @@ const AdminAdminsPage = () => {
                         Username
                         {sortConfig.key === 'username' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
-                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#5568d3' }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#5568d3' }} />
                         )}
                       </Box>
                     </TableCell>
@@ -298,8 +305,8 @@ const AdminAdminsPage = () => {
                         py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        bgcolor: sortConfig.key === 'role' ? alpha('#667eea', 0.08) : 'transparent',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        bgcolor: sortConfig.key === 'role' ? alpha('#5568d3', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#5568d3', 0.12) },
                         transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('role')}
@@ -308,8 +315,8 @@ const AdminAdminsPage = () => {
                         Role
                         {sortConfig.key === 'role' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
-                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#5568d3' }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#5568d3' }} />
                         )}
                       </Box>
                     </TableCell>
@@ -321,7 +328,7 @@ const AdminAdminsPage = () => {
                     <TableRow
                       key={admin._id}
                       sx={{
-                        '&:hover': { bgcolor: alpha('#667eea', 0.02) },
+                        '&:hover': { bgcolor: alpha('#5568d3', 0.02) },
                         transition: 'background-color 0.2s ease'
                       }}
                     >
@@ -332,11 +339,11 @@ const AdminAdminsPage = () => {
                               width: 32,
                               height: 32,
                               bgcolor: admin.isDefault 
-                                ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                                : alpha('#667eea', 0.1),
-                              color: admin.isDefault ? 'white' : '#667eea',
+                                ? 'linear-gradient(135deg, #5568d3 0%, #764ba2 100%)'
+                                : alpha('#5568d3', 0.1),
+                              color: admin.isDefault ? 'white' : '#5568d3',
                               fontWeight: 700,
-                              border: admin.isDefault ? '2px solid #667eea' : 'none'
+                              border: admin.isDefault ? '2px solid #5568d3' : 'none'
                             }}
                           >
                             {admin.isDefault ? <ShieldIcon /> : admin.username?.charAt(0).toUpperCase()}
@@ -355,7 +362,7 @@ const AdminAdminsPage = () => {
                             size="small"
                             icon={<ShieldIcon />}
                             sx={{
-                              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                              background: 'linear-gradient(135deg, #5568d3 0%, #764ba2 100%)',
                               color: 'white',
                               fontWeight: 700,
                               borderRadius: 1.5
@@ -367,8 +374,8 @@ const AdminAdminsPage = () => {
                             size="small"
                             icon={<AdminIcon />}
                             sx={{
-                              bgcolor: alpha('#667eea', 0.1),
-                              color: '#667eea',
+                              bgcolor: alpha('#5568d3', 0.1),
+                              color: '#5568d3',
                               fontWeight: 600,
                               borderRadius: 1.5
                             }}
@@ -381,10 +388,10 @@ const AdminAdminsPage = () => {
                             size="small"
                             onClick={() => handleDelete(admin._id)}
                             sx={{
-                              bgcolor: alpha('#ef4444', 0.1),
-                              color: '#ef4444',
+                              bgcolor: alpha('#dc2626', 0.1),
+                              color: '#dc2626',
                               '&:hover': {
-                                bgcolor: alpha('#ef4444', 0.2)
+                                bgcolor: alpha('#dc2626', 0.2)
                               }
                             }}
                           >
@@ -425,8 +432,26 @@ const AdminAdminsPage = () => {
 
             {admins.length === 0 && (
               <Box sx={{ textAlign: 'center', py: 12 }}>
-                <AdminIcon sx={{ fontSize: 80, color: '#cbd5e1', mb: 3 }} />
-                <Typography variant="h6" color="text.secondary" gutterBottom>
+                <Box
+                  sx={{
+                    display: 'inline-flex',
+                    p: 3,
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
+                    mb: 3
+                  }}
+                >
+                  <AdminIcon 
+                    sx={{ 
+                      fontSize: 64, 
+                      background: 'linear-gradient(135deg, #5568d3 0%, #764ba2 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text'
+                    }} 
+                  />
+                </Box>
+                <Typography variant="h6" color="text.secondary" gutterBottom fontWeight={600}>
                   No administrators found
                 </Typography>
                 <Typography color="text.secondary">
@@ -490,7 +515,7 @@ const AdminAdminsPage = () => {
               variant="contained"
               disabled={creating}
               sx={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: 'linear-gradient(135deg, #5568d3 0%, #764ba2 100%)',
                 textTransform: 'none',
                 fontWeight: 600,
                 px: 3,

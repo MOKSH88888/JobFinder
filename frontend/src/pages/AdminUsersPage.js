@@ -130,7 +130,7 @@ const AdminUsersPage = () => {
     return (
       <AdminLayout>
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
-          <CircularProgress size={60} sx={{ color: '#667eea' }} />
+          <CircularProgress size={60} sx={{ color: '#5568d3' }} />
         </Box>
       </AdminLayout>
     );
@@ -174,7 +174,14 @@ const AdminUsersPage = () => {
                   size="small"
                   InputProps={{
                     startAdornment: (
-                      <SearchIcon sx={{ color: '#667eea', mr: 1 }} />
+                      <SearchIcon sx={{ 
+                        background: 'linear-gradient(135deg, #5568d3 0%, #764ba2 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                        mr: 1,
+                        fontSize: '1.4rem'
+                      }} />
                     )
                   }}
                   sx={{
@@ -185,10 +192,10 @@ const AdminUsersPage = () => {
                         borderColor: 'rgba(0, 0, 0, 0.1)'
                       },
                       '&:hover fieldset': {
-                        borderColor: '#667eea'
+                        borderColor: '#5568d3'
                       },
                       '&.Mui-focused fieldset': {
-                        borderColor: '#667eea'
+                        borderColor: '#5568d3'
                       }
                     }
                   }}
@@ -228,8 +235,8 @@ const AdminUsersPage = () => {
                         py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        bgcolor: sortConfig.key === 'name' ? alpha('#667eea', 0.08) : 'transparent',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        bgcolor: sortConfig.key === 'name' ? alpha('#5568d3', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#5568d3', 0.12) },
                         transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('name')}
@@ -238,8 +245,8 @@ const AdminUsersPage = () => {
                         User
                         {sortConfig.key === 'name' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
-                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#5568d3' }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#5568d3' }} />
                         )}
                       </Box>
                     </TableCell>
@@ -253,8 +260,8 @@ const AdminUsersPage = () => {
                         py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        bgcolor: sortConfig.key === 'email' ? alpha('#667eea', 0.08) : 'transparent',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        bgcolor: sortConfig.key === 'email' ? alpha('#5568d3', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#5568d3', 0.12) },
                         transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('email')}
@@ -263,8 +270,8 @@ const AdminUsersPage = () => {
                         Email
                         {sortConfig.key === 'email' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
-                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#5568d3' }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#5568d3' }} />
                         )}
                       </Box>
                     </TableCell>
@@ -279,8 +286,8 @@ const AdminUsersPage = () => {
                         py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        bgcolor: sortConfig.key === 'experience' ? alpha('#667eea', 0.08) : 'transparent',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        bgcolor: sortConfig.key === 'experience' ? alpha('#5568d3', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#5568d3', 0.12) },
                         transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('experience')}
@@ -289,8 +296,8 @@ const AdminUsersPage = () => {
                         Experience
                         {sortConfig.key === 'experience' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
-                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#5568d3' }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#5568d3' }} />
                         )}
                       </Box>
                     </TableCell>
@@ -304,8 +311,8 @@ const AdminUsersPage = () => {
                         py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        bgcolor: sortConfig.key === 'gender' ? alpha('#667eea', 0.08) : 'transparent',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        bgcolor: sortConfig.key === 'gender' ? alpha('#5568d3', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#5568d3', 0.12) },
                         transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('gender')}
@@ -314,8 +321,8 @@ const AdminUsersPage = () => {
                         Gender
                         {sortConfig.key === 'gender' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
-                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#5568d3' }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#5568d3' }} />
                         )}
                       </Box>
                     </TableCell>
@@ -329,7 +336,7 @@ const AdminUsersPage = () => {
                       <TableRow
                         key={user._id}
                         sx={{
-                          '&:hover': { bgcolor: alpha('#667eea', 0.02) },
+                          '&:hover': { bgcolor: alpha('#5568d3', 0.02) },
                           transition: 'background-color 0.2s ease'
                         }}
                       >
@@ -347,8 +354,8 @@ const AdminUsersPage = () => {
                                 width: 32,
                                 height: 32,
                                 border: '2px solid #e2e8f0',
-                                bgcolor: alpha('#667eea', 0.1),
-                                color: '#667eea',
+                                bgcolor: alpha('#5568d3', 0.1),
+                                color: '#5568d3',
                                 fontWeight: 600
                               }}
                             >
@@ -366,8 +373,8 @@ const AdminUsersPage = () => {
                             label={`${user.experience || 0} years`}
                             size="small"
                             sx={{
-                              bgcolor: alpha('#667eea', 0.1),
-                              color: '#667eea',
+                              bgcolor: alpha('#5568d3', 0.1),
+                              color: '#5568d3',
                               fontWeight: 600
                             }}
                           />
@@ -385,12 +392,12 @@ const AdminUsersPage = () => {
                               }}
                               sx={{
                                 textTransform: 'none',
-                                borderColor: '#667eea',
-                                color: '#667eea',
+                                borderColor: '#5568d3',
+                                color: '#5568d3',
                                 fontWeight: 600,
                                 '&:hover': {
                                   borderColor: '#764ba2',
-                                  bgcolor: alpha('#667eea', 0.04)
+                                  bgcolor: alpha('#5568d3', 0.04)
                                 }
                               }}
                             >
@@ -407,10 +414,10 @@ const AdminUsersPage = () => {
                             size="small"
                             onClick={() => handleDelete(user._id)}
                             sx={{
-                              bgcolor: alpha('#ef4444', 0.1),
-                              color: '#ef4444',
+                              bgcolor: alpha('#dc2626', 0.1),
+                              color: '#dc2626',
                               '&:hover': {
-                                bgcolor: alpha('#ef4444', 0.2)
+                                bgcolor: alpha('#dc2626', 0.2)
                               }
                             }}
                           >
@@ -422,8 +429,26 @@ const AdminUsersPage = () => {
                   ) : (
                     <TableRow>
                       <TableCell colSpan={7} align="center" sx={{ py: 8 }}>
-                        <PeopleIcon sx={{ fontSize: 60, color: '#cbd5e1', mb: 2 }} />
-                        <Typography color="text.secondary">
+                        <Box
+                          sx={{
+                            display: 'inline-flex',
+                            p: 2.5,
+                            borderRadius: '50%',
+                            background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
+                            mb: 2
+                          }}
+                        >
+                          <PeopleIcon 
+                            sx={{ 
+                              fontSize: 48, 
+                              background: 'linear-gradient(135deg, #5568d3 0%, #764ba2 100%)',
+                              WebkitBackgroundClip: 'text',
+                              WebkitTextFillColor: 'transparent',
+                              backgroundClip: 'text'
+                            }} 
+                          />
+                        </Box>
+                        <Typography color="text.secondary" fontWeight={500}>
                           No users registered yet
                         </Typography>
                       </TableCell>

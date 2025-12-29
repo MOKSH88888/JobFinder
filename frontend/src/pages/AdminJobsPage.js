@@ -204,12 +204,12 @@ const AdminJobsPage = () => {
 
   const getJobTypeColor = (type) => {
     const colors = {
-      'Full-time': '#667eea',
+      'Full-time': '#5568d3',
       'Part-time': '#f093fb',
       'Contract': '#4facfe',
       'Internship': '#43e97b'
     };
-    return colors[type] || '#667eea';
+    return colors[type] || '#5568d3';
   };
 
   const handleSort = (key) => {
@@ -271,7 +271,7 @@ const AdminJobsPage = () => {
     return (
       <AdminLayout>
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
-          <CircularProgress size={60} sx={{ color: '#667eea' }} />
+          <CircularProgress size={60} sx={{ color: '#5568d3' }} />
         </Box>
       </AdminLayout>
     );
@@ -295,7 +295,7 @@ const AdminJobsPage = () => {
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: 'linear-gradient(135deg, #5568d3 0%, #764ba2 100%)',
                 textTransform: 'none',
                 fontWeight: 600,
                 px: 3,
@@ -339,7 +339,14 @@ const AdminJobsPage = () => {
                   size="small"
                   InputProps={{
                     startAdornment: (
-                      <SearchIcon sx={{ color: '#667eea', mr: 1 }} />
+                      <SearchIcon sx={{ 
+                        background: 'linear-gradient(135deg, #5568d3 0%, #764ba2 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                        mr: 1,
+                        fontSize: '1.4rem'
+                      }} />
                     )
                   }}
                   sx={{
@@ -350,10 +357,10 @@ const AdminJobsPage = () => {
                         borderColor: 'rgba(0, 0, 0, 0.1)'
                       },
                       '&:hover fieldset': {
-                        borderColor: '#667eea'
+                        borderColor: '#5568d3'
                       },
                       '&.Mui-focused fieldset': {
-                        borderColor: '#667eea'
+                        borderColor: '#5568d3'
                       }
                     }
                   }}
@@ -393,8 +400,8 @@ const AdminJobsPage = () => {
                         py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        bgcolor: sortConfig.key === 'title' ? alpha('#667eea', 0.08) : 'transparent',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        bgcolor: sortConfig.key === 'title' ? alpha('#5568d3', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#5568d3', 0.12) },
                         transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('title')}
@@ -403,8 +410,8 @@ const AdminJobsPage = () => {
                         Job Title
                         {sortConfig.key === 'title' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
-                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#5568d3', fontWeight: 900 }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#5568d3', fontWeight: 900 }} />
                         )}
                       </Box>
                     </TableCell>
@@ -418,8 +425,8 @@ const AdminJobsPage = () => {
                         py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        bgcolor: sortConfig.key === 'companyName' ? alpha('#667eea', 0.08) : 'transparent',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        bgcolor: sortConfig.key === 'companyName' ? alpha('#5568d3', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#5568d3', 0.12) },
                         transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('companyName')}
@@ -428,8 +435,8 @@ const AdminJobsPage = () => {
                         Company
                         {sortConfig.key === 'companyName' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
-                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#5568d3', fontWeight: 900 }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#5568d3', fontWeight: 900 }} />
                         )}
                       </Box>
                     </TableCell>
@@ -443,8 +450,8 @@ const AdminJobsPage = () => {
                         py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        bgcolor: sortConfig.key === 'location' ? alpha('#667eea', 0.08) : 'transparent',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        bgcolor: sortConfig.key === 'location' ? alpha('#5568d3', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#5568d3', 0.12) },
                         transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('location')}
@@ -453,8 +460,8 @@ const AdminJobsPage = () => {
                         Location
                         {sortConfig.key === 'location' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
-                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#5568d3', fontWeight: 900 }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#5568d3', fontWeight: 900 }} />
                         )}
                       </Box>
                     </TableCell>
@@ -468,8 +475,8 @@ const AdminJobsPage = () => {
                         py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        bgcolor: sortConfig.key === 'salary' ? alpha('#667eea', 0.08) : 'transparent',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        bgcolor: sortConfig.key === 'salary' ? alpha('#5568d3', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#5568d3', 0.12) },
                         transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('salary')}
@@ -478,8 +485,8 @@ const AdminJobsPage = () => {
                         Salary
                         {sortConfig.key === 'salary' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
-                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#5568d3', fontWeight: 900 }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#5568d3', fontWeight: 900 }} />
                         )}
                       </Box>
                     </TableCell>
@@ -493,8 +500,8 @@ const AdminJobsPage = () => {
                         py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        bgcolor: sortConfig.key === 'jobType' ? alpha('#667eea', 0.08) : 'transparent',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        bgcolor: sortConfig.key === 'jobType' ? alpha('#5568d3', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#5568d3', 0.12) },
                         transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('jobType')}
@@ -503,8 +510,8 @@ const AdminJobsPage = () => {
                         Type
                         {sortConfig.key === 'jobType' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
-                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#5568d3', fontWeight: 900 }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#5568d3', fontWeight: 900 }} />
                         )}
                       </Box>
                     </TableCell>
@@ -518,8 +525,8 @@ const AdminJobsPage = () => {
                         py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        bgcolor: sortConfig.key === 'applicants' ? alpha('#667eea', 0.08) : 'transparent',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        bgcolor: sortConfig.key === 'applicants' ? alpha('#5568d3', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#5568d3', 0.12) },
                         transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('applicants')}
@@ -528,8 +535,8 @@ const AdminJobsPage = () => {
                         Applicants
                         {sortConfig.key === 'applicants' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
-                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#5568d3', fontWeight: 900 }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#5568d3', fontWeight: 900 }} />
                         )}
                       </Box>
                     </TableCell>
@@ -542,7 +549,7 @@ const AdminJobsPage = () => {
                       <TableRow
                         key={job._id}
                         sx={{
-                          '&:hover': { bgcolor: alpha('#667eea', 0.02) },
+                          '&:hover': { bgcolor: alpha('#5568d3', 0.02) },
                           transition: 'background-color 0.2s ease'
                         }}
                       >
@@ -557,7 +564,7 @@ const AdminJobsPage = () => {
                         <TableCell sx={{ py: 1, fontSize: '0.875rem' }}>{job.companyName}</TableCell>
                         <TableCell sx={{ py: 1, fontSize: '0.875rem' }}>{job.location}</TableCell>
                         <TableCell sx={{ py: 1 }}>
-                          <Typography fontWeight={600} fontSize="0.875rem" color="#667eea">
+                          <Typography fontWeight={600} fontSize="0.875rem" color="#5568d3">
                             ₹{job.salary?.toLocaleString('en-IN')}
                           </Typography>
                         </TableCell>
@@ -578,9 +585,11 @@ const AdminJobsPage = () => {
                             label={job.applicants?.length || 0}
                             size="small"
                             sx={{
-                              bgcolor: alpha('#667eea', 0.1),
-                              color: '#667eea',
-                              fontWeight: 700
+                              bgcolor: alpha('#5568d3', 0.15),
+                              color: '#5568d3',
+                              fontWeight: 700,
+                              border: '1px solid',
+                              borderColor: alpha('#5568d3', 0.2)
                             }}
                           />
                         </TableCell>
@@ -590,11 +599,16 @@ const AdminJobsPage = () => {
                               size="small"
                               onClick={() => navigate(`/admin-jobs/${job._id}/applicants`)}
                               sx={{
-                                bgcolor: alpha('#667eea', 0.1),
-                                color: '#667eea',
+                                bgcolor: alpha('#5568d3', 0.12),
+                                color: '#5568d3',
+                                border: '1.5px solid',
+                                borderColor: alpha('#5568d3', 0.2),
                                 '&:hover': {
-                                  bgcolor: alpha('#667eea', 0.2)
-                                }
+                                  bgcolor: alpha('#5568d3', 0.2),
+                                  borderColor: '#5568d3',
+                                  transform: 'scale(1.05)'
+                                },
+                                transition: 'all 0.2s ease'
                               }}
                             >
                               <ViewIcon fontSize="small" />
@@ -603,11 +617,16 @@ const AdminJobsPage = () => {
                               size="small"
                               onClick={() => handleDelete(job._id)}
                               sx={{
-                                bgcolor: alpha('#ef4444', 0.1),
-                                color: '#ef4444',
+                                bgcolor: alpha('#dc2626', 0.12),
+                                color: '#dc2626',
+                                border: '1.5px solid',
+                                borderColor: alpha('#dc2626', 0.2),
                                 '&:hover': {
-                                  bgcolor: alpha('#ef4444', 0.2)
-                                }
+                                  bgcolor: alpha('#dc2626', 0.2),
+                                  borderColor: '#dc2626',
+                                  transform: 'scale(1.05)'
+                                },
+                                transition: 'all 0.2s ease'
                               }}
                             >
                               <DeleteIcon fontSize="small" />
@@ -619,8 +638,26 @@ const AdminJobsPage = () => {
                   ) : (
                     <TableRow>
                       <TableCell colSpan={7} align="center" sx={{ py: 8 }}>
-                        <WorkIcon sx={{ fontSize: 60, color: '#cbd5e1', mb: 2 }} />
-                        <Typography color="text.secondary">
+                        <Box
+                          sx={{
+                            display: 'inline-flex',
+                            p: 2.5,
+                            borderRadius: '50%',
+                            background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
+                            mb: 2
+                          }}
+                        >
+                          <WorkIcon 
+                            sx={{ 
+                              fontSize: 48, 
+                              background: 'linear-gradient(135deg, #5568d3 0%, #764ba2 100%)',
+                              WebkitBackgroundClip: 'text',
+                              WebkitTextFillColor: 'transparent',
+                              backgroundClip: 'text'
+                            }} 
+                          />
+                        </Box>
+                        <Typography color="text.secondary" fontWeight={500}>
                           No jobs available. Create your first job posting.
                         </Typography>
                       </TableCell>
@@ -776,7 +813,7 @@ const AdminJobsPage = () => {
               onClick={handleCreateJob}
               variant="contained"
               sx={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: 'linear-gradient(135deg, #5568d3 0%, #764ba2 100%)',
                 textTransform: 'none',
                 fontWeight: 600,
                 px: 3,
