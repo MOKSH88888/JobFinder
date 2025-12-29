@@ -61,7 +61,7 @@ const HomePage = () => {
     } else {
       setBookmarkedJobIds([]);
     }
-  }, [user?.bookmarkedJobs]);
+  }, [user]);
 
   // Listen for new jobs and deletions via WebSocket
   useEffect(() => {
