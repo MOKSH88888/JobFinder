@@ -19,7 +19,7 @@ import {
   Button,
   CircularProgress
 } from '@mui/material';
-import NotificationToast from '../components/NotificationToast';
+import AdminNotificationToast from '../components/admin/AdminNotificationToast';
 
 const AdminDashboard = () => {
   const { socket, addNotification } = useSocket();
@@ -233,8 +233,8 @@ const AdminDashboard = () => {
         </Box>
       </Paper>
       
-      {/* Professional Notification Toast */}
-      <NotificationToast
+      {/* Professional Admin Notification Toast */}
+      <AdminNotificationToast
         notification={currentNotification}
         open={showNotification}
         onClose={() => setShowNotification(false)}
