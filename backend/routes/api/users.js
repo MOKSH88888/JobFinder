@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const rateLimit = require('express-rate-limit');
 const { authUser } = require('../../middleware/authMiddleware');
-const { upload } = require('../../middleware/uploadMiddlewareGridFS');
+const { upload } = require('../../middleware/uploadMiddleware');
 const { validateUserProfile, validateJobId } = require('../../middleware/validationMiddleware');
 const constants = require('../../config/constants');
 const {

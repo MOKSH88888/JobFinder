@@ -1,4 +1,4 @@
-// backend/middleware/uploadMiddlewareGridFS.js
+// backend/middleware/uploadMiddleware.js
 // Enhanced GridFS file upload middleware with proper size limits
 
 const multer = require('multer');
