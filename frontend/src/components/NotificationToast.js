@@ -16,13 +16,14 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
-import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import FiberNewIcon from '@mui/icons-material/FiberNew';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import StarIcon from '@mui/icons-material/Star';
 import PersonIcon from '@mui/icons-material/Person';
 import WorkIcon from '@mui/icons-material/Work';
 import EmailIcon from '@mui/icons-material/Email';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 
 function SlideTransition(props) {
   return <Slide {...props} direction="left" />;
@@ -79,10 +80,12 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
       },
       pending: {
         severity: 'info',
-        icon: <HourglassEmptyIcon />,
-        title: 'Application Submitted',
-        color: '#9e9e9e',
-        bgGradient: 'linear-gradient(135deg, #9e9e9e 0%, #bdbdbd 100%)'
+        icon: <FiberNewIcon />,
+        title: 'New Application',
+        color: '#2196f3',
+        bgGradient: 'linear-gradient(135deg, #2196f3 0%, #42a5f5 100%)',
+        chipLabel: 'Action Required',
+        chipColor: '#1976d2'
       }
     };
     return configs[status?.toLowerCase()] || configs.pending;
@@ -92,12 +95,12 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
     if (type === 'new-application') {
       return {
         severity: 'info',
-        icon: <PersonIcon />,
+        icon: <AssignmentIndIcon />,
         title: 'New Application Received',
-        color: '#2196f3',
-        bgGradient: 'linear-gradient(135deg, #2196f3 0%, #42a5f5 100%)',
-        chipLabel: 'New',
-        chipColor: '#1976d2'
+        color: '#1976d2',
+        bgGradient: 'linear-gradient(135deg, #1976d2 0%, #2196f3 100%)',
+        chipLabel: 'Action Required',
+        chipColor: '#0d47a1'
       };
     }
     return null;
