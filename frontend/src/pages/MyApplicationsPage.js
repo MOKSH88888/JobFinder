@@ -25,37 +25,6 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import NotificationToast from '../components/NotificationToast';
 
-const getStatusColor = (status) => {
-  const colors = {
-    pending: 'default',
-    reviewed: 'info',
-    shortlisted: 'warning',
-    accepted: 'success',
-    rejected: 'error'
-  };
-  return colors[status?.toLowerCase()] || 'default';
-};
-
-const getStatusLabel = (status) => {
-  const labels = {
-    pending: 'Pending Review',
-    reviewed: 'Under Review',
-    shortlisted: 'Shortlisted',
-    accepted: 'Accepted',
-    rejected: 'Not Selected'
-  };
-  return labels[status?.toLowerCase()] || status;
-};
-
-const getStatusIcon = (status) => {
-  const statusLower = status?.toLowerCase();
-  if (statusLower === 'accepted') return '✓';
-  if (statusLower === 'rejected') return '✗';
-  if (statusLower === 'shortlisted') return '⭐';
-  if (statusLower === 'reviewed') return '👁';
-  return '⏳';
-};
-
 const getStatusBadge = (status) => {
   const statusLower = status?.toLowerCase();
   
