@@ -38,7 +38,7 @@ const NotificationToast = ({ notification, open, onClose }) => {
         icon: <CancelIcon />,
         severity: 'error',
         color: '#ef4444',
-        title: 'Application Rejected',
+        title: 'Application Update',
         gradient: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
       },
       'reviewed': {
