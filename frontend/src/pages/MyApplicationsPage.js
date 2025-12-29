@@ -23,27 +23,140 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import BusinessIcon from '@mui/icons-material/Business';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
+import NotificationToast from '../components/NotificationToast';
 
 const getStatusColor = (status) => {
   const colors = {
-    pending: 'warning',
+    pending: 'default',
     reviewed: 'info',
-    shortlisted: 'primary',
+    shortlisted: 'warning',
     accepted: 'success',
     rejected: 'error'
   };
-  return colors[status] || 'default';
+  return colors[status?.toLowerCase()] || 'default';
 };
 
 const getStatusLabel = (status) => {
   const labels = {
-    pending: 'Pending',
+    pending: 'Pending Review',
     reviewed: 'Under Review',
     shortlisted: 'Shortlisted',
     accepted: 'Accepted',
-    rejected: 'Rejected'
+    rejected: 'Not Selected'
   };
-  return labels[status] || status;
+  return labels[status?.toLowerCase()] || status;
+};
+
+const getStatusIcon = (status) => {
+  const statusLower = status?.toLowerCase();
+  if (statusLower === 'accepted') return '✓';
+  if (statusLower === 'rejected') return '✗';
+  if (statusLower === 'shortlisted') return '⭐';
+  if (statusLower === 'reviewed') return '👁';
+  return '⏳';
+};
+
+const getStatusBadge = (status) => {
+  const statusLower = status?.toLowerCase();
+  
+  if (statusLower === 'accepted') {
+    return {
+      label: 'ACCEPTED',
+      icon: <CheckCircleIcon />,
+      sx: {
+        backgroundColor: '#10b981',
+        color: 'white',
+        fontWeight: 700,
+        fontSize: '0.813rem',
+        px: 2,
+        py: 0.5,
+        letterSpacing: '0.5px',
+        '& .MuiChip-icon': { color: 'white', fontSize: 20 },
+        boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)',
+        border: '2px solid #059669',
+        animation: 'gentle-pulse 3s ease-in-out infinite',
+        '@keyframes gentle-pulse': {
+          '0%, 100%': { transform: 'scale(1)', boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)' },
+          '50%': { transform: 'scale(1.02)', boxShadow: '0 6px 16px rgba(16, 185, 129, 0.4)' }
+        }
+      }
+    };
+  }
+  
+  if (statusLower === 'rejected') {
+    return {
+      label: 'NOT SELECTED',
+      icon: <CancelIcon />,
+      sx: {
+        backgroundColor: '#ef4444',
+        color: 'white',
+        fontWeight: 600,
+        fontSize: '0.813rem',
+        px: 2,
+        py: 0.5,
+        letterSpacing: '0.5px',
+        '& .MuiChip-icon': { color: 'white', fontSize: 20 },
+        boxShadow: '0 4px 12px rgba(239, 68, 68, 0.25)',
+        border: '2px solid #dc2626'
+      }
+    };
+  }
+  
+  if (statusLower === 'shortlisted') {
+    return {
+      label: 'SHORTLISTED',
+      icon: <CheckCircleIcon />,
+      sx: {
+        backgroundColor: '#f59e0b',
+        color: 'white',
+        fontWeight: 700,
+        fontSize: '0.813rem',
+        px: 2,
+        py: 0.5,
+        letterSpacing: '0.5px',
+        '& .MuiChip-icon': { color: 'white', fontSize: 20 },
+        boxShadow: '0 4px 12px rgba(245, 158, 11, 0.3)',
+        border: '2px solid #d97706',
+        animation: 'gentle-pulse 3s ease-in-out infinite',
+        '@keyframes gentle-pulse': {
+          '0%, 100%': { transform: 'scale(1)', boxShadow: '0 4px 12px rgba(245, 158, 11, 0.3)' },
+          '50%': { transform: 'scale(1.02)', boxShadow: '0 6px 16px rgba(245, 158, 11, 0.4)' }
+        }
+      }
+    };
+  }
+  
+  if (statusLower === 'reviewed') {
+    return {
+      label: 'UNDER REVIEW',
+      sx: {
+        backgroundColor: '#3b82f6',
+        color: 'white',
+        fontWeight: 600,
+        fontSize: '0.813rem',
+        px: 2,
+        py: 0.5,
+        letterSpacing: '0.5px',
+        boxShadow: '0 4px 12px rgba(59, 130, 246, 0.25)',
+        border: '2px solid #2563eb'
+      }
+    };
+  }
+  
+  return {
+    label: 'PENDING REVIEW',
+    sx: {
+      backgroundColor: '#6b7280',
+      color: 'white',
+      fontWeight: 600,
+      fontSize: '0.813rem',
+      px: 2,
+      py: 0.5,
+      letterSpacing: '0.5px',
+      boxShadow: '0 4px 12px rgba(107, 114, 128, 0.25)',
+      border: '2px solid #4b5563'
+    }
+  };
 };
 
 const MyApplicationsPage = () => {
@@ -51,6 +164,8 @@ const MyApplicationsPage = () => {
   const { socket, addNotification } = useSocket();
   const [appliedJobs, setAppliedJobs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentNotification, setCurrentNotification] = useState(null);
+  const [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {
     const fetchAppliedJobs = async () => {
@@ -75,6 +190,10 @@ const MyApplicationsPage = () => {
     if (!socket || !user) return;
 
     const handleStatusUpdate = (data) => {
+      // Show professional toast notification
+      setCurrentNotification(data);
+      setShowNotification(true);
+      
       // Add to notifications
       addNotification(data);
       
@@ -250,49 +369,13 @@ const MyApplicationsPage = () => {
                           icon={<WorkIcon />}
                         />
                         
-                        {/* Enhanced Status Chip */}
-                        {isAccepted ? (
-                          <Chip 
-                            label="✓ ACCEPTED"
-                            size="medium"
-                            icon={<CheckCircleIcon />}
-                            sx={{ 
-                              backgroundColor: '#4caf50',
-                              color: 'white',
-                              fontWeight: 700,
-                              fontSize: '0.85rem',
-                              px: 1,
-                              '& .MuiChip-icon': { color: 'white' },
-                              boxShadow: '0 2px 8px rgba(76, 175, 80, 0.4)',
-                              animation: 'pulse 2s ease-in-out infinite',
-                              '@keyframes pulse': {
-                                '0%, 100%': { transform: 'scale(1)' },
-                                '50%': { transform: 'scale(1.05)' }
-                              }
-                            }}
-                          />
-                        ) : isRejected ? (
-                          <Chip 
-                            label="✗ REJECTED"
-                            size="medium"
-                            icon={<CancelIcon />}
-                            sx={{ 
-                              backgroundColor: '#f44336',
-                              color: 'white',
-                              fontWeight: 700,
-                              fontSize: '0.85rem',
-                              px: 1,
-                              '& .MuiChip-icon': { color: 'white' },
-                              boxShadow: '0 2px 8px rgba(244, 67, 54, 0.4)'
-                            }}
-                          />
-                        ) : (
-                          <Chip 
-                            label={getStatusLabel(status)}
-                            size="small" 
-                            color={getStatusColor(status)}
-                          />
-                        )}
+                        {/* Professional Status Badge */}
+                        <Chip 
+                          label={getStatusBadge(status).label}
+                          size="medium"
+                          icon={getStatusBadge(status).icon}
+                          sx={getStatusBadge(status).sx}
+                        />
                       </Box>
                       
                       {job.appliedAt && (
@@ -341,6 +424,14 @@ const MyApplicationsPage = () => {
           </Paper>
         )}
       </Container>
+      
+      {/* Professional Notification Toast */}
+      <NotificationToast
+        notification={currentNotification}
+        open={showNotification}
+        onClose={() => setShowNotification(false)}
+        autoHideDuration={8000}
+      />
     </Box>
   );
 };

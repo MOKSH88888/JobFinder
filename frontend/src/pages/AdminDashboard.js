@@ -19,12 +19,15 @@ import {
   Button,
   CircularProgress
 } from '@mui/material';
+import NotificationToast from '../components/NotificationToast';
 
 const AdminDashboard = () => {
   const { socket, addNotification } = useSocket();
   const [stats, setStats] = useState(null);
   const [recentJobs, setRecentJobs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentNotification, setCurrentNotification] = useState(null);
+  const [showNotification, setShowNotification] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,6 +39,10 @@ const AdminDashboard = () => {
     if (!socket) return;
 
     const handleNewApplication = (data) => {
+      // Show professional toast notification
+      setCurrentNotification(data);
+      setShowNotification(true);
+      
       addNotification(data);
       
       // Refresh stats to show updated count
@@ -225,6 +232,14 @@ const AdminDashboard = () => {
           </Button>
         </Box>
       </Paper>
+      
+      {/* Professional Notification Toast */}
+      <NotificationToast
+        notification={currentNotification}
+        open={showNotification}
+        onClose={() => setShowNotification(false)}
+        autoHideDuration={8000}
+      />
     </Container>
   );
 };
