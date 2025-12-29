@@ -204,9 +204,6 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
         <Divider sx={{ mb: 1.5 }} />
         
         <Stack spacing={1.5}>
-        <Divider sx={{ mb: 1.5 }} />
-        
-        <Stack spacing={1.5}>
           {/* Job Title with Icon */}
           {notification.jobTitle && (
             <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
