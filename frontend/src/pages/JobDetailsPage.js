@@ -31,7 +31,8 @@ const JobDetailsPage = () => {
       try {
         setLoading(true);
         const { data } = await fetchJobById(id);
-        setJob(data);
+        // Extract job from response wrapper
+        setJob(data?.job || null);
 
         // Check if the current logged-in user has applied for this job
         // appliedJobs is an array of objects with jobId property
