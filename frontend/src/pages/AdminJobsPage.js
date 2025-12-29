@@ -218,7 +218,7 @@ const AdminJobsPage = () => {
     <AdminLayout>
       <Box>
         <Fade in timeout={600}>
-          <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Box sx={{ mb: 3, display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'stretch', sm: 'center' }, gap: 2 }}>
             <Box>
               <Typography variant="h4" fontWeight={700} color="#1e293b" gutterBottom>
                 Job Management
@@ -239,6 +239,7 @@ const AdminJobsPage = () => {
                 py: 1.5,
                 borderRadius: 2,
                 boxShadow: '0 4px 20px rgba(102, 126, 234, 0.4)',
+                whiteSpace: 'nowrap',
                 '&:hover': {
                   boxShadow: '0 6px 28px rgba(102, 126, 234, 0.5)',
                   transform: 'translateY(-2px)'

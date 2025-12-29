@@ -224,9 +224,10 @@ const AdminLayout = ({ children }) => {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
+          p: { xs: 2, sm: 3 },
           width: { md: `calc(100% - ${drawerWidth}px)` },
-          mt: 8
+          mt: { xs: 7, sm: 8 },
+          minHeight: '100vh'
         }}
       >
         {children}

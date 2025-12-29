@@ -122,7 +122,7 @@ const AdminDashboard = () => {
     <AdminLayout>
       <Box>
         <Fade in timeout={600}>
-          <Box sx={{ mb: 4 }}>
+          <Box sx={{ mb: 3 }}>
             <Typography variant="h4" fontWeight={700} color="#1e293b" gutterBottom>
               Dashboard Overview
             </Typography>
