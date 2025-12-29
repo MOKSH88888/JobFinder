@@ -1,7 +1,4 @@
-// src/components/NotificationToast.js
-// User-facing notification toast for application status updates
-
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Snackbar,
   Alert,
@@ -11,81 +8,87 @@ import {
   IconButton,
   Slide
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CancelIcon from '@mui/icons-material/Cancel';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import StarIcon from '@mui/icons-material/Star';
-import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
-import WorkIcon from '@mui/icons-material/Work';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import {
+  CheckCircle as CheckCircleIcon,
+  Cancel as CancelIcon,
+  HourglassEmpty as HourglassEmptyIcon,
+  Visibility as VisibilityIcon,
+  Star as StarIcon,
+  Person as PersonIcon,
+  Close as CloseIcon
+} from '@mui/icons-material';
 
-function SlideTransition(props) {
+const SlideTransition = (props) => {
   return <Slide {...props} direction="left" />;
-}
+};
 
-const NotificationToast = ({ notification, open, onClose, autoHideDuration = 6000 }) => {
-  useEffect(() => {
-    if (open && autoHideDuration) {
-      const timer = setTimeout(() => {
-        onClose();
-      }, autoHideDuration);
-      return () => clearTimeout(timer);
-    }
-  }, [open, onClose, autoHideDuration]);
-
+const NotificationToast = ({ notification, open, onClose }) => {
   if (!notification) return null;
 
   const getStatusConfig = (status) => {
     const configs = {
-      accepted: {
-        severity: 'success',
+      'accepted': {
         icon: <CheckCircleIcon />,
-        title: 'Application Accepted! 🎉',
-        color: '#4caf50',
-        bgGradient: 'linear-gradient(135deg, #4caf50 0%, #66bb6a 100%)'
+        severity: 'success',
+        color: '#10b981',
+        title: 'Application Accepted',
+        gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
       },
-      rejected: {
-        severity: 'error',
+      'rejected': {
         icon: <CancelIcon />,
-        title: 'Application Update',
-        color: '#f44336',
-        bgGradient: 'linear-gradient(135deg, #f44336 0%, #ef5350 100%)'
+        severity: 'error',
+        color: '#ef4444',
+        title: 'Application Rejected',
+        gradient: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
+      },
+      'reviewed': {
+        icon: <VisibilityIcon />,
+        severity: 'info',
+        color: '#3b82f6',
+        title: 'Application Reviewed',
+        gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)'
       },
       'under review': {
-        severity: 'info',
         icon: <VisibilityIcon />,
-        title: 'Application Being Reviewed',
-        color: '#2196f3',
-        bgGradient: 'linear-gradient(135deg, #2196f3 0%, #42a5f5 100%)'
-      },
-      shortlisted: {
-        severity: 'success',
-        icon: <StarIcon />,
-        title: 'Application Shortlisted! ⭐',
-        color: '#10b981',
-        bgGradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
-      },
-      pending: {
         severity: 'info',
+        color: '#3b82f6',
+        title: 'Application Under Review',
+        gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)'
+      },
+      'shortlisted': {
+        icon: <StarIcon />,
+        severity: 'success',
+        color: '#10b981',
+        title: 'Application Shortlisted',
+        gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
+      },
+      'pending': {
         icon: <HourglassEmptyIcon />,
+        severity: 'info',
+        color: '#6b7280',
         title: 'Application Pending',
-        color: '#ff9800',
-        bgGradient: 'linear-gradient(135deg, #ff9800 0%, #ffa726 100%)'
+        gradient: 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)'
       }
     };
-    return configs[status?.toLowerCase()] || configs.pending;
+    return configs[status?.toLowerCase()] || configs['pending'];
   };
 
-  const config = getStatusConfig(notification.status);
-
-  const formatTimestamp = () => {
-    const now = new Date();
-    return now.toLocaleTimeString('en-US', { 
-      hour: '2-digit', 
-      minute: '2-digit' 
-    });
+  const getTypeConfig = (type) => {
+    const configs = {
+      'new-application': {
+        icon: <PersonIcon />,
+        severity: 'info',
+        color: '#3b82f6',
+        title: 'New Application Received',
+        gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)'
+      }
+    };
+    return configs[type] || null;
   };
+
+  const config = notification.type
+    ? getTypeConfig(notification.type)
+    : getStatusConfig(notification.status);
 
   return (
     <Snackbar
@@ -100,99 +103,66 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
         onClose={onClose}
         sx={{
           width: '400px',
-          maxWidth: '95vw',
-          background: config.bgGradient,
-          color: 'white',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
-          borderRadius: 3,
+          boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+          borderRadius: 2,
+          border: `1px solid ${config.color}30`,
+          background: 'white',
           '& .MuiAlert-icon': {
-            fontSize: 32,
-            color: 'white'
+            fontSize: 28,
+            color: config.color
           },
           '& .MuiAlert-message': {
-            width: '100%',
-            py: 0.5
+            width: '100%'
           }
         }}
         action={
           <IconButton
             size="small"
             onClick={onClose}
-            sx={{ 
-              color: 'white',
-              '&:hover': { 
-                backgroundColor: 'rgba(255,255,255,0.2)'
-              }
+            sx={{
+              color: 'text.secondary',
+              '&:hover': { backgroundColor: 'rgba(0,0,0,0.04)' }
             }}
           >
             <CloseIcon fontSize="small" />
           </IconButton>
         }
       >
-        <AlertTitle sx={{ 
-          fontWeight: 700, 
-          fontSize: '1.1rem',
-          color: 'white',
-          mb: 1
+        <AlertTitle sx={{
+          fontWeight: 700,
+          fontSize: '1rem',
+          mb: 1,
+          color: config.color
         }}>
           {config.title}
         </AlertTitle>
 
-        {/* Job Title */}
-        {notification.jobTitle && (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-            <WorkIcon sx={{ fontSize: 20, color: 'rgba(255,255,255,0.9)' }} />
-            <Typography variant="body2" sx={{ 
-              fontWeight: 600, 
-              color: 'white',
-              fontSize: '0.95rem'
-            }}>
+        <Box>
+          {notification.jobTitle && (
+            <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>
               {notification.jobTitle}
             </Typography>
-          </Box>
-        )}
-
-        {/* Company Name */}
-        {notification.companyName && (
-          <Typography variant="caption" sx={{ 
-            color: 'rgba(255,255,255,0.85)', 
-            display: 'block', 
-            ml: 3.5,
-            mb: 1
-          }}>
-            {notification.companyName}
-          </Typography>
-        )}
-
-        {/* Status Message */}
-        {notification.jobTitle && notification.companyName && (
-          <Typography variant="body2" sx={{ 
-            color: 'rgba(255,255,255,0.95)',
-            mt: 1.5,
-            mb: 1,
-            lineHeight: 1.5
-          }}>
-            Your application for {notification.jobTitle} at {notification.companyName} has been {notification.status?.toLowerCase() || 'updated'}
-          </Typography>
-        )}
-
-        {/* Custom Message (if provided) */}
-        {notification.message && (
-          <Typography variant="body2" sx={{ 
-            color: 'rgba(255,255,255,0.9)',
-            fontStyle: 'italic',
-            mb: 1
-          }}>
-            {notification.message}
-          </Typography>
-        )}
-
-        {/* Timestamp */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 1.5 }}>
-          <AccessTimeIcon sx={{ fontSize: 14, color: 'rgba(255,255,255,0.7)' }} />
-          <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-            {formatTimestamp()}
-          </Typography>
+          )}
+          {notification.companyName && (
+            <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mb: 1 }}>
+              {notification.companyName}
+            </Typography>
+          )}
+          {notification.message && (
+            <Typography variant="body2" sx={{ color: 'text.primary' }}>
+              {notification.message}
+            </Typography>
+          )}
+          {notification.userName && (
+            <Typography variant="body2" sx={{ mt: 1 }}>
+              <strong>Applicant:</strong> {notification.userName}
+            </Typography>
+          )}
+          {notification.userEmail && (
+            <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
+              {notification.userEmail}
+            </Typography>
+          )}
         </Box>
       </Alert>
     </Snackbar>
