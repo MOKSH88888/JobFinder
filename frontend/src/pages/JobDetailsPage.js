@@ -83,8 +83,8 @@ const JobDetailsPage = () => {
         >
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 3 }}>
             <Box>
-              <Typography variant="h4" component="h1" gutterBottom>{job.title}</Typography>
-              <Typography variant="h6" color="text.secondary">{job.companyName}</Typography>
+              <Typography variant="h4" component="h1" gutterBottom>{job.title || 'Untitled Job'}</Typography>
+              <Typography variant="h6" color="text.secondary">{job.companyName || 'Company not specified'}</Typography>
             </Box>
             <Box sx={{ minWidth: 150, textAlign: 'right' }}>
               {user ? (
@@ -137,20 +137,22 @@ const JobDetailsPage = () => {
           <Grid container spacing={2} sx={{ my: 2 }}>
             <Grid item xs={12} sm={4}>
               <Typography variant="overline" color="text.secondary">Location</Typography>
-              <Typography variant="body1">{job.location}</Typography>
+              <Typography variant="body1">{job.location || 'Not specified'}</Typography>
             </Grid>
             <Grid item xs={12} sm={4}>
               <Typography variant="overline" color="text.secondary">Salary</Typography>
-              <Typography variant="body1">₹{job.salary.toLocaleString('en-IN')} / year</Typography>
+              <Typography variant="body1">
+                {job.salary && !isNaN(job.salary) ? `₹${Number(job.salary).toLocaleString('en-IN')} / year` : 'Not disclosed'}
+              </Typography>
             </Grid>
             <Grid item xs={12} sm={4}>
               <Typography variant="overline" color="text.secondary">Experience</Typography>
-              <Typography variant="body1">{job.experienceRequired === 0 ? 'Fresher' : `${job.experienceRequired} years`}</Typography>
+              <Typography variant="body1">{job.experienceRequired === 0 ? 'Fresher' : `${job.experienceRequired ?? 0} years`}</Typography>
             </Grid>
           </Grid>
           <Typography variant="h6" sx={{ mt: 4 }}>Job Description</Typography>
           <Typography variant="body1" sx={{ mt: 1, whiteSpace: 'pre-wrap' }}>
-            {job.description}
+            {job.description || 'No description provided'}
           </Typography>
         </Paper>
       );
