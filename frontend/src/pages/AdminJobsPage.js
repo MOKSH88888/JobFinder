@@ -58,10 +58,11 @@ const AdminJobsPage = () => {
   const fetchJobs = async () => {
     try {
       const { data } = await API.get('/admin/jobs');
-      setJobs(data);
+      setJobs(Array.isArray(data) ? data : []);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching jobs:', error);
+      setJobs([]);
       setLoading(false);
     }
   };

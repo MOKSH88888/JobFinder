@@ -36,10 +36,11 @@ const AdminUsersPage = () => {
   const fetchUsers = async () => {
     try {
       const { data } = await API.get('/admin/users');
-      setUsers(data);
+      setUsers(Array.isArray(data) ? data : []);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching users:', error);
+      setUsers([]);
       setLoading(false);
     }
   };

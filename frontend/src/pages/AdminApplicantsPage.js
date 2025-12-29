@@ -42,7 +42,8 @@ const AdminApplicantsPage = () => {
       const { data } = await API.get(`/admin/jobs/${jobId}/applicants`);
       setJob(data.job);
       // Ensure all applicants have a status field
-      const mappedApplicants = data.applicants.map(app => ({
+      const applicantsList = Array.isArray(data.applicants) ? data.applicants : [];
+      const mappedApplicants = applicantsList.map(app => ({
         ...app,
         status: app.status || 'Pending'
       }));
@@ -52,6 +53,7 @@ const AdminApplicantsPage = () => {
       if (process.env.NODE_ENV === 'development') {
         console.error('Error fetching applicants:', error);
       }
+      setApplicants([]);
       setLoading(false);
     }
   };

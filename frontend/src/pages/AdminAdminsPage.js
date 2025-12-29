@@ -41,10 +41,12 @@ const AdminAdminsPage = () => {
   const fetchAdmins = async () => {
     try {
       const { data } = await API.get('/admin/admins');
-      setAdmins(data);
+      // Ensure data is always an array
+      setAdmins(Array.isArray(data) ? data : []);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching admins:', error);
+      setAdmins([]); // Set to empty array on error
       setLoading(false);
     }
   };
@@ -157,7 +159,7 @@ const AdminAdminsPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {admins.map((admin) => (
+              {Array.isArray(admins) && admins.map((admin) => (
                 <TableRow key={admin._id} hover>
                   <TableCell sx={{ fontWeight: 600 }}>{admin.username}</TableCell>
                   <TableCell>
