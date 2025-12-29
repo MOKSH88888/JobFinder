@@ -25,7 +25,6 @@ import NewsPage from './pages/NewsPage';
 // Import Layout Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import NotificationSnackbar from './components/NotificationSnackbar';
 import ErrorBoundary from './components/ErrorBoundary';
 
 // Import Protected Route Components
@@ -38,7 +37,6 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider theme={theme}>
         <CssBaseline /> {/* Normalizes CSS across browsers */}
-        <NotificationSnackbar />
       <Router>
         <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
           <Navbar />
