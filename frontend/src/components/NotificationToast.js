@@ -12,15 +12,10 @@ import {
   Divider
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CancelIcon from '@mui/icons-material/Cancel';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import StarIcon from '@mui/icons-material/Star';
 import PersonIcon from '@mui/icons-material/Person';
 import WorkIcon from '@mui/icons-material/Work';
 import EmailIcon from '@mui/icons-material/Email';
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 
 function SlideTransition(props) {
   return <Slide {...props} direction="left" />;
