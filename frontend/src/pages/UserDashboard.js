@@ -75,7 +75,8 @@ const UserDashboard = () => {
 
     try {
       const response = await updateUserProfile(data);
-      setUser(response.data);
+      // Extract user from response wrapper
+      setUser(response.data?.user || response.data);
       setSuccessMessage('Profile updated successfully!');
       setProfilePhoto(null);
       setResume(null);
