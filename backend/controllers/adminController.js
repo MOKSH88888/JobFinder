@@ -245,15 +245,28 @@ exports.getJobApplicants = asyncHandler(async (req, res) => {
     .populate({
       path: 'applicants.userId',
       match: { isDeleted: false },
-      select: 'name email phone experience skills resume'
+      select: 'name email phone experience skills resume gender'
     });
   
   if (!job) {
     throw new APIError('Job not found', 404);
   }
   
-  // Filter out applicants with deleted users
-  const validApplicants = job.applicants.filter(app => app.userId != null);
+  // Filter out applicants with deleted users and flatten user data
+  const validApplicants = job.applicants
+    .filter(app => app.userId != null)
+    .map(app => ({
+      _id: app.userId._id,
+      name: app.userId.name,
+      email: app.userId.email,
+      phone: app.userId.phone,
+      experience: app.userId.experience,
+      skills: app.userId.skills,
+      resume: app.userId.resume,
+      gender: app.userId.gender,
+      status: app.status,
+      appliedAt: app.appliedAt
+    }));
   
   res.json({ 
     success: true,
