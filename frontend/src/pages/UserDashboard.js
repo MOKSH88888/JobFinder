@@ -493,7 +493,11 @@ const UserDashboard = () => {
                     </Typography>
                     <Link 
                       component="button"
-                      onClick={() => setPdfViewerOpen(true)}
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setPdfViewerOpen(true);
+                      }}
                       sx={{ fontSize: '0.8125rem', color: '#667eea', cursor: 'pointer', textAlign: 'left' }}
                     >
                       View Resume →
