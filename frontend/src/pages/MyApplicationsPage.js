@@ -215,44 +215,69 @@ const MyApplicationsPage = () => {
           
           {/* Status Summary */}
           {Array.isArray(appliedJobs) && appliedJobs.length > 0 && (
-            <Box sx={{ mt: 3, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+            <Box sx={{ 
+              mt: 3, 
+              display: 'flex', 
+              gap: 1.5, 
+              flexWrap: 'wrap',
+              alignItems: 'center'
+            }}>
               <Chip 
                 label={`Total: ${appliedJobs.length}`}
-                sx={{ fontWeight: 600 }}
+                sx={{ 
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  height: 32,
+                  backgroundColor: '#f5f5f5',
+                  color: '#424242',
+                  border: '1px solid #e0e0e0'
+                }}
               />
               <Chip 
-                label={`⭐ Shortlisted: ${appliedJobs.filter(j => (j.applicationStatus || 'pending').toLowerCase() === 'shortlisted').length}`}
+                label={`Shortlisted: ${appliedJobs.filter(j => (j.applicationStatus || 'pending').toLowerCase() === 'shortlisted').length}`}
                 sx={{ 
                   backgroundColor: '#e8f5e9',
                   color: '#2e7d32',
-                  fontWeight: 600
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  height: 32,
+                  border: '1px solid #c8e6c9'
                 }}
               />
               <Chip 
-                label={`✗ Rejected: ${appliedJobs.filter(j => (j.applicationStatus || 'pending').toLowerCase() === 'rejected').length}`}
+                label={`Rejected: ${appliedJobs.filter(j => (j.applicationStatus || 'pending').toLowerCase() === 'rejected').length}`}
                 sx={{ 
                   backgroundColor: '#ffebee',
                   color: '#c62828',
-                  fontWeight: 600
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  height: 32,
+                  border: '1px solid #ffcdd2'
                 }}
               />
               <Chip 
-                label={`👁️ Under Review: ${appliedJobs.filter(j => {
+                label={`Under Review: ${appliedJobs.filter(j => {
                   const status = (j.applicationStatus || 'pending').toLowerCase();
                   return status === 'under review' || status === 'reviewed';
                 }).length}`}
                 sx={{ 
                   backgroundColor: '#e3f2fd',
                   color: '#1565c0',
-                  fontWeight: 600
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  height: 32,
+                  border: '1px solid #bbdefb'
                 }}
               />
               <Chip 
-                label={`📋 Pending: ${appliedJobs.filter(j => (j.applicationStatus || 'pending').toLowerCase() === 'pending').length}`}
+                label={`Pending: ${appliedJobs.filter(j => (j.applicationStatus || 'pending').toLowerCase() === 'pending').length}`}
                 sx={{ 
-                  backgroundColor: '#f5f5f5',
+                  backgroundColor: '#fafafa',
                   color: '#616161',
-                  fontWeight: 600
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  height: 32,
+                  border: '1px solid #e0e0e0'
                 }}
               />
             </Box>
