@@ -204,62 +204,81 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
           )}
         </Box>
         
-        <Divider sx={{ mb: 1.5 }} />
+        <Divider sx={{ mb: 2 }} />
         
-        <Stack spacing={1.5}>
-          {/* Job Title with Icon */}
+        <Stack spacing={2}>
+          {/* Job Title Section */}
           {notification.jobTitle && (
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
-              <WorkIcon sx={{ fontSize: 18, color: 'text.secondary', mt: 0.3 }} />
-              <Box sx={{ flex: 1 }}>
-                <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary', lineHeight: 1.4 }}>
+            <Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                <WorkIcon sx={{ fontSize: 20, color: config.color }} />
+                <Typography variant="body2" sx={{ 
+                  fontWeight: 700, 
+                  color: 'text.primary',
+                  fontSize: '0.95rem'
+                }}>
                   {notification.jobTitle}
                 </Typography>
-                {notification.companyName && (
-                  <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mt: 0.3 }}>
-                    at {notification.companyName}
-                  </Typography>
-                )}
               </Box>
+              {notification.companyName && (
+                <Typography variant="caption" sx={{ 
+                  color: 'text.secondary', 
+                  display: 'block', 
+                  ml: 4,
+                  fontWeight: 500
+                }}>
+                  {notification.companyName}
+                </Typography>
+              )}
             </Box>
           )}
           
-          {/* Applicant Information */}
+          {/* Applicant Information Card */}
           {notification.userName && (
             <Box sx={{ 
-              bgcolor: 'rgba(33, 150, 243, 0.08)', 
-              p: 1.5, 
+              bgcolor: '#f8fafc',
+              p: 2,
               borderRadius: 2,
-              borderLeft: `3px solid ${config.color}`
+              border: '1px solid',
+              borderColor: 'divider'
             }}>
-              <Stack spacing={0.5}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <PersonIcon sx={{ fontSize: 16, color: config.color }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
-                    {notification.userName}
+              <Stack spacing={1.5}>
+                <Box>
+                  <Typography variant="caption" sx={{ 
+                    color: 'text.secondary',
+                    textTransform: 'uppercase',
+                    fontSize: '0.65rem',
+                    fontWeight: 600,
+                    letterSpacing: 0.5,
+                    mb: 0.5,
+                    display: 'block'
+                  }}>
+                    Candidate Details
                   </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                    <PersonIcon sx={{ fontSize: 18, color: config.color }} />
+                    <Typography variant="body2" sx={{ 
+                      fontWeight: 600, 
+                      color: 'text.primary',
+                      fontSize: '0.9rem'
+                    }}>
+                      {notification.userName}
+                    </Typography>
+                  </Box>
                 </Box>
                 {notification.userEmail && (
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 3 }}>
-                    <EmailIcon sx={{ fontSize: 14, color: 'text.secondary' }} />
-                    <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, pl: 0.5 }}>
+                    <EmailIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+                    <Typography variant="caption" sx={{ 
+                      color: 'text.secondary',
+                      fontSize: '0.8rem'
+                    }}>
                       {notification.userEmail}
                     </Typography>
                   </Box>
                 )}
               </Stack>
             </Box>
-          )}
-          
-          {/* Additional Message */}
-          {notification.message && (
-            <Typography variant="body2" sx={{ 
-              color: 'text.secondary',
-              fontStyle: 'italic',
-              pl: 0.5
-            }}>
-              {notification.message}
-            </Typography>
           )}
         </Stack>
       </Alert>
