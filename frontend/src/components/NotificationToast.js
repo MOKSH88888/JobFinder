@@ -130,20 +130,23 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
         severity={config.severity}
         onClose={onClose}
         sx={{
-          width: '420px',
+          width: '450px',
           maxWidth: '95vw',
-          boxShadow: '0 12px 40px rgba(0,0,0,0.2)',
-          borderRadius: 3,
-          border: `2px solid ${config.color}40`,
-          background: 'linear-gradient(to bottom, #ffffff 0%, #fafafa 100%)',
+          boxShadow: '0 20px 50px rgba(0,0,0,0.15), 0 5px 15px rgba(0,0,0,0.08)',
+          borderRadius: 4,
+          border: 'none',
+          background: 'linear-gradient(to bottom, #ffffff 0%, #fafbfc 100%)',
+          overflow: 'hidden',
           '& .MuiAlert-icon': {
-            fontSize: 32,
-            color: config.color,
-            mt: 0.5
+            fontSize: 0,
+            width: 0,
+            padding: 0,
+            margin: 0,
+            display: 'none'
           },
           '& .MuiAlert-message': {
             width: '100%',
-            py: 0.5
+            p: 0
           }
         }}
         action={
@@ -164,47 +167,57 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
           </IconButton>
         }
       >
-        {/* Header with Title and Badge */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
-          <AlertTitle sx={{ 
-            fontWeight: 700, 
-            fontSize: '1.1rem',
-            mb: 0,
-            color: config.color,
-            flex: 1
-          }}>
-            {config.title}
-          </AlertTitle>
+        {/* Colored Header Bar */}
+        <Box sx={{
+          bgcolor: config.color,
+          mx: -2,
+          mt: -1,
+          mb: 2.5,
+          p: 2,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+            <Box sx={{
+              bgcolor: 'rgba(255,255,255,0.2)',
+              borderRadius: 2,
+              p: 0.8,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              {React.cloneElement(config.icon, {
+                sx: { fontSize: 24, color: 'white' }
+              })}
+            </Box>
+            <Typography sx={{
+              fontWeight: 700,
+              fontSize: '1.05rem',
+              color: 'white',
+              letterSpacing: 0.3
+            }}>
+              {config.title}
+            </Typography>
+          </Box>
           {config.chipLabel && (
-            <Chip 
+            <Chip
               label={config.chipLabel}
               size="small"
-              sx={{ 
-                bgcolor: `${config.chipColor}20`,
-                color: config.chipColor,
-                fontWeight: 600,
+              sx={{
+                bgcolor: 'rgba(255,255,255,0.95)',
+                color: config.color,
+                fontWeight: 700,
                 fontSize: '0.7rem',
-                height: 22
-              }}
-            />
-          )}
-          {!config.chipLabel && (
-            <Chip 
-              icon={<AccessTimeIcon sx={{ fontSize: 14 }} />}
-              label={formatTimestamp()}
-              size="small"
-              variant="outlined"
-              sx={{ 
-                height: 22,
-                fontSize: '0.7rem',
-                borderColor: 'divider',
-                color: 'text.secondary'
+                height: 24,
+                px: 0.5,
+                '& .MuiChip-label': {
+                  px: 1.5
+                }
               }}
             />
           )}
         </Box>
-        
-        <Divider sx={{ mb: 2 }} />
         
         <Stack spacing={2}>
           {/* Job Title Section */}
@@ -237,41 +250,62 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
           {notification.userName && (
             <Box sx={{ 
               bgcolor: '#f8fafc',
-              p: 2,
-              borderRadius: 2,
-              border: '1px solid',
-              borderColor: 'divider'
+              p: 2.5,
+              borderRadius: 3,
+              border: '1px solid #e2e8f0',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
             }}>
-              <Stack spacing={1.5}>
+              <Stack spacing={2}>
                 <Box>
                   <Typography variant="caption" sx={{ 
-                    color: 'text.secondary',
+                    color: '#64748b',
                     textTransform: 'uppercase',
                     fontSize: '0.65rem',
-                    fontWeight: 600,
-                    letterSpacing: 0.5,
-                    mb: 0.5,
+                    fontWeight: 700,
+                    letterSpacing: 1,
+                    mb: 1.5,
                     display: 'block'
                   }}>
                     Candidate Details
                   </Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                    <PersonIcon sx={{ fontSize: 18, color: config.color }} />
+                    <Box sx={{
+                      bgcolor: config.color + '15',
+                      borderRadius: 1.5,
+                      p: 0.8,
+                      display: 'flex'
+                    }}>
+                      <PersonIcon sx={{ fontSize: 18, color: config.color }} />
+                    </Box>
                     <Typography variant="body2" sx={{ 
                       fontWeight: 600, 
-                      color: 'text.primary',
-                      fontSize: '0.9rem'
+                      color: '#1e293b',
+                      fontSize: '0.95rem'
                     }}>
                       {notification.userName}
                     </Typography>
                   </Box>
                 </Box>
                 {notification.userEmail && (
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, pl: 0.5 }}>
-                    <EmailIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+                  <Box sx={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: 1.5,
+                    pt: 0.5,
+                    borderTop: '1px solid #e2e8f0'
+                  }}>
+                    <Box sx={{
+                      bgcolor: '#f1f5f9',
+                      borderRadius: 1.5,
+                      p: 0.8,
+                      display: 'flex'
+                    }}>
+                      <EmailIcon sx={{ fontSize: 16, color: '#64748b' }} />
+                    </Box>
                     <Typography variant="caption" sx={{ 
-                      color: 'text.secondary',
-                      fontSize: '0.8rem'
+                      color: '#64748b',
+                      fontSize: '0.85rem',
+                      fontWeight: 500
                     }}>
                       {notification.userEmail}
                     </Typography>
