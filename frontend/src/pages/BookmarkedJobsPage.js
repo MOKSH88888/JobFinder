@@ -25,12 +25,20 @@ const BookmarkedJobsPage = () => {
     fetchBookmarkedJobs();
   }, []);
 
-  // Refetch bookmarks when user's bookmark list changes
+  // Sync with user's bookmarked jobs from context
   useEffect(() => {
-    if (user) {
-      fetchBookmarkedJobs();
+    if (user && user.bookmarkedJobs) {
+      // If user has bookmarks in context, filter the displayed jobs to match
+      setBookmarkedJobs(prev => 
+        prev.filter(job => 
+          user.bookmarkedJobs.some(bookmark => {
+            const bookmarkId = typeof bookmark === 'string' ? bookmark : bookmark._id;
+            return bookmarkId === job._id;
+          })
+        )
+      );
     }
-  }, [user]);
+  }, [user?.bookmarkedJobs]);
 
   const fetchBookmarkedJobs = async () => {
     try {
