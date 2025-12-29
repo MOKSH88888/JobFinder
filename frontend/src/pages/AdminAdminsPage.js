@@ -41,8 +41,9 @@ const AdminAdminsPage = () => {
   const fetchAdmins = async () => {
     try {
       const { data } = await API.get('/admin/admins');
-      // Ensure data is always an array
-      setAdmins(Array.isArray(data) ? data : []);
+      // Extract admins from response wrapper
+      const adminsArray = data?.admins || [];
+      setAdmins(Array.isArray(adminsArray) ? adminsArray : []);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching admins:', error);

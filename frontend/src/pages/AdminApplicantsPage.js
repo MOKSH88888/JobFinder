@@ -40,13 +40,15 @@ const AdminApplicantsPage = () => {
   const fetchApplicants = async () => {
     try {
       const { data } = await API.get(`/admin/jobs/${jobId}/applicants`);
-      setJob(data.job);
-      // Ensure all applicants have a status field
-      const applicantsList = Array.isArray(data.applicants) ? data.applicants : [];
-      const mappedApplicants = applicantsList.map(app => ({
-        ...app,
-        status: app.status || 'Pending'
-      }));
+      setJob(data?.job || null);
+      // Extract applicants from response wrapper and ensure all have status field
+      const applicantsList = data?.applicants || [];
+      const mappedApplicants = Array.isArray(applicantsList) 
+        ? applicantsList.map(app => ({
+            ...app,
+            status: app.status || 'Pending'
+          }))
+        : [];
       setApplicants(mappedApplicants);
       setLoading(false);
     } catch (error) {

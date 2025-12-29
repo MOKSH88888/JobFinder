@@ -27,8 +27,9 @@ const BookmarkedJobsPage = () => {
     try {
       setLoading(true);
       const { data } = await getBookmarkedJobs();
-      // Ensure data is always an array
-      setBookmarkedJobs(Array.isArray(data) ? data : []);
+      // Extract bookmarkedJobs from response wrapper
+      const bookmarks = data?.bookmarkedJobs || [];
+      setBookmarkedJobs(Array.isArray(bookmarks) ? bookmarks : []);
       setError('');
     } catch (err) {
       setError(err.response?.data?.msg || 'Failed to load bookmarked jobs');

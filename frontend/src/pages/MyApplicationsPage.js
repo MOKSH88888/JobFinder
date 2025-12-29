@@ -57,8 +57,9 @@ const MyApplicationsPage = () => {
       try {
         setLoading(true);
         const { data } = await getAppliedJobs();
-        // Ensure data is always an array
-        setAppliedJobs(Array.isArray(data) ? data : []);
+        // Extract appliedJobs from response wrapper
+        const apps = data?.appliedJobs || [];
+        setAppliedJobs(Array.isArray(apps) ? apps : []);
       } catch (error) {
         console.error("Failed to fetch applied jobs", error);
         setAppliedJobs([]); // Set to empty array on error

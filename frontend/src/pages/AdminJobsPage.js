@@ -58,7 +58,8 @@ const AdminJobsPage = () => {
   const fetchJobs = async () => {
     try {
       const { data } = await API.get('/admin/jobs');
-      setJobs(Array.isArray(data) ? data : []);
+      const jobsArray = data?.jobs || [];
+      setJobs(Array.isArray(jobsArray) ? jobsArray : []);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching jobs:', error);

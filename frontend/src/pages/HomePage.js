@@ -90,8 +90,9 @@ const HomePage = () => {
     setError('');
     try {
       const { data } = await fetchJobs();
-      // Ensure data is always an array
-      setJobs(Array.isArray(data) ? data : []);
+      // Extract jobs array from response wrapper
+      const jobsArray = data?.jobs || [];
+      setJobs(Array.isArray(jobsArray) ? jobsArray : []);
     } catch (err) {
       setError('Failed to load jobs. Please try again later.');
       setJobs([]); // Set to empty array on error
@@ -104,7 +105,8 @@ const HomePage = () => {
   const loadBookmarks = async () => {
     try {
       const { data } = await getBookmarkedJobs();
-      setBookmarkedJobIds(Array.isArray(data) ? data.map(job => job._id) : []);
+      const bookmarks = data?.bookmarkedJobs || [];
+      setBookmarkedJobIds(Array.isArray(bookmarks) ? bookmarks.map(job => job._id) : []);
     } catch (err) {
       console.error('Failed to load bookmarks:', err);
     }
