@@ -1,7 +1,7 @@
 // src/App.js
 
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider, CssBaseline, Box } from '@mui/material';
 import theme from './theme';
 
@@ -31,16 +31,14 @@ import ErrorBoundary from './components/ErrorBoundary';
 import UserProtectedRoute from './components/UserProtectedRoute';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
 
+function AppContent() {
+  const location = useLocation();
+  const isAdminLogin = location.pathname === '/admin/login';
 
-function App() {
   return (
-    <ErrorBoundary>
-      <ThemeProvider theme={theme}>
-        <CssBaseline /> {/* Normalizes CSS across browsers */}
-      <Router>
-        <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-          <Navbar />
-          <Box component="main" sx={{ flex: 1 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      {!isAdminLogin && <Navbar />}
+      <Box component="main" sx={{ flex: 1 }}>
         <Routes>
           {/* Public Routes */}
           <Route path="/jobs/:id" element={<JobDetailsPage />} />
@@ -68,11 +66,21 @@ function App() {
             <Route path="/admin-admins" element={<AdminAdminsPage />} />
           </Route>
         </Routes>
-          </Box>
-          <Footer />
-        </Box>
-      </Router>
-    </ThemeProvider>
+      </Box>
+      {!isAdminLogin && <Footer />}
+    </Box>
+  );
+}
+
+function App() {
+  return (
+    <ErrorBoundary>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <AppContent />
+        </Router>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 }
