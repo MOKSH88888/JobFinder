@@ -190,8 +190,9 @@ exports.bookmarkJob = asyncHandler(async (req, res) => {
     bookmark => bookmark.toString() === jobId.toString()
   );
 
+  // Idempotent - return success if already bookmarked
   if (isAlreadyBookmarked) {
-    throw new APIError('Job already bookmarked', 400);
+    return res.json({ success: true, message: 'Job already bookmarked', bookmarked: true });
   }
 
   user.bookmarkedJobs.push(jobId);

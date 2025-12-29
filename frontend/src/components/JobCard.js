@@ -1,12 +1,13 @@
 // src/components/JobCard.js
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   Card, CardContent, CardActions, Typography, Button, Chip, 
   IconButton, Tooltip, Box, Stack, alpha 
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useSocket } from '../context/SocketContext';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
@@ -17,15 +18,19 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { bookmarkJob, removeBookmark } from '../api';
 
-const JobCard = ({ job, isBookmarked: initialBookmarked, onBookmarkChange }) => {
+const JobCard = ({ job }) => {
   const { user, refreshUser } = useAuth();
-  const [isBookmarked, setIsBookmarked] = useState(initialBookmarked || false);
+  const { showToast } = useSocket();
   const [loading, setLoading] = useState(false);
   
-  // Sync local state with prop changes
-  useEffect(() => {
-    setIsBookmarked(initialBookmarked || false);
-  }, [initialBookmarked]);
+  // Calculate bookmark status directly from user context
+  const isBookmarked = useMemo(() => {
+    if (!user || !user.bookmarkedJobs) return false;
+    return user.bookmarkedJobs.some(bookmark => {
+      const bookmarkId = typeof bookmark === 'string' ? bookmark : bookmark._id;
+      return bookmarkId === job._id;
+    });
+  }, [user, job._id]);
   
   // Check if current user has applied for this job
   const hasApplied = useMemo(() => 
@@ -53,27 +58,26 @@ const JobCard = ({ job, isBookmarked: initialBookmarked, onBookmarkChange }) => 
   const handleBookmarkToggle = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!user) return;
-    
-    // Optimistic update
-    const previousState = isBookmarked;
-    setIsBookmarked(!isBookmarked);
-    onBookmarkChange && onBookmarkChange(job._id, !isBookmarked);
+    if (!user) {
+      showToast('Please login to bookmark jobs', 'warning');
+      return;
+    }
     
     setLoading(true);
     try {
-      if (previousState) {
+      if (isBookmarked) {
         await removeBookmark(job._id);
+        showToast('Bookmark removed', 'info');
       } else {
         await bookmarkJob(job._id);
+        showToast('Job bookmarked successfully', 'success');
       }
-      // Silently refresh user data in background without blocking UI
-      refreshUser().catch(err => console.error('Background refresh failed:', err));
+      // Refresh user data to update bookmark list
+      await refreshUser();
     } catch (error) {
       console.error('Bookmark error:', error);
-      // Revert the optimistic update on error
-      setIsBookmarked(previousState);
-      onBookmarkChange && onBookmarkChange(job._id, previousState);
+      const errorMsg = error.response?.data?.message || 'Failed to update bookmark';
+      showToast(errorMsg, 'error');
     } finally {
       setLoading(false);
     }

@@ -12,9 +12,11 @@ import {
 } from '@mui/material';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { getBookmarkedJobs } from '../api';
+import { useAuth } from '../context/AuthContext';
 import JobCard from '../components/JobCard';
 
 const BookmarkedJobsPage = () => {
+  const { user } = useAuth();
   const [bookmarkedJobs, setBookmarkedJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -22,6 +24,13 @@ const BookmarkedJobsPage = () => {
   useEffect(() => {
     fetchBookmarkedJobs();
   }, []);
+
+  // Refetch bookmarks when user's bookmark list changes
+  useEffect(() => {
+    if (user) {
+      fetchBookmarkedJobs();
+    }
+  }, [user?.bookmarkedJobs]);
 
   const fetchBookmarkedJobs = async () => {
     try {
@@ -36,13 +45,6 @@ const BookmarkedJobsPage = () => {
       setBookmarkedJobs([]); // Set to empty array on error
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleBookmarkChange = (jobId, isBookmarked) => {
-    if (!isBookmarked) {
-      // Remove from list when unbookmarked
-      setBookmarkedJobs(prev => Array.isArray(prev) ? prev.filter(job => job._id !== jobId) : []);
     }
   };
 
@@ -88,11 +90,7 @@ const BookmarkedJobsPage = () => {
           <Grid container spacing={3}>
             {bookmarkedJobs.map((job) => (
               <Grid item xs={12} sm={6} md={4} key={job._id}>
-                <JobCard 
-                  job={job} 
-                  isBookmarked={true}
-                  onBookmarkChange={handleBookmarkChange}
-                />
+                <JobCard job={job} />
               </Grid>
             ))}
           </Grid>

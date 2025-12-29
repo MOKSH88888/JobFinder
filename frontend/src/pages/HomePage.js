@@ -9,7 +9,7 @@ import {
   Button
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { fetchJobs, getBookmarkedJobs } from '../api';
+import { fetchJobs } from '../api';
 import { useAuth } from '../context/AuthContext';
 import { useSocket } from '../context/SocketContext';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
@@ -28,7 +28,6 @@ const HomePage = () => {
   const { user } = useAuth();
   const { socket, addNotification } = useSocket();
   const [jobs, setJobs] = useState([]);
-  const [bookmarkedJobIds, setBookmarkedJobIds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showFilters, setShowFilters] = useState(true);
@@ -45,23 +44,7 @@ const HomePage = () => {
 
   useEffect(() => {
     loadJobs();
-    if (user) {
-      loadBookmarks();
-    }
-  }, [user]);
-
-  // Sync bookmarkedJobIds with user's bookmarkedJobs array
-  useEffect(() => {
-    if (user && user.bookmarkedJobs) {
-      setBookmarkedJobIds(
-        Array.isArray(user.bookmarkedJobs) 
-          ? user.bookmarkedJobs.map(job => typeof job === 'string' ? job : job._id)
-          : []
-      );
-    } else {
-      setBookmarkedJobIds([]);
-    }
-  }, [user]);
+  }, []);
 
   // Listen for new jobs and deletions via WebSocket
   useEffect(() => {
@@ -115,23 +98,7 @@ const HomePage = () => {
     }
   };
 
-  const loadBookmarks = async () => {
-    try {
-      const { data } = await getBookmarkedJobs();
-      const bookmarks = data?.bookmarkedJobs || [];
-      setBookmarkedJobIds(Array.isArray(bookmarks) ? bookmarks.map(job => job._id) : []);
-    } catch (err) {
-      console.error('Failed to load bookmarks:', err);
-    }
-  };
 
-  const handleBookmarkChange = (jobId, isBookmarked) => {
-    if (isBookmarked) {
-      setBookmarkedJobIds(prev => Array.isArray(prev) ? [...prev, jobId] : [jobId]);
-    } else {
-      setBookmarkedJobIds(prev => Array.isArray(prev) ? prev.filter(id => id !== jobId) : []);
-    }
-  };
 
   // Enhanced filtering and sorting algorithm with useMemo for performance
   const filteredJobs = useMemo(() => {
@@ -884,8 +851,6 @@ const HomePage = () => {
                   <JobCard 
                     job={job} 
                     onViewDetails={handleViewDetails}
-                    isBookmarked={bookmarkedJobIds.includes(job._id)}
-                    onBookmarkChange={handleBookmarkChange}
                   />
                 </Box>
               </Grid>
