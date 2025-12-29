@@ -65,11 +65,11 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
         bgGradient: 'linear-gradient(135deg, #2196f3 0%, #42a5f5 100%)'
       },
       shortlisted: {
-        severity: 'warning',
+        severity: 'success',
         icon: <StarIcon />,
-        title: 'Congratulations! You\'re Shortlisted ⭐',
-        color: '#ff9800',
-        bgGradient: 'linear-gradient(135deg, #ff9800 0%, #ffa726 100%)'
+        title: 'Application Shortlisted',
+        color: '#10b981',
+        bgGradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
       },
       pending: {
         severity: 'info',

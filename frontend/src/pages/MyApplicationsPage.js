@@ -32,7 +32,7 @@ const getStatusBadge = (status) => {
   
   if (statusLower === 'shortlisted') {
     return {
-      label: 'SHORTLISTED ⭐',
+      label: 'SHORTLISTED',
       icon: <StarIcon />,
       sx: {
         backgroundColor: '#10b981',
