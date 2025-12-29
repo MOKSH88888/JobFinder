@@ -75,7 +75,7 @@ export const SocketProvider = ({ children }) => {
         setConnected(false);
       }
     }
-  }, [user, admin]); // Removed 'socket' from dependencies to prevent infinite loop
+  }, [user, admin, socket]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Add notification to state
   const addNotification = useCallback((notification) => {

@@ -1,6 +1,6 @@
 // src/pages/NewsPage.js
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FaNewspaper, FaExternalLinkAlt, FaCalendarAlt, FaSpinner } from 'react-icons/fa';
 import API from '../api';
 
@@ -199,11 +199,7 @@ const NewsPage = () => {
   const [error, setError] = useState('');
   const [category, setCategory] = useState('technology');
 
-  useEffect(() => {
-    fetchNews();
-  }, [category]);
-
-  const fetchNews = async () => {
+  const fetchNews = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
@@ -215,7 +211,11 @@ const NewsPage = () => {
       setError('Failed to load news. Please try again later.');
       setLoading(false);
     }
-  };
+  }, [category]);
+
+  useEffect(() => {
+    fetchNews();
+  }, [fetchNews]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
