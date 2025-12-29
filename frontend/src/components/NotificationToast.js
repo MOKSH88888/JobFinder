@@ -8,8 +8,8 @@ import {
   Typography,
   IconButton,
   Slide,
-  Chip,
-  Stack
+  Stack,
+  Divider
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -103,10 +103,6 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
     return null;
   };
 
-  const config = notification.type 
-    ? getTypeConfig(notification.type) 
-    : getStatusConfig(notification.status);
-
   return (
     <Snackbar
       open={open}
@@ -119,12 +115,13 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
         severity="info"
         onClose={onClose}
         sx={{
-          width: '400px',
+          width: '420px',
           maxWidth: '95vw',
           bgcolor: 'white',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.05)',
-          borderRadius: 2,
-          border: 'none',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08)',
+          borderRadius: 3,
+          border: '1px solid #e5e7eb',
+          borderLeft: '4px solid #2563eb',
           '& .MuiAlert-message': {
             width: '100%',
             p: 0
@@ -145,95 +142,155 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
           </IconButton>
         }
       >
-        <Stack spacing={2}>
+        <Stack spacing={2.5}>
           {/* Header */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-            <Box sx={{
-              width: 36,
-              height: 36,
-              borderRadius: 2,
-              bgcolor: '#f0f9ff',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <FiberNewIcon sx={{ fontSize: 20, color: '#0284c7' }} />
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+              <Box sx={{
+                width: 40,
+                height: 40,
+                borderRadius: 2.5,
+                bgcolor: '#dbeafe',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <FiberNewIcon sx={{ fontSize: 22, color: '#2563eb' }} />
+              </Box>
+              <Box>
+                <Typography sx={{
+                  fontWeight: 700,
+                  fontSize: '1rem',
+                  color: '#111827',
+                  lineHeight: 1.3,
+                  letterSpacing: '-0.01em'
+                }}>
+                  New Application
+                </Typography>
+                <Typography sx={{
+                  fontSize: '0.813rem',
+                  color: '#6b7280',
+                  lineHeight: 1.3,
+                  mt: 0.25
+                }}>
+                  Requires review
+              </Typography>
+              </Box>
             </Box>
-            <Box sx={{ flex: 1 }}>
-              <Typography sx={{
-                fontWeight: 600,
-                fontSize: '0.875rem',
-                color: '#0f172a',
-                lineHeight: 1.3
-              }}>
-                New Application
-              </Typography>
-              <Typography sx={{
-                fontSize: '0.75rem',
-                color: '#64748b',
-                lineHeight: 1.3
-              }}>
-                Action required
-              </Typography>
+            <Box sx={{
+              bgcolor: '#fef3c7',
+              color: '#92400e',
+              px: 1.5,
+              py: 0.5,
+              borderRadius: 1.5,
+              fontSize: '0.75rem',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
+            }}>
+              Action Required
             </Box>
           </Box>
+          
+          <Divider sx={{ borderColor: '#f3f4f6' }} />
 
           {/* Job Details */}
           {notification.jobTitle && (
-            <Box sx={{ 
-              display: 'flex', 
-              gap: 1.5,
-              py: 1.5,
-              borderTop: '1px solid #f1f5f9',
-              borderBottom: '1px solid #f1f5f9'
-            }}>
-              <WorkIcon sx={{ fontSize: 18, color: '#64748b', mt: 0.2 }} />
-              <Box>
-                <Typography sx={{ 
-                  fontWeight: 600,
-                  fontSize: '0.875rem',
-                  color: '#0f172a',
-                  lineHeight: 1.4
+            <Box>
+              <Typography sx={{ 
+                fontSize: '0.688rem',
+                fontWeight: 700,
+                color: '#9ca3af',
+                textTransform: 'uppercase',
+                letterSpacing: '0.8px',
+                mb: 1.5
+              }}>
+                Position Details
+              </Typography>
+              <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start' }}>
+                <Box sx={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: 2,
+                  bgcolor: '#f9fafb',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0
                 }}>
-                  {notification.jobTitle}
-                </Typography>
-                {notification.companyName && (
+                  <WorkIcon sx={{ fontSize: 18, color: '#6b7280' }} />
+                </Box>
+                <Box sx={{ flex: 1 }}>
                   <Typography sx={{ 
-                    fontSize: '0.75rem',
-                    color: '#64748b',
-                    mt: 0.25
+                    fontWeight: 600,
+                    fontSize: '0.938rem',
+                    color: '#111827',
+                    lineHeight: 1.4,
+                    mb: 0.5
                   }}>
-                    {notification.companyName}
+                    {notification.jobTitle}
                   </Typography>
-                )}
+                  {notification.companyName && (
+                    <Typography sx={{ 
+                      fontSize: '0.813rem',
+                      color: '#6b7280',
+                      lineHeight: 1.4
+                    }}>
+                      {notification.companyName}
+                    </Typography>
+                  )}
+                </Box>
               </Box>
             </Box>
           )}
+          
+          <Divider sx={{ borderColor: '#f3f4f6' }} />
 
           {/* Candidate Info */}
           {notification.userName && (
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-              <Box sx={{ display: 'flex', gap: 1.5 }}>
-                <PersonIcon sx={{ fontSize: 18, color: '#64748b' }} />
-                <Typography sx={{ 
-                  fontSize: '0.875rem',
-                  color: '#0f172a',
-                  fontWeight: 500
-                }}>
-                  {notification.userName}
-                </Typography>
+            <Box>
+              <Typography sx={{ 
+                fontSize: '0.688rem',
+                fontWeight: 700,
+                color: '#9ca3af',
+                textTransform: 'uppercase',
+                letterSpacing: '0.8px',
+                mb: 1.5
+              }}>
+                Candidate Information
+              </Typography>
+              <Box sx={{ 
+                bgcolor: '#f9fafb',
+                border: '1px solid #e5e7eb',
+                borderRadius: 2.5,
+                p: 2
+              }}>
+                <Stack spacing={1.5}>
+                  <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
+                    <PersonIcon sx={{ fontSize: 20, color: '#4b5563' }} />
+                    <Typography sx={{ 
+                      fontSize: '0.938rem',
+                      color: '#111827',
+                      fontWeight: 600,
+                      lineHeight: 1.4
+                    }}>
+                      {notification.userName}
+                    </Typography>
+                  </Box>
+                  {notification.userEmail && (
+                    <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
+                      <EmailIcon sx={{ fontSize: 18, color: '#6b7280' }} />
+                      <Typography sx={{ 
+                        fontSize: '0.875rem',
+                        color: '#4b5563',
+                        lineHeight: 1.4
+                      }}>
+                        {notification.userEmail}
+                      </Typography>
+                    </Box>
+                  )}
+                </Stack>
               </Box>
-              {notification.userEmail && (
-                <Box sx={{ display: 'flex', gap: 1.5 }}>
-                  <EmailIcon sx={{ fontSize: 18, color: '#64748b' }} />
-                  <Typography sx={{ 
-                    fontSize: '0.813rem',
-                    color: '#64748b'
-                  }}>
-                    {notification.userEmail}
-                  </Typography>
-                </Box>
-              )}
             </Box>
           )}
         </Stack>
