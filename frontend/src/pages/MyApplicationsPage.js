@@ -21,7 +21,6 @@ import WorkIcon from '@mui/icons-material/Work';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import BusinessIcon from '@mui/icons-material/Business';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import StarIcon from '@mui/icons-material/Star';
@@ -77,6 +76,7 @@ const getStatusBadge = (status) => {
   if (statusLower === 'under review' || statusLower === 'reviewed') {
     return {
       label: 'UNDER REVIEW',
+      icon: <VisibilityIcon />,
       sx: {
         backgroundColor: '#3b82f6',
         color: 'white',
@@ -85,6 +85,7 @@ const getStatusBadge = (status) => {
         px: 2,
         py: 0.5,
         letterSpacing: '0.5px',
+        '& .MuiChip-icon': { color: 'white', fontSize: 20 },
         boxShadow: '0 4px 12px rgba(59, 130, 246, 0.25)',
         border: '2px solid #2563eb'
       }
