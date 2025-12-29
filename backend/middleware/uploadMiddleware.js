@@ -1,68 +1,19 @@
-// backend/middleware/uploadMiddleware.js
-// Secure file upload middleware with validation and signature checking
+// backend/middleware/uploadMiddlewareGridFS.js
+// Enhanced GridFS file upload middleware with proper size limits
 
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs');
+const { getGridFSBucket } = require('../config/gridfs');
 const logger = require('../config/logger');
 const constants = require('../config/constants');
 
 /**
- * Read file signature (magic numbers) to verify actual file type
+ * Multer memory storage - files stored in memory temporarily
  */
-const verifyFileSignature = (filePath, expectedType) => {
-  const signatures = constants.FILE_SIGNATURES[expectedType];
-  if (!signatures) return true; // No signature check for this type
-
-  try {
-    const buffer = Buffer.alloc(signatures.length);
-    const fd = fs.openSync(filePath, 'r');
-    fs.readSync(fd, buffer, 0, signatures.length, 0);
-    fs.closeSync(fd);
-
-    // Compare file signature
-    for (let i = 0; i < signatures.length; i++) {
-      if (buffer[i] !== signatures[i]) {
-        return false;
-      }
-    }
-    return true;
-  } catch (error) {
-    logger.error('File signature verification failed:', error);
-    return false;
-  }
-};
+const storage = multer.memoryStorage();
 
 /**
- * Storage configuration with separate folders for different file types
- */
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    let uploadPath = 'uploads/';
-    
-    if (file.fieldname === 'resume') {
-      uploadPath = 'uploads/resumes/';
-    } else if (file.fieldname === 'profilePhoto') {
-      uploadPath = 'uploads/profiles/';
-    }
-
-    // Ensure directory exists
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true });
-    }
-
-    cb(null, uploadPath);
-  },
-  filename: function (req, file, cb) {
-    // Create secure unique filename
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const sanitizedName = file.originalname.replace(/[^a-zA-Z0-9.]/g, '_');
-    cb(null, `${file.fieldname}-${uniqueSuffix}-${sanitizedName}`);
-  }
-});
-
-/**
- * Enhanced file filter with strict validation
+ * File filter with strict validation
  */
 const fileFilter = (req, file, cb) => {
   const isResume = file.fieldname === 'resume';
@@ -74,9 +25,6 @@ const fileFilter = (req, file, cb) => {
     return cb(new Error('Invalid file field name'), false);
   }
 
-  // Check file size based on type
-  const maxSize = isResume ? constants.MAX_RESUME_SIZE : constants.MAX_PROFILE_PHOTO_SIZE;
-  
   // Validate mime type
   const allowedTypes = isResume 
     ? constants.ALLOWED_RESUME_TYPES 
@@ -103,7 +51,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 /**
- * Initialize multer with enhanced security
+ * Initialize multer with memory storage and file size limits
  */
 const upload = multer({
   storage: storage,
@@ -115,47 +63,69 @@ const upload = multer({
 });
 
 /**
- * Post-upload validation middleware
- * Verifies file signatures after upload
+ * Upload file to GridFS with enhanced error handling and size enforcement
+ * Returns a promise that resolves with file ID and URL
  */
-const validateUploadedFiles = (req, res, next) => {
-  if (!req.files) {
-    return next();
-  }
-
-  try {
-    const filesToCheck = [];
-    
-    // Collect all uploaded files
-    if (req.files.profilePhoto) {
-      filesToCheck.push(...req.files.profilePhoto.map(f => ({ ...f, type: 'image' })));
-    }
-    if (req.files.resume) {
-      filesToCheck.push(...req.files.resume.map(f => ({ ...f, type: 'document' })));
-    }
-
-    // Verify each file's signature
-    for (const file of filesToCheck) {
-      const isValid = verifyFileSignature(file.path, file.mimetype);
+const uploadToGridFS = (file, fieldname) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const bucket = getGridFSBucket();
       
-      if (!isValid) {
-        // Delete the suspicious file
-        fs.unlinkSync(file.path);
-        logger.warn(`File signature mismatch detected: ${file.originalname}`);
-        return res.status(400).json({ 
-          msg: 'File validation failed. File type does not match its content.' 
-        });
+      if (!bucket) {
+        return reject(new Error('GridFS bucket not initialized. MongoDB connection may not be ready.'));
       }
-    }
+      
+      // Enforce file size limits
+      const maxSize = fieldname === 'resume' 
+        ? constants.MAX_RESUME_SIZE 
+        : constants.MAX_PROFILE_PHOTO_SIZE;
+        
+      if (file.size > maxSize) {
+        logger.warn(`File size limit exceeded: ${file.size} > ${maxSize}`);
+        return reject(new Error(`File size exceeds limit of ${maxSize / (1024 * 1024)}MB`));
+      }
+      
+      const filename = `${fieldname}-${Date.now()}${path.extname(file.originalname)}`;
+      
+      logger.info(`Uploading to GridFS: ${filename} (${(file.size / 1024).toFixed(2)} KB)`);
+      
+      // Create upload stream
+      const uploadStream = bucket.openUploadStream(filename, {
+        contentType: file.mimetype,
+        metadata: {
+          originalName: file.originalname,
+          fieldname: fieldname,
+          uploadedAt: new Date(),
+          size: file.size
+        }
+      });
 
-    next();
-  } catch (error) {
-    logger.error('File validation error:', error);
-    return res.status(500).json({ msg: 'File validation error' });
-  }
+      // Handle upload completion
+      uploadStream.on('finish', () => {
+        logger.info(`GridFS upload complete: ${filename} (ID: ${uploadStream.id})`);
+        resolve({
+          fileId: uploadStream.id,
+          filename: filename,
+          url: `/api/files/${uploadStream.id}`
+        });
+      });
+
+      // Handle errors
+      uploadStream.on('error', (error) => {
+        logger.error(`GridFS upload error for ${filename}:`, error);
+        reject(error);
+      });
+
+      // Write buffer to stream
+      uploadStream.end(file.buffer);
+    } catch (error) {
+      logger.error('Error in uploadToGridFS:', error);
+      reject(error);
+    }
+  });
 };
 
 module.exports = {
   upload,
-  validateUploadedFiles
+  uploadToGridFS
 };
