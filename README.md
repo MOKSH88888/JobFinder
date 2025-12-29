@@ -1,223 +1,324 @@
-# Job Portal - MERN Stack Application
+# JobFinder - Job Portal Platform
 
-A modern job portal with **real-time notifications**, secure authentication, and enterprise-grade security features.
+A full-stack MERN job portal with real-time notifications, dual authentication, and enterprise security. Built for scalable deployment on Render (backend) and Vercel (frontend).
 
-## Quick Start
+## 🚀 Key Features
 
-### Prerequisites
-- Node.js v14+
-- MongoDB Atlas account OR local MongoDB
-- npm v6+
+### For Job Seekers
+- JWT-based secure authentication
+- Advanced job search with filters (experience, salary, location, type)
+- Resume upload (PDF/DOC/DOCX, max 5MB) with GridFS storage
+- Real-time application status notifications via WebSocket
+- Job bookmarking and application tracking
+- Profile management with photo and resume uploads
 
-### Installation
+### For Administrators
+- Comprehensive dashboard with analytics
+- Full CRUD operations on job postings
+- Applicant management with resume downloads
+- Multi-admin system with role management
+- Real-time notifications for new applications
+- User management portal
 
-**1. Backend Setup**
-```powershell
+### Real-time Capabilities
+- WebSocket-powered instant notifications
+- Live job updates across all connected clients
+- Room-based messaging (separate channels for users/admins)
+- Auto-reconnection with exponential backoff
+
+## 🛠️ Tech Stack
+
+**Backend**
+- Express.js 4.21.2 on Node.js
+- MongoDB Atlas with Mongoose 8.18.2
+- Socket.io 4.6.1 for WebSocket
+- JWT 9.0.2 + bcryptjs 3.0.2 for authentication
+- MongoDB GridFS for file storage
+- Winston 3.11.0 for structured logging
+
+**Security**
+- Helmet (HTTP headers)
+- express-rate-limit (100 req/15min API, 5 req/15min auth)
+- xss-clean (XSS prevention)
+- express-mongo-sanitize (NoSQL injection prevention)
+- express-validator (input validation)
+
+**Frontend**
+- React 19.1.1 with Hooks
+- Material-UI 7.3.2
+- React Router 7.9.2
+- Axios 1.12.2 with retry logic
+- Socket.io-client 4.6.1
+
+## 📋 Prerequisites
+
+- Node.js v16+ (recommended v18 LTS)
+- MongoDB Atlas account (or local MongoDB 5.0+)
+- npm v8+ or yarn
+
+## ⚙️ Local Development Setup
+
+### 1. Clone & Install
+
+```bash
+git clone <repository-url>
+cd JobFinder
+
+# Install backend dependencies
 cd backend
 npm install
-npm start
-```
 
-**2. Frontend Setup** (new terminal)
-```powershell
-cd frontend
+# Install frontend dependencies
+cd ../frontend
 npm install
-npm start
 ```
 
-### Access
-- **User Portal:** http://localhost:3000
-- **Admin Portal:** http://localhost:3000/admin/login
-- **Backend API:** http://localhost:5000
+### 2. Configure Environment Variables
 
-### Default Credentials
-
-**Admin Login:**
-```
-Username: admin
-Password: SecureAdmin@2025
-```
-
-**Test User (after seeding):**
-```
-Email: rajesh.kumar@example.com
-Password: User@1234
-```
-
----
-
-## Features
-
-### For Users
-- ✓ Secure JWT authentication with separate token storage
-- ✓ Browse jobs with real-time filters (experience, salary, location)
-- ✓ Apply with resume upload (PDF, 5MB max, signature verified)
-- ✓ **Real-time notifications** when application status changes
-- ✓ Track application status (Pending/Accepted/Rejected)
-- ✓ Bookmark jobs (instant updates, no page refresh)
-- ✓ Profile management with photo and resume
-
-### For Admins
-- ✓ Separate admin authentication (isolated from users)
-- ✓ Dashboard with live statistics
-- ✓ Create, edit, and delete job postings
-- ✓ **Real-time notifications** when users apply
-- ✓ View applicants with resume downloads
-- ✓ Update application statuses (instant user notification)
-- ✓ Multi-admin management
-
-### Real-Time Features (WebSocket)
-- 🔔 User gets instant notification when admin accepts/rejects application
-- 🔔 Admin gets instant notification when user applies for job
-- 🔔 New jobs appear in user's feed immediately
-- 🔔 Deleted jobs disappear from user's screen instantly
-
----
-
-## Technology Stack
-
-**Backend:** 
-- Express.js 4.21.2
-- MongoDB Atlas + Mongoose 8.18.2
-- JWT 9.0.2
-- Socket.io 4.6.1 (WebSocket)
-- Security: helmet, rate-limit, mongo-sanitize, xss-clean
-- Winston logging
-
-**Frontend:** 
-- React 19.1.1
-- Material-UI 7.3.2
-- Socket.io-client 4.6.1
-- React Router 7.9.2
-- Axios 1.12.2
-
----
-
-## API Endpoints
-
-### Authentication
-- `POST /api/auth/register` - Register user
-- `POST /api/auth/login` - User login
-- `POST /api/auth/admin/login` - Admin login (separate portal)
-
-### Jobs (Public)
-- `GET /api/jobs` - List jobs with filters
-- `GET /api/jobs/:id` - Job details
-
-### User (Protected)
-- `GET /api/users/profile` - Get profile
-- `PUT /api/users/profile` - Update profile
-- `POST /api/users/jobs/:id/apply` - Apply for job
-- `POST /api/users/jobs/:id/bookmark` - Bookmark job
-- `DELETE /api/users/jobs/:id/bookmark` - Remove bookmark
-- `GET /api/users/bookmarked-jobs` - List bookmarks
-
-### Admin (Protected)
-- `GET /api/admin/stats` - Dashboard stats
-- `POST /api/admin/jobs` - Create job (notifies all users)
-- `DELETE /api/admin/jobs/:id` - Delete job (notifies all users)
-- `PATCH /api/admin/jobs/:jobId/applicants/:applicantId/status` - Update status (notifies user)
-- `GET /api/admin/users` - List users
-- `DELETE /api/admin/users/:id` - Delete user
-- `GET /api/admin/admins` - List admins
-- `POST /api/admin/admins` - Add admin
-- `DELETE /api/admin/admins/:id` - Delete admin
-
----
-
-## Environment Configuration
-
-### Backend (.env)
+**Backend** (`backend/.env`):
 ```env
-PORT=5000
-MONGO_URI=mongodb+srv://user:pass@cluster.mongodb.net/job_portal_db
-JWT_SECRET=<128-character-hex-generated-via-crypto>
-DEFAULT_ADMIN_USERNAME=admin
-DEFAULT_ADMIN_PASSWORD=SecureAdmin@2025
 NODE_ENV=development
+PORT=5000
+MONGO_URI=mongodb://127.0.0.1:27017/job_portal_db
+JWT_SECRET=dev-secret-change-in-production
+DEFAULT_ADMIN_USERNAME=admin
+DEFAULT_ADMIN_PASSWORD=Admin@123
+FRONTEND_URL=http://localhost:3000
 ```
 
----
+**Frontend** (`frontend/.env`):
+```env
+REACT_APP_API_URL=http://localhost:5000
+REACT_APP_API_BASE_URL=http://localhost:5000/api
+```
 
-## Important Notes
+### 3. Seed Database (Optional)
 
-### Simultaneous User & Admin Login
-- **Both portals can stay logged in at the same time**
-- User token stored in `localStorage.userToken`
-- Admin token stored in `localStorage.adminToken`
-- **Clear browser localStorage** if experiencing logout issues (F12 → Application → Clear)
-
-### Security Features
-- ✅ Helmet security headers
-- ✅ Rate limiting (100 req/15min general, 5 auth/15min)
-- ✅ XSS protection
-- ✅ NoSQL injection prevention
-- ✅ File signature verification (magic numbers)
-- ✅ Winston production logging
-- ✅ JWT with 5-hour expiration
-
-### Express Version
-- **Uses Express 4.21.2** (not 5.x) for express-validator compatibility
-- Downgraded from 5.1.0 to fix sanitizer compatibility issues
-
----
-
-## Development
-
-### Database Seeding
-```powershell
+```bash
 cd backend
 node config/seedDatabase.js
 ```
 
 Creates:
-- 1 default admin (admin/SecureAdmin@2025)
-- 8 users with profiles
-- 10 job postings
-- 6 sample applications
+- 1 admin user (username: admin)
+- 8 test users with profiles
+- 10 sample job postings
+- 6 applications
 
-### Testing Security
-```powershell
+### 4. Start Development Servers
+
+```bash
+# Terminal 1 - Backend
+cd backend
+npm start
+
+# Terminal 2 - Frontend
+cd frontend
+npm start
+```
+
+**Access Points:**
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:5000
+- Admin Portal: http://localhost:3000/admin/login
+
+## 🔐 Default Credentials
+
+**Admin Login:**
+- Username: `admin`
+- Password: `YourSecurePassword@2025` (set in .env)
+
+**Test User** (after seeding):
+- Email: `test@example.com`
+- Password: `User@1234`
+
+## 📂 Project Structure
+
+```
+JobFinder/
+├── backend/
+│   ├── config/          # Configuration files (DB, logger, socket, GridFS)
+│   ├── controllers/     # Business logic
+│   ├── middleware/      # Auth, validation, error handling, file upload
+│   ├── models/          # Mongoose schemas
+│   ├── routes/          # API endpoints
+│   └── server.js        # Entry point
+├── frontend/
+│   ├── public/
+│   └── src/
+│       ├── api/         # Axios configuration
+│       ├── components/  # Reusable components
+│       ├── context/     # React context (Auth, Socket)
+│       ├── pages/       # Page components
+│       └── utils/       # Utilities
+└── README.md
+```
+
+## 🔌 API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - User login
+- `POST /api/auth/admin/login` - Admin login
+
+### Jobs (Public)
+- `GET /api/jobs` - Get all jobs with filters
+- `GET /api/jobs/:id` - Get job details
+
+### User (Protected)
+- `GET /api/users/profile` - Get profile
+- `PUT /api/users/profile` - Update profile (with file upload)
+- `POST /api/users/jobs/:id/apply` - Apply for job
+- `GET /api/users/applied-jobs` - Get applications
+- `POST /api/users/jobs/:id/bookmark` - Bookmark job
+
+### Admin (Protected)
+- `GET /api/admin/stats` - Dashboard statistics
+- `POST /api/admin/jobs` - Create job
+- `PUT /api/admin/jobs/:id` - Update job
+- `DELETE /api/admin/jobs/:id` - Delete job
+- `GET /api/admin/jobs/:jobId/applicants` - View applicants
+- `PATCH /api/admin/jobs/:jobId/applicants/:applicantId/status` - Update status
+
+## 🧪 Testing
+
+Run security checks:
+```bash
 cd backend
 npm test
 ```
 
-Validates:
-- Dependencies installed
-- Environment variables set
-- JWT secret strength (128+ chars)
-- Logging configuration
-- Constants file
-- Error middleware
-- File signature verification
-- Server security middleware
+## 🚀 Production Deployment
+
+### Step 1: Deploy Backend to Render
+
+1. **Create MongoDB Atlas Cluster**
+   - Sign up at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+   - Create cluster and database user
+   - Whitelist all IPs (0.0.0.0/0) for Render
+   - Copy connection string
+
+2. **Deploy to Render**
+   - Connect GitHub repository to Render
+   - Render auto-detects `render.yaml` configuration
+   - Set environment variables in Render dashboard:
+     ```
+     MONGO_URI=mongodb+srv://user:pass@cluster.mongodb.net/job_portal_db
+     JWT_SECRET=<run: node -e "console.log(require('crypto').randomBytes(64).toString('hex'))">
+     DEFAULT_ADMIN_PASSWORD=<secure-password>
+     FRONTEND_URL=https://your-app.vercel.app (update after Step 2)
+     ```
+   - Deploy and copy the backend URL (e.g., `https://job-portal-backend.onrender.com`)
+
+3. **Seed Production Database**
+   ```bash
+   # Run seed script via Render Shell or locally with production MONGO_URI
+   node config/seedDatabase.js
+   ```
+
+### Step 2: Deploy Frontend to Vercel
+
+1. **Update Environment Variables**
+   - Edit `frontend/.env` with your Render backend URL:
+     ```env
+     REACT_APP_API_URL=https://job-portal-backend.onrender.com
+     REACT_APP_API_BASE_URL=https://job-portal-backend.onrender.com/api
+     ```
+
+2. **Deploy to Vercel**
+   - Import project from GitHub at [vercel.com](https://vercel.com)
+   - Vercel auto-detects React app and `vercel.json`
+   - Add environment variables in Vercel dashboard
+   - Deploy and copy the Vercel URL
+
+3. **Update Backend CORS**
+   - Return to Render dashboard
+   - Update `FRONTEND_URL` environment variable with your Vercel URL
+   - Redeploy backend
+
+### Post-Deployment Checklist
+
+- ✅ Test admin login at `https://your-app.vercel.app/admin/login`
+- ✅ Verify WebSocket connection (check browser console)
+- ✅ Test file uploads (resume upload)
+- ✅ Check real-time notifications
+- ✅ Monitor Render logs for errors
+- ✅ Change default admin password immediately
+
+## 🔒 Security Features
+
+- **Authentication:** JWT with 5-hour expiration
+- **Password Hashing:** bcrypt with 10 salt rounds
+- **Rate Limiting:** 100 requests/15min (API), 5 attempts/15min (auth), 10 uploads/15min
+- **Input Validation:** express-validator on all inputs
+- **XSS Protection:** xss-clean middleware
+- **NoSQL Injection:** express-mongo-sanitize
+- **File Validation:** MIME type, extension, and size checks
+- **Soft Deletes:** Audit trail for users and jobs
+- **Database Transactions:** Data consistency for critical operations
+
+## 📊 Database Schema
+
+### User
+- Authentication (email, password)
+- Profile (name, phone, gender, experience, skills, description)
+- Files (profilePhoto, resume)
+- Applications (appliedJobs with status)
+- Bookmarks
+- Soft delete (isDeleted, deletedAt)
+
+### Job
+- Details (title, description, company, location, salary, experience)
+- Type (Full-time, Part-time, Contract, Internship)
+- Requirements
+- Applicants (with status)
+- Metadata (postedBy, timestamps)
+- Soft delete (isDeleted, deletedAt)
+
+### Admin
+- Credentials (username, password)
+- isDefault flag (prevents deletion)
+
+## 🔄 Real-time Events
+
+| Event | Trigger | Recipients |
+|-------|---------|-----------|
+| `new-application` | User applies for job | All admins |
+| `application-status-updated` | Admin changes status | Specific user |
+| `new-job-posted` | Admin creates job | All users |
+| `job-deleted` | Admin deletes job | All users |
+
+## 📝 Notes
+
+- **File Storage:** MongoDB GridFS for resumes and profile photos
+- **WebSocket:** Separate rooms for users and admins
+- **Logging:** Winston logger with file rotation
+- **Error Handling:** Centralized with async/await wrappers
+- **Database:** Transactions for multi-document operations
+
+## 👨‍💻 Development
+
+- Follow MVC architecture pattern
+- Use async/await for all async operations
+- Implement proper error handling with try-catch
+- Log important events with Winston
+- Validate all inputs on both client and server
+- Use transactions for operations affecting multiple collections
+
+## 📄 License
+
+This project is open source and available under the MIT License.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a pull request
+
+## 📞 Support
+
+For issues and questions, please open an issue on GitHub.
 
 ---
-
-## Troubleshooting
-
-| Issue | Solution |
-|-------|----------|
-| User/Admin logout on switching | Clear browser localStorage (F12 → Application → Clear) |
-| WebSocket not connecting | Check REACT_APP_API_BASE_URL in frontend/.env |
-| Bookmark page refresh | Fixed - now instant updates |
-| CORS errors | Fixed - CORS middleware before rate limiting |
-| Application status sync | Fixed - updates both Job and User collections |
-| Port 5000 in use | `netstat -ano \| findstr :5000` then `taskkill /PID <id> /F` |
-| JWT token invalid | Clear browser localStorage and re-login |
-| File upload failed | Check file size (max 5MB) and format (PDF/DOC/DOCX) |
-
----
-
-## Security Features
-
-- bcrypt password hashing
-- JWT authentication (5-hour expiration)
-- Input validation on all routes
-- File upload restrictions
-- Role-based access control
-- MongoDB injection prevention
-
----
-
-**Status:** Production Ready ✅ | **Version:** 1.0.0 | **Last Updated:** December 2025
