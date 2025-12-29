@@ -55,7 +55,8 @@ const AdminDashboard = () => {
         API.get('/admin/stats'),
         API.get('/admin/jobs')
       ]);
-      setStats(statsRes.data);
+      // Extract stats from response wrapper
+      setStats(statsRes.data?.stats || null);
       const jobsData = jobsRes.data?.jobs || [];
       setRecentJobs(Array.isArray(jobsData) ? jobsData.slice(0, 5) : []); // Get first 5 jobs
       setLoading(false);
