@@ -80,7 +80,7 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
       pending: {
         severity: 'info',
         icon: <HourglassEmptyIcon />,
-        title: 'Application Pending',
+        title: 'Application Submitted',
         color: '#9e9e9e',
         bgGradient: 'linear-gradient(135deg, #9e9e9e 0%, #bdbdbd 100%)'
       }
