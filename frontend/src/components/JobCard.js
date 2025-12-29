@@ -95,10 +95,6 @@ const JobCard = ({ job }) => {
       setLoading(false);
     }
   };
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <Card 
