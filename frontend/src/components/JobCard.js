@@ -19,7 +19,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { bookmarkJob, removeBookmark } from '../api';
 
 const JobCard = ({ job }) => {
-  const { user, refreshUser } = useAuth();
+  const { user, refreshUser, setUser } = useAuth();
   const { showToast } = useSocket();
   const [loading, setLoading] = useState(false);
   
@@ -64,6 +64,17 @@ const JobCard = ({ job }) => {
     }
     
     setLoading(true);
+    
+    // Optimistic update - immediately update UI
+    const updatedBookmarks = isBookmarked
+      ? user.bookmarkedJobs.filter(bookmark => {
+          const bookmarkId = typeof bookmark === 'string' ? bookmark : bookmark._id;
+          return bookmarkId !== job._id;
+        })
+      : [...(user.bookmarkedJobs || []), job._id];
+    
+    setUser({ ...user, bookmarkedJobs: updatedBookmarks });
+    
     try {
       if (isBookmarked) {
         await removeBookmark(job._id);
@@ -72,12 +83,18 @@ const JobCard = ({ job }) => {
         await bookmarkJob(job._id);
         showToast('Job bookmarked successfully', 'success');
       }
-      // Refresh user data to update bookmark list
+      // Refresh to sync with backend
       await refreshUser();
     } catch (error) {
       console.error('Bookmark error:', error);
       const errorMsg = error.response?.data?.message || 'Failed to update bookmark';
       showToast(errorMsg, 'error');
+      // Revert optimistic update on error
+      await refreshUser();
+    } finally {
+      setLoading(false);
+    }
+  };
     } finally {
       setLoading(false);
     }
