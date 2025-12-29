@@ -38,7 +38,7 @@ const BookmarkedJobsPage = () => {
         )
       );
     }
-  }, [user?.bookmarkedJobs]);
+  }, [user]);
 
   const fetchBookmarkedJobs = async () => {
     try {
