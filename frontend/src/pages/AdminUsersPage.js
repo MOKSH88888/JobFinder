@@ -25,7 +25,10 @@ import {
 import {
   Delete as DeleteIcon,
   Description as ResumeIcon,
-  People as PeopleIcon
+  People as PeopleIcon,
+  Search as SearchIcon,
+  ArrowUpward as ArrowUpwardIcon,
+  ArrowDownward as ArrowDownwardIcon
 } from '@mui/icons-material';
 import AdminLayout from '../components/admin/AdminLayout';
 
@@ -33,6 +36,8 @@ const AdminUsersPage = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [pdfViewerOpen, setPdfViewerOpen] = useState(false);
   const [selectedPdf, setSelectedPdf] = useState({ url: '', name: '' });
 
@@ -64,6 +69,47 @@ const AdminUsersPage = () => {
       setMessage('Error deleting user');
     }
   };
+
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const getFilteredAndSortedUsers = () => {
+    let filtered = users.filter(user =>
+      user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.phone?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.gender?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    if (sortConfig.key) {
+      filtered.sort((a, b) => {
+        let aVal = a[sortConfig.key];
+        let bVal = b[sortConfig.key];
+
+        // Handle numeric values for experience
+        if (sortConfig.key === 'experience') {
+          aVal = parseFloat(aVal) || 0;
+          bVal = parseFloat(bVal) || 0;
+        } else {
+          aVal = String(aVal || '').toLowerCase();
+          bVal = String(bVal || '').toLowerCase();
+        }
+
+        if (aVal < bVal) return sortConfig.direction === 'asc' ? -1 : 1;
+        if (aVal > bVal) return sortConfig.direction === 'asc' ? 1 : -1;
+        return 0;
+      });
+    }
+
+    return filtered;
+  };
+
+  const filteredUsers = getFilteredAndSortedUsers();
 
   if (loading) {
     return (
@@ -101,6 +147,37 @@ const AdminUsersPage = () => {
           </Fade>
         )}
 
+        <Fade in timeout={600}>
+          <Box sx={{ mb: 3 }}>
+            <TextField
+              fullWidth
+              placeholder="Search users by name, email, phone, or gender..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <SearchIcon sx={{ color: '#667eea', mr: 1 }} />
+                )
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                  background: 'rgba(255, 255, 255, 0.9)',
+                  '& fieldset': {
+                    borderColor: 'rgba(0, 0, 0, 0.1)'
+                  },
+                  '&:hover fieldset': {
+                    borderColor: '#667eea'
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#667eea'
+                  }
+                }
+              }}
+            />
+          </Box>
+        </Fade>
+
         <Fade in timeout={800}>
           <Paper
             elevation={0}
@@ -117,18 +194,91 @@ const AdminUsersPage = () => {
               <Table>
                 <TableHead>
                   <TableRow sx={{ bgcolor: '#f8fafc' }}>
-                    <TableCell sx={{ fontWeight: 700, color: '#475569', py: 2 }}>User</TableCell>
-                    <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Email</TableCell>
+                    <TableCell 
+                      sx={{ 
+                        fontWeight: 700, 
+                        color: '#475569', 
+                        py: 2,
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                      }}
+                      onClick={() => handleSort('name')}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        User
+                        {sortConfig.key === 'name' && (
+                          sortConfig.direction === 'asc' 
+                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                        )}
+                      </Box>
+                    </TableCell>
+                    <TableCell 
+                      sx={{ 
+                        fontWeight: 700, 
+                        color: '#475569',
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                      }}
+                      onClick={() => handleSort('email')}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        Email
+                        {sortConfig.key === 'email' && (
+                          sortConfig.direction === 'asc' 
+                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                        )}
+                      </Box>
+                    </TableCell>
                     <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Phone</TableCell>
-                    <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Experience</TableCell>
-                    <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Gender</TableCell>
+                    <TableCell 
+                      sx={{ 
+                        fontWeight: 700, 
+                        color: '#475569',
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                      }}
+                      onClick={() => handleSort('experience')}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        Experience
+                        {sortConfig.key === 'experience' && (
+                          sortConfig.direction === 'asc' 
+                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                        )}
+                      </Box>
+                    </TableCell>
+                    <TableCell 
+                      sx={{ 
+                        fontWeight: 700, 
+                        color: '#475569',
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                      }}
+                      onClick={() => handleSort('gender')}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        Gender
+                        {sortConfig.key === 'gender' && (
+                          sortConfig.direction === 'asc' 
+                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                        )}
+                      </Box>
+                    </TableCell>
                     <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Resume</TableCell>
                     <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {users.length > 0 ? (
-                    users.map((user) => (
+                  {filteredUsers.length > 0 ? (
+                    filteredUsers.map((user) => (
                       <TableRow
                         key={user._id}
                         sx={{

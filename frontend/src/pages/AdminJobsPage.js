@@ -31,7 +31,10 @@ import {
   Add as AddIcon,
   Delete as DeleteIcon,
   Visibility as ViewIcon,
-  Work as WorkIcon
+  Work as WorkIcon,
+  Search as SearchIcon,
+  ArrowUpward as ArrowUpwardIcon,
+  ArrowDownward as ArrowDownwardIcon
 } from '@mui/icons-material';
 import AdminLayout from '../components/admin/AdminLayout';
 import {
@@ -48,6 +51,8 @@ const AdminJobsPage = () => {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [newJob, setNewJob] = useState({
     title: '',
     companyName: '',
@@ -204,6 +209,50 @@ const AdminJobsPage = () => {
     return colors[type] || '#667eea';
   };
 
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const getFilteredAndSortedJobs = () => {
+    let filtered = jobs.filter(job =>
+      job.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      job.companyName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      job.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      job.jobType?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    if (sortConfig.key) {
+      filtered.sort((a, b) => {
+        let aVal = a[sortConfig.key];
+        let bVal = b[sortConfig.key];
+
+        // Handle numeric values for salary
+        if (sortConfig.key === 'salary') {
+          aVal = parseFloat(aVal) || 0;
+          bVal = parseFloat(bVal) || 0;
+        } else if (sortConfig.key === 'applicants') {
+          aVal = a.applicants?.length || 0;
+          bVal = b.applicants?.length || 0;
+        } else {
+          aVal = String(aVal || '').toLowerCase();
+          bVal = String(bVal || '').toLowerCase();
+        }
+
+        if (aVal < bVal) return sortConfig.direction === 'asc' ? -1 : 1;
+        if (aVal > bVal) return sortConfig.direction === 'asc' ? 1 : -1;
+        return 0;
+      });
+    }
+
+    return filtered;
+  };
+
+  const filteredJobs = getFilteredAndSortedJobs();
+
   if (loading) {
     return (
       <AdminLayout>
@@ -264,6 +313,37 @@ const AdminJobsPage = () => {
           </Fade>
         )}
 
+        <Fade in timeout={600}>
+          <Box sx={{ mb: 3 }}>
+            <TextField
+              fullWidth
+              placeholder="Search jobs by title, company, location, or type..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <SearchIcon sx={{ color: '#667eea', mr: 1 }} />
+                )
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                  background: 'rgba(255, 255, 255, 0.9)',
+                  '& fieldset': {
+                    borderColor: 'rgba(0, 0, 0, 0.1)'
+                  },
+                  '&:hover fieldset': {
+                    borderColor: '#667eea'
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#667eea'
+                  }
+                }
+              }}
+            />
+          </Box>
+        </Fade>
+
         <Fade in timeout={800}>
           <Paper
             elevation={0}
@@ -280,18 +360,127 @@ const AdminJobsPage = () => {
               <Table>
                 <TableHead>
                   <TableRow sx={{ bgcolor: '#f8fafc' }}>
-                    <TableCell sx={{ fontWeight: 700, color: '#475569', py: 2 }}>Job Title</TableCell>
-                    <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Company</TableCell>
-                    <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Location</TableCell>
-                    <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Salary</TableCell>
-                    <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Type</TableCell>
-                    <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Applicants</TableCell>
+                    <TableCell 
+                      sx={{ 
+                        fontWeight: 700, 
+                        color: '#475569', 
+                        py: 2,
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                      }}
+                      onClick={() => handleSort('title')}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        Job Title
+                        {sortConfig.key === 'title' && (
+                          sortConfig.direction === 'asc' 
+                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                        )}
+                      </Box>
+                    </TableCell>
+                    <TableCell 
+                      sx={{ 
+                        fontWeight: 700, 
+                        color: '#475569',
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                      }}
+                      onClick={() => handleSort('companyName')}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        Company
+                        {sortConfig.key === 'companyName' && (
+                          sortConfig.direction === 'asc' 
+                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                        )}
+                      </Box>
+                    </TableCell>
+                    <TableCell 
+                      sx={{ 
+                        fontWeight: 700, 
+                        color: '#475569',
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                      }}
+                      onClick={() => handleSort('location')}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        Location
+                        {sortConfig.key === 'location' && (
+                          sortConfig.direction === 'asc' 
+                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                        )}
+                      </Box>
+                    </TableCell>
+                    <TableCell 
+                      sx={{ 
+                        fontWeight: 700, 
+                        color: '#475569',
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                      }}
+                      onClick={() => handleSort('salary')}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        Salary
+                        {sortConfig.key === 'salary' && (
+                          sortConfig.direction === 'asc' 
+                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                        )}
+                      </Box>
+                    </TableCell>
+                    <TableCell 
+                      sx={{ 
+                        fontWeight: 700, 
+                        color: '#475569',
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                      }}
+                      onClick={() => handleSort('jobType')}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        Type
+                        {sortConfig.key === 'jobType' && (
+                          sortConfig.direction === 'asc' 
+                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                        )}
+                      </Box>
+                    </TableCell>
+                    <TableCell 
+                      sx={{ 
+                        fontWeight: 700, 
+                        color: '#475569',
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                      }}
+                      onClick={() => handleSort('applicants')}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        Applicants
+                        {sortConfig.key === 'applicants' && (
+                          sortConfig.direction === 'asc' 
+                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                        )}
+                      </Box>
+                    </TableCell>
                     <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {jobs.length > 0 ? (
-                    jobs.map((job, index) => (
+                  {filteredJobs.length > 0 ? (
+                    filteredJobs.map((job, index) => (
                       <TableRow
                         key={job._id}
                         sx={{

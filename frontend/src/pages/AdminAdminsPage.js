@@ -30,7 +30,10 @@ import {
   Add as AddIcon,
   Delete as DeleteIcon,
   AdminPanelSettings as AdminIcon,
-  Shield as ShieldIcon
+  Shield as ShieldIcon,
+  Search as SearchIcon,
+  ArrowUpward as ArrowUpwardIcon,
+  ArrowDownward as ArrowDownwardIcon
 } from '@mui/icons-material';
 import AdminLayout from '../components/admin/AdminLayout';
 
@@ -38,6 +41,8 @@ const AdminAdminsPage = () => {
   const [admins, setAdmins] = useState([]);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [message, setMessage] = useState({ text: '', severity: 'success' });
   const [openDialog, setOpenDialog] = useState(false);
   const [newAdmin, setNewAdmin] = useState({ username: '', password: '' });
@@ -96,6 +101,36 @@ const AdminAdminsPage = () => {
       setCreating(false);
     }
   };
+
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const getFilteredAndSortedAdmins = () => {
+    let filtered = admins.filter(admin =>
+      admin.username?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      admin.role?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    if (sortConfig.key) {
+      filtered.sort((a, b) => {
+        let aVal = String(a[sortConfig.key] || '').toLowerCase();
+        let bVal = String(b[sortConfig.key] || '').toLowerCase();
+
+        if (aVal < bVal) return sortConfig.direction === 'asc' ? -1 : 1;
+        if (aVal > bVal) return sortConfig.direction === 'asc' ? 1 : -1;
+        return 0;
+      });
+    }
+
+    return filtered;
+  };
+
+  const filteredAdmins = getFilteredAndSortedAdmins();
 
   if (loading) {
     return (
@@ -157,6 +192,37 @@ const AdminAdminsPage = () => {
           </Fade>
         )}
 
+        <Fade in timeout={600}>
+          <Box sx={{ mb: 3 }}>
+            <TextField
+              fullWidth
+              placeholder="Search admins by username or role..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <SearchIcon sx={{ color: '#667eea', mr: 1 }} />
+                )
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                  background: 'rgba(255, 255, 255, 0.9)',
+                  '& fieldset': {
+                    borderColor: 'rgba(0, 0, 0, 0.1)'
+                  },
+                  '&:hover fieldset': {
+                    borderColor: '#667eea'
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#667eea'
+                  }
+                }
+              }}
+            />
+          </Box>
+        </Fade>
+
         <Fade in timeout={800}>
           <Paper
             elevation={0}
@@ -174,13 +240,49 @@ const AdminAdminsPage = () => {
                 <TableHead>
                   <TableRow sx={{ bgcolor: '#f8fafc' }}>
                     <TableCell sx={{ fontWeight: 700, color: '#475569', py: 2 }}>Admin</TableCell>
-                    <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Username</TableCell>
-                    <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Role</TableCell>
+                    <TableCell 
+                      sx={{ 
+                        fontWeight: 700, 
+                        color: '#475569',
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                      }}
+                      onClick={() => handleSort('username')}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        Username
+                        {sortConfig.key === 'username' && (
+                          sortConfig.direction === 'asc' 
+                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                        )}
+                      </Box>
+                    </TableCell>
+                    <TableCell 
+                      sx={{ 
+                        fontWeight: 700, 
+                        color: '#475569',
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                      }}
+                      onClick={() => handleSort('role')}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        Role
+                        {sortConfig.key === 'role' && (
+                          sortConfig.direction === 'asc' 
+                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                        )}
+                      </Box>
+                    </TableCell>
                     <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {Array.isArray(admins) && admins.map((admin) => (
+                  {Array.isArray(filteredAdmins) && filteredAdmins.map((admin) => (
                     <TableRow
                       key={admin._id}
                       sx={{
