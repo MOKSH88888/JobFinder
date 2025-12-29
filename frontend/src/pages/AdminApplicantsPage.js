@@ -1,6 +1,6 @@
 // src/pages/AdminApplicantsPage.js
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import API from '../api';
 import PdfViewer from '../components/PdfViewer';
@@ -32,11 +32,7 @@ const AdminApplicantsPage = () => {
   const [selectedPdf, setSelectedPdf] = useState({ url: '', name: '' });
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchApplicants();
-  }, [jobId]);
-
-  const fetchApplicants = async () => {
+  const fetchApplicants = useCallback(async () => {
     try {
       const { data } = await API.get(`/admin/jobs/${jobId}/applicants`);
       setJob(data?.job || null);
@@ -53,7 +49,11 @@ const AdminApplicantsPage = () => {
       setApplicants([]);
       setLoading(false);
     }
-  };
+  }, [jobId]);
+
+  useEffect(() => {
+    fetchApplicants();
+  }, [fetchApplicants]);
 
   const handleStatusChange = async (applicantId, newStatus) => {
     try {
