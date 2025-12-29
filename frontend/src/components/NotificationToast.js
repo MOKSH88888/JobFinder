@@ -4,13 +4,11 @@ import React, { useEffect } from 'react';
 import {
   Snackbar,
   Alert,
-  AlertTitle,
   Box,
   Typography,
   IconButton,
   Slide,
   Chip,
-  Divider,
   Stack
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -22,7 +20,6 @@ import StarIcon from '@mui/icons-material/Star';
 import PersonIcon from '@mui/icons-material/Person';
 import WorkIcon from '@mui/icons-material/Work';
 import EmailIcon from '@mui/icons-material/Email';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 
 function SlideTransition(props) {
@@ -109,14 +106,6 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
   const config = notification.type 
     ? getTypeConfig(notification.type) 
     : getStatusConfig(notification.status);
-
-  const formatTimestamp = () => {
-    const now = new Date();
-    return now.toLocaleTimeString('en-US', { 
-      hour: '2-digit', 
-      minute: '2-digit' 
-    });
-  };
 
   return (
     <Snackbar
