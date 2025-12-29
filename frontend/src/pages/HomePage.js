@@ -50,6 +50,19 @@ const HomePage = () => {
     }
   }, [user]);
 
+  // Sync bookmarkedJobIds with user's bookmarkedJobs array
+  useEffect(() => {
+    if (user && user.bookmarkedJobs) {
+      setBookmarkedJobIds(
+        Array.isArray(user.bookmarkedJobs) 
+          ? user.bookmarkedJobs.map(job => typeof job === 'string' ? job : job._id)
+          : []
+      );
+    } else {
+      setBookmarkedJobIds([]);
+    }
+  }, [user?.bookmarkedJobs]);
+
   // Listen for new jobs and deletions via WebSocket
   useEffect(() => {
     if (!socket || !user) return;
