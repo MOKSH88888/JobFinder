@@ -142,14 +142,16 @@ const MyApplicationsPage = () => {
     if (!socket || !user) return;
 
     const handleStatusUpdate = (data) => {
-      // Show professional toast notification
-      setCurrentNotification(data);
-      setShowNotification(true);
+      // Only show toast notification for meaningful status changes (not Pending)
+      if (data.status && data.status.toLowerCase() !== 'pending') {
+        setCurrentNotification(data);
+        setShowNotification(true);
+      }
       
       // Add to notifications
       addNotification(data);
       
-      // Update local state
+      // Update local state (always update UI regardless of notification)
       setAppliedJobs(prev => 
         Array.isArray(prev) ? prev.map(job => 
           job._id === data.jobId 
