@@ -207,7 +207,7 @@ const MyApplicationsPage = () => {
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                           <BusinessIcon sx={{ mr: 1, color: 'primary.main' }} />
                           <Typography variant="body2" color="text.secondary">
-                            {job.companyName}
+                            {job.companyName || 'Company not specified'}
                           </Typography>
                         </Box>
                         {isUpdated && (
@@ -226,26 +226,26 @@ const MyApplicationsPage = () => {
                       </Box>
                       
                       <Typography variant="h6" gutterBottom fontWeight="bold">
-                        {job.title}
+                        {job.title || 'Untitled Job'}
                       </Typography>
                       
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                         <LocationOnIcon sx={{ fontSize: 18, mr: 0.5, color: 'text.secondary' }} />
                         <Typography variant="body2" color="text.secondary">
-                          {job.location}
+                          {job.location || 'Location not specified'}
                         </Typography>
                       </Box>
                       
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                         <CurrencyRupeeIcon sx={{ fontSize: 18, mr: 0.5, color: 'text.secondary' }} />
                         <Typography variant="body2" color="text.secondary">
-                          {job.salary ? `₹${job.salary.toLocaleString('en-IN')} LPA` : 'Not disclosed'}
+                          {job.salary && !isNaN(job.salary) ? `₹${Number(job.salary).toLocaleString('en-IN')} LPA` : 'Not disclosed'}
                         </Typography>
                       </Box>
                       
                       <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 2 }}>
                         <Chip 
-                          label={`${job.experienceRequired} years`} 
+                          label={`${job.experienceRequired ?? 0} years`} 
                           size="small" 
                           icon={<WorkIcon />}
                         />
