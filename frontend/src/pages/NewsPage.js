@@ -197,7 +197,7 @@ const NewsPage = () => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [category, setCategory] = useState('technology');
+  const [category, setCategory] = useState('general');
 
   const fetchNews = useCallback(async () => {
     setLoading(true);
@@ -227,10 +227,11 @@ const NewsPage = () => {
   };
 
   const categories = [
-    { value: 'technology', label: 'Technology' },
-    { value: 'business', label: 'Business' },
-    { value: 'science', label: 'Science' },
-    { value: 'health', label: 'Health' },
+    { value: 'technology', label: 'Tech Jobs' },
+    { value: 'business', label: 'Industry Trends' },
+    { value: 'general', label: 'Career Development' },
+    { value: 'health', label: 'Healthcare Careers' },
+    { value: 'science', label: 'Research & Innovation' },
   ];
 
   return (
@@ -271,7 +272,7 @@ const NewsPage = () => {
               <FaNewspaper style={styles.headerIcon} />
               <h1 style={styles.headerTitle}>Latest News</h1>
             </div>
-            <p style={styles.headerSubtitle}>Stay updated with the latest headlines</p>
+            <p style={styles.headerSubtitle}>Stay updated with job market trends and career insights</p>
           </div>
 
           {/* Category Filter */}
