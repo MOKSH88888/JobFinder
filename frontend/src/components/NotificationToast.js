@@ -53,14 +53,14 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
       reviewed: {
         severity: 'info',
         icon: <VisibilityIcon />,
-        title: 'Application Being Reviewed 👀',
+        title: 'Application Under Review',
         color: '#2196f3',
         bgGradient: 'linear-gradient(135deg, #2196f3 0%, #42a5f5 100%)'
       },
       'under review': {
         severity: 'info',
         icon: <VisibilityIcon />,
-        title: 'Application Being Reviewed 👀',
+        title: 'Application Under Review',
         color: '#2196f3',
         bgGradient: 'linear-gradient(135deg, #2196f3 0%, #42a5f5 100%)'
       },
