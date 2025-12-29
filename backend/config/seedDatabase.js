@@ -400,40 +400,44 @@ async function seedDatabase() {
     console.log('📝 Creating sample applications...');
     let applicationCount = 0;
     
-    // User 0 applies to jobs 0, 1, 2
+    // User 0 applies to jobs 0, 1, 2 with different statuses
+    const user0Statuses = ['Shortlisted', 'Pending', 'Rejected'];
     for (let i = 0; i < 3; i++) {
+      const status = user0Statuses[i];
       await Job.findByIdAndUpdate(createdJobs[i]._id, {
         $push: {
           applicants: {
             userId: createdUsers[0]._id,
-            status: i === 0 ? 'Accepted' : i === 1 ? 'Pending' : 'Rejected'
+            status: status
           }
         }
       });
       await User.findByIdAndUpdate(createdUsers[0]._id, {
         $push: {
           appliedJobs: {
-            jobId: createdJobs[i]._id
+            jobId: createdJobs[i]._id,
+            status: status
           }
         }
       });
       applicationCount++;
     }
 
-    // User 1 applies to jobs 1, 3
+    // User 1 applies to jobs 1, 3 with Under Review status
     for (let i of [1, 3]) {
       await Job.findByIdAndUpdate(createdJobs[i]._id, {
         $push: {
           applicants: {
             userId: createdUsers[1]._id,
-            status: 'Pending'
+            status: 'Under Review'
           }
         }
       });
       await User.findByIdAndUpdate(createdUsers[1]._id, {
         $push: {
           appliedJobs: {
-            jobId: createdJobs[i]._id
+            jobId: createdJobs[i]._id,
+            status: 'Under Review'
           }
         }
       });
@@ -452,7 +456,8 @@ async function seedDatabase() {
     await User.findByIdAndUpdate(createdUsers[5]._id, {
       $push: {
         appliedJobs: {
-          jobId: createdJobs[5]._id
+          jobId: createdJobs[5]._id,
+          status: 'Pending'
         }
       }
     });
@@ -460,11 +465,58 @@ async function seedDatabase() {
 
     console.log(`✅ Created ${applicationCount} sample applications\n`);
 
+    // Add bookmarks for realistic user experience
+    console.log('🔖 Creating sample bookmarks...');
+    let bookmarkCount = 0;
+
+    // User 0 bookmarks jobs 3, 4, 7 (different from applied jobs)
+    await User.findByIdAndUpdate(createdUsers[0]._id, {
+      $push: {
+        bookmarkedJobs: {
+          $each: [createdJobs[3]._id, createdJobs[4]._id, createdJobs[7]._id]
+        }
+      }
+    });
+    bookmarkCount += 3;
+
+    // User 1 bookmarks jobs 0, 5, 6
+    await User.findByIdAndUpdate(createdUsers[1]._id, {
+      $push: {
+        bookmarkedJobs: {
+          $each: [createdJobs[0]._id, createdJobs[5]._id, createdJobs[6]._id]
+        }
+      }
+    });
+    bookmarkCount += 3;
+
+    // User 2 bookmarks jobs 2, 8
+    await User.findByIdAndUpdate(createdUsers[2]._id, {
+      $push: {
+        bookmarkedJobs: {
+          $each: [createdJobs[2]._id, createdJobs[8]._id]
+        }
+      }
+    });
+    bookmarkCount += 2;
+
+    // User 5 (fresher) bookmarks jobs 5, 9 (internship and entry-level)
+    await User.findByIdAndUpdate(createdUsers[5]._id, {
+      $push: {
+        bookmarkedJobs: {
+          $each: [createdJobs[5]._id, createdJobs[9]._id]
+        }
+      }
+    });
+    bookmarkCount += 2;
+
+    console.log(`✅ Created ${bookmarkCount} sample bookmarks\n`);
+
     console.log('🎉 Database seeding completed successfully!\n');
     console.log('📊 Summary:');
     console.log(`   - Users: ${createdUsers.length}`);
     console.log(`   - Jobs: ${createdJobs.length}`);
     console.log(`   - Applications: ${applicationCount}`);
+    console.log(`   - Bookmarks: ${bookmarkCount}`);
     console.log(`   - Admin: ${process.env.DEFAULT_ADMIN_USERNAME}`);
     console.log('\n💡 Test Credentials:');
     console.log(`   User: arjun.mehta@techmail.com / User@1234`);
