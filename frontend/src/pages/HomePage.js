@@ -90,9 +90,11 @@ const HomePage = () => {
     setError('');
     try {
       const { data } = await fetchJobs();
-      setJobs(data);
+      // Ensure data is always an array
+      setJobs(Array.isArray(data) ? data : []);
     } catch (err) {
       setError('Failed to load jobs. Please try again later.');
+      setJobs([]); // Set to empty array on error
       console.error(err);
     } finally {
       setLoading(false);

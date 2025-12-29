@@ -27,10 +27,12 @@ const BookmarkedJobsPage = () => {
     try {
       setLoading(true);
       const { data } = await getBookmarkedJobs();
-      setBookmarkedJobs(data);
+      // Ensure data is always an array
+      setBookmarkedJobs(Array.isArray(data) ? data : []);
       setError('');
     } catch (err) {
       setError(err.response?.data?.msg || 'Failed to load bookmarked jobs');
+      setBookmarkedJobs([]); // Set to empty array on error
     } finally {
       setLoading(false);
     }
@@ -66,7 +68,7 @@ const BookmarkedJobsPage = () => {
         </Alert>
       )}
 
-      {bookmarkedJobs.length === 0 ? (
+      {!Array.isArray(bookmarkedJobs) || bookmarkedJobs.length === 0 ? (
         <Paper sx={{ p: 4, textAlign: 'center' }}>
           <BookmarkIcon sx={{ fontSize: 64, color: 'action.disabled', mb: 2 }} />
           <Typography variant="h6" color="text.secondary">

@@ -57,9 +57,11 @@ const MyApplicationsPage = () => {
       try {
         setLoading(true);
         const { data } = await getAppliedJobs();
-        setAppliedJobs(data);
+        // Ensure data is always an array
+        setAppliedJobs(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Failed to fetch applied jobs", error);
+        setAppliedJobs([]); // Set to empty array on error
       } finally {
         setLoading(false);
       }
@@ -137,7 +139,7 @@ const MyApplicationsPage = () => {
           </Typography>
           
           {/* Status Summary */}
-          {appliedJobs.length > 0 && (
+          {Array.isArray(appliedJobs) && appliedJobs.length > 0 && (
             <Box sx={{ mt: 3, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
               <Chip 
                 label={`Total: ${appliedJobs.length}`}
