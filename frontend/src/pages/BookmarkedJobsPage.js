@@ -30,7 +30,7 @@ const BookmarkedJobsPage = () => {
     if (user) {
       fetchBookmarkedJobs();
     }
-  }, [user?.bookmarkedJobs]);
+  }, [user]);
 
   const fetchBookmarkedJobs = async () => {
     try {
