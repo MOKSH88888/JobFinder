@@ -8,7 +8,10 @@ import {
   Box,
   Typography,
   IconButton,
-  Slide
+  Slide,
+  Chip,
+  Divider,
+  Stack
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -17,6 +20,9 @@ import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import StarIcon from '@mui/icons-material/Star';
 import PersonIcon from '@mui/icons-material/Person';
+import WorkIcon from '@mui/icons-material/Work';
+import EmailIcon from '@mui/icons-material/Email';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 function SlideTransition(props) {
   return <Slide {...props} direction="left" />;
@@ -87,9 +93,11 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
       return {
         severity: 'info',
         icon: <PersonIcon />,
-        title: 'New Application Received 📝',
+        title: 'New Application Received',
         color: '#2196f3',
-        bgGradient: 'linear-gradient(135deg, #2196f3 0%, #42a5f5 100%)'
+        bgGradient: 'linear-gradient(135deg, #2196f3 0%, #42a5f5 100%)',
+        chipLabel: 'New',
+        chipColor: '#1976d2'
       };
     }
     return null;
@@ -98,6 +106,14 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
   const config = notification.type 
     ? getTypeConfig(notification.type) 
     : getStatusConfig(notification.status);
+
+  const formatTimestamp = () => {
+    const now = new Date();
+    return now.toLocaleTimeString('en-US', { 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    });
+  };
 
   return (
     <Snackbar
@@ -111,17 +127,20 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
         severity={config.severity}
         onClose={onClose}
         sx={{
-          width: '400px',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
-          borderRadius: 2,
-          border: `1px solid ${config.color}30`,
-          background: 'white',
+          width: '420px',
+          maxWidth: '95vw',
+          boxShadow: '0 12px 40px rgba(0,0,0,0.2)',
+          borderRadius: 3,
+          border: `2px solid ${config.color}40`,
+          background: 'linear-gradient(to bottom, #ffffff 0%, #fafafa 100%)',
           '& .MuiAlert-icon': {
-            fontSize: 28,
-            color: config.color
+            fontSize: 32,
+            color: config.color,
+            mt: 0.5
           },
           '& .MuiAlert-message': {
-            width: '100%'
+            width: '100%',
+            py: 0.5
           }
         }}
         action={
@@ -130,49 +149,119 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
             onClick={onClose}
             sx={{ 
               color: 'text.secondary',
-              '&:hover': { backgroundColor: 'rgba(0,0,0,0.04)' }
+              mt: 0.5,
+              '&:hover': { 
+                backgroundColor: 'rgba(0,0,0,0.08)',
+                transform: 'scale(1.1)'
+              },
+              transition: 'all 0.2s'
             }}
           >
             <CloseIcon fontSize="small" />
           </IconButton>
         }
       >
-        <AlertTitle sx={{ 
-          fontWeight: 700, 
-          fontSize: '1rem',
-          mb: 1,
-          color: config.color
-        }}>
-          {config.title}
-        </AlertTitle>
+        {/* Header with Title and Badge */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
+          <AlertTitle sx={{ 
+            fontWeight: 700, 
+            fontSize: '1.1rem',
+            mb: 0,
+            color: config.color,
+            flex: 1
+          }}>
+            {config.title}
+          </AlertTitle>
+          {config.chipLabel && (
+            <Chip 
+              label={config.chipLabel}
+              size="small"
+              sx={{ 
+                bgcolor: `${config.chipColor}20`,
+                color: config.chipColor,
+                fontWeight: 600,
+                fontSize: '0.7rem',
+                height: 22
+              }}
+            />
+          )}
+          {!config.chipLabel && (
+            <Chip 
+              icon={<AccessTimeIcon sx={{ fontSize: 14 }} />}
+              label={formatTimestamp()}
+              size="small"
+              variant="outlined"
+              sx={{ 
+                height: 22,
+                fontSize: '0.7rem',
+                borderColor: 'divider',
+                color: 'text.secondary'
+              }}
+            />
+          )}
+        </Box>
         
-        <Box>
+        <Divider sx={{ mb: 1.5 }} />
+        
+        <Stack spacing={1.5}>
+        <Divider sx={{ mb: 1.5 }} />
+        
+        <Stack spacing={1.5}>
+          {/* Job Title with Icon */}
           {notification.jobTitle && (
-            <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>
-              {notification.jobTitle}
-            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
+              <WorkIcon sx={{ fontSize: 18, color: 'text.secondary', mt: 0.3 }} />
+              <Box sx={{ flex: 1 }}>
+                <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary', lineHeight: 1.4 }}>
+                  {notification.jobTitle}
+                </Typography>
+                {notification.companyName && (
+                  <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mt: 0.3 }}>
+                    at {notification.companyName}
+                  </Typography>
+                )}
+              </Box>
+            </Box>
           )}
-          {notification.companyName && (
-            <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mb: 1 }}>
-              {notification.companyName}
-            </Typography>
+          
+          {/* Applicant Information */}
+          {notification.userName && (
+            <Box sx={{ 
+              bgcolor: 'rgba(33, 150, 243, 0.08)', 
+              p: 1.5, 
+              borderRadius: 2,
+              borderLeft: `3px solid ${config.color}`
+            }}>
+              <Stack spacing={0.5}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <PersonIcon sx={{ fontSize: 16, color: config.color }} />
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
+                    {notification.userName}
+                  </Typography>
+                </Box>
+                {notification.userEmail && (
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 3 }}>
+                    <EmailIcon sx={{ fontSize: 14, color: 'text.secondary' }} />
+                    <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                      {notification.userEmail}
+                    </Typography>
+                  </Box>
+                )}
+              </Stack>
+            </Box>
           )}
+          
+          {/* Additional Message */}
           {notification.message && (
-            <Typography variant="body2" sx={{ color: 'text.primary' }}>
+            <Typography variant="body2" sx={{ 
+              color: 'text.secondary',
+              fontStyle: 'italic',
+              pl: 0.5
+            }}>
               {notification.message}
             </Typography>
           )}
-          {notification.userName && (
-            <Typography variant="body2" sx={{ mt: 1 }}>
-              <strong>Applicant:</strong> {notification.userName}
-            </Typography>
-          )}
-          {notification.userEmail && (
-            <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
-              {notification.userEmail}
-            </Typography>
-          )}
-        </Box>
+        </Stack>
       </Alert>
     </Snackbar>
   );
