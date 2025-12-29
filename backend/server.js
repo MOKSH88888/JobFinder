@@ -1,6 +1,7 @@
 // Import required dependencies
 const express = require('express');
 const http = require('http');
+const mongoose = require('mongoose');
 const connectDB = require('./config/db');
 const cors = require('cors');
 const path = require('path');
