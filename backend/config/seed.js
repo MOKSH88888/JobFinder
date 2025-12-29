@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const Admin = require('../models/Admin');
+const logger = require('./logger');
 
 const seedAdmin = async () => {
   try {
@@ -14,11 +15,11 @@ const seedAdmin = async () => {
         isDefault: true,
       });
       await defaultAdmin.save();
-      console.log('Default admin created.');
+      logger.info('Default admin created.');
     }
     // Admin already exists - no message needed
   } catch (error) {
-    console.error('Error seeding admin:', error);
+    logger.error('Error seeding admin:', error);
   }
 };
 module.exports = seedAdmin;

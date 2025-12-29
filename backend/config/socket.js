@@ -51,10 +51,11 @@ const initializeSocket = (server) => {
   io.on('connection', (socket) => {
     logger.info(`Socket connected: ${socket.id} (${socket.userType})`);
 
-    // Join user to their personal room
+    // Join user to their personal room and users group room
     if (socket.userType === 'user') {
       socket.join(`user:${socket.userId}`);
-      logger.info(`User ${socket.userId} joined room: user:${socket.userId}`);
+      socket.join('users-room'); // Join all users to this room for broadcasts
+      logger.info(`User ${socket.userId} joined rooms: user:${socket.userId} and users-room`);
     } else if (socket.userType === 'admin') {
       socket.join('admin-room');
       logger.info(`Admin ${socket.adminId} joined room: admin-room`);
@@ -107,12 +108,8 @@ const notifyAllAdmins = (event, data) => {
 const notifyAllUsers = (event, data) => {
   try {
     const io = getIO();
-    // Broadcast to all connected users
-    io.sockets.sockets.forEach((socket) => {
-      if (socket.userType === 'user') {
-        socket.emit(event, data);
-      }
-    });
+    // Efficiently broadcast to all users using room (better than iterating sockets)
+    io.to('users-room').emit(event, data);
     logger.info(`Notification sent to all users: ${event}`);
   } catch (error) {
     logger.error('Error sending broadcast notification:', error);
