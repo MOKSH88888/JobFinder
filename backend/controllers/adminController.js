@@ -316,14 +316,16 @@ exports.updateApplicationStatus = asyncHandler(async (req, res) => {
     await session.commitTransaction();
     logger.info(`Application status updated to ${status} for user ${user.email} on job ${job.title}`);
 
-    // Notify the user about the status change
-    notifyUser(applicantId, 'application-status-updated', {
-      jobId: job._id,
-      jobTitle: job.title,
-      companyName: job.companyName,
-      status: status,
-      message: `Your application for ${job.title} at ${job.companyName} has been ${status.toLowerCase()}`
-    });
+    // Notify the user about the status change (skip notification for "Pending" status)
+    if (status !== 'Pending') {
+      notifyUser(applicantId, 'application-status-updated', {
+        jobId: job._id,
+        jobTitle: job.title,
+        companyName: job.companyName,
+        status: status,
+        message: `Your application for ${job.title} at ${job.companyName} has been ${status.toLowerCase()}`
+      });
+    }
 
     res.json({ success: true, message: 'Application status updated', status });
   } catch (error) {
