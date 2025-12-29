@@ -72,8 +72,6 @@ const MyApplicationsPage = () => {
     if (!socket || !user) return;
 
     const handleStatusUpdate = (data) => {
-      console.log('Application status updated:', data);
-      
       // Add to notifications
       addNotification(data);
       

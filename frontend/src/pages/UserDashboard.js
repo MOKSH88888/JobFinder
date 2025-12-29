@@ -3,6 +3,7 @@ import { Link } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { updateUserProfile } from '../api';
+import PdfViewer from '../components/PdfViewer';
 import {
   Container, Box, Typography, TextField, Button, Grid,
   Paper, Avatar, CircularProgress, Chip, Divider, Alert
@@ -25,6 +26,8 @@ const UserDashboard = () => {
   const [resume, setResume] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [pdfViewerOpen, setPdfViewerOpen] = useState(false);
 
   // Pre-fill form with user data
   useEffect(() => {
@@ -58,6 +61,7 @@ const UserDashboard = () => {
     e.preventDefault();
     setSuccessMessage('');
     setErrorMessage('');
+    setIsUpdating(true);
     
     const data = new FormData();
     data.append('name', formData.name);
@@ -78,7 +82,13 @@ const UserDashboard = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
       console.error('Failed to update profile', error);
-      setErrorMessage('Failed to update profile. Please try again.');
+      if (error.code === 'ECONNABORTED') {
+        setErrorMessage('Upload timed out. Your backend may be starting up (cold start on Render free tier takes 30-60 seconds). Please try again in a moment.');
+      } else {
+        setErrorMessage(error.response?.data?.msg || 'Failed to update profile. Please try again.');
+      }
+    } finally {
+      setIsUpdating(false);
     }
   };
   if (!user) {
@@ -156,7 +166,13 @@ const UserDashboard = () => {
               </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, flexWrap: 'wrap' }}>
                 <Avatar
-                  src={user.profilePhoto ? `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/${user.profilePhoto}` : ''}
+                  src={
+                    user.profilePhoto
+                      ? user.profilePhoto.startsWith('http')
+                        ? user.profilePhoto
+                        : `${process.env.REACT_APP_API_BASE_URL?.replace('/api', '')}/${user.profilePhoto}`
+                      : ''
+                  }
                   sx={{ 
                     width: { xs: 80, md: 100 }, 
                     height: { xs: 80, md: 100 },
@@ -475,12 +491,11 @@ const UserDashboard = () => {
                       Current Resume
                     </Typography>
                     <Link 
-                      href={`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/${user.resume}`} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      sx={{ fontSize: '0.8125rem', color: '#667eea' }}
+                      component="button"
+                      onClick={() => setPdfViewerOpen(true)}
+                      sx={{ fontSize: '0.8125rem', color: '#667eea', cursor: 'pointer', textAlign: 'left' }}
                     >
-                      View Document →
+                      View Resume →
                     </Link>
                   </Box>
                 </Box>
@@ -558,6 +573,8 @@ const UserDashboard = () => {
               <Button 
                 type="submit" 
                 variant="contained"
+                disabled={isUpdating}
+                startIcon={isUpdating ? <CircularProgress size={20} color="inherit" /> : null}
                 sx={{
                   textTransform: 'none',
                   px: 4,
@@ -575,14 +592,28 @@ const UserDashboard = () => {
                   },
                   '&:active': {
                     transform: 'translateY(0px)'
+                  },
+                  '&:disabled': {
+                    background: '#cbd5e1',
+                    color: '#64748b'
                   }
                 }}
               >
-                Save Changes
+                {isUpdating ? 'Uploading...' : 'Save Changes'}
               </Button>
             </Box>
           </Box>
         </Paper>
+
+        {/* PDF Viewer Modal */}
+        {user?.resume && (
+          <PdfViewer
+            open={pdfViewerOpen}
+            onClose={() => setPdfViewerOpen(false)}
+            pdfUrl={user.resume}
+            title={`${user.name}'s Resume`}
+          />
+        )}
       </Container>
     </Box>
   );

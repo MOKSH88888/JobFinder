@@ -36,7 +36,6 @@ const AdminDashboard = () => {
     if (!socket) return;
 
     const handleNewApplication = (data) => {
-      console.log('New application received:', data);
       addNotification(data);
       
       // Refresh stats to show updated count
