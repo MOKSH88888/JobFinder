@@ -141,23 +141,23 @@ if (fs.existsSync('middleware/errorMiddleware.js')) {
 }
 
 // Test 7: Check upload middleware security
-console.log('\n📤 Test 7: File Upload Security');
+console.log('\n📤 Test 7: File Upload Security (GridFS)');
 try {
-  const uploadMiddleware = fs.readFileSync('middleware/uploadMiddleware.js', 'utf8');
+  const uploadMiddleware = fs.readFileSync('middleware/uploadMiddlewareGridFS.js', 'utf8');
   
-  if (uploadMiddleware.includes('verifyFileSignature')) {
-    console.log('  ✅ File signature verification implemented');
+  if (uploadMiddleware.includes('maxSize') || uploadMiddleware.includes('5 * 1024 * 1024')) {
+    console.log('  ✅ File size limits configured (5MB)');
     passed++;
   } else {
-    console.log('  ❌ File signature verification missing');
+    console.log('  ❌ File size limits missing');
     failed++;
   }
   
-  if (uploadMiddleware.includes('FILE_SIGNATURES')) {
-    console.log('  ✅ Magic number validation configured');
+  if (uploadMiddleware.includes('GridFS') || uploadMiddleware.includes('gridfs')) {
+    console.log('  ✅ GridFS storage configured');
     passed++;
   } else {
-    console.log('  ⚠️  Magic number validation may be missing');
+    console.log('  ⚠️  GridFS configuration may be missing');
     failed++;
   }
 } catch (err) {

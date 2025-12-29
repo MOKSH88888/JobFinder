@@ -12,6 +12,7 @@ const logger = require('./config/logger');
 const { errorHandler, notFound } = require('./middleware/errorMiddleware');
 const constants = require('./config/constants');
 const { initializeSocket } = require('./config/socket');
+const { initGridFS } = require('./config/gridfs');
 require('dotenv').config();
 
 // Initialize Express application
@@ -40,7 +41,9 @@ app.use(cors(corsOptions));
 // Security Middleware
 app.use(helmet({
   contentSecurityPolicy: false, // Disable for API-only backend
-  crossOriginEmbedderPolicy: false
+  crossOriginEmbedderPolicy: false,
+  crossOriginResourcePolicy: { policy: "cross-origin" }, // Allow cross-origin resources
+  frameguard: false // Disable X-Frame-Options to allow iframe embedding
 }));
 
 // Rate Limiting
@@ -74,8 +77,7 @@ app.use(xss());
 app.use(express.json({ limit: constants.JSON_BODY_LIMIT }));
 app.use(express.urlencoded({ extended: true, limit: constants.JSON_BODY_LIMIT }));
 
-// Serve uploaded files
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// All file uploads now go to MongoDB GridFS for permanent, scalable storage
 
 // Root endpoint - API information
 app.get('/', (req, res) => {
@@ -94,13 +96,99 @@ app.get('/', (req, res) => {
   });
 });
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'OK', 
+// Comprehensive health check endpoint
+app.get('/api/health', async (req, res) => {
+  const healthCheck = {
+    status: 'OK',
+    timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
-    timestamp: new Date().toISOString() 
-  });
+    uptime: process.uptime(),
+    services: {
+      database: 'unknown',
+      socketio: 'unknown',
+      gridfs: 'unknown'
+    },
+    memory: {
+      usage: Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100, // MB
+      total: Math.round((process.memoryUsage().heapTotal / 1024 / 1024) * 100) / 100 // MB
+    }
+  };
+
+  let hasErrors = false;
+
+  try {
+    // Check MongoDB connection
+    const dbState = mongoose.connection.readyState;
+    if (dbState === 1) {
+      // Perform a simple ping to verify active connection
+      await mongoose.connection.db.admin().ping();
+      healthCheck.services.database = 'connected';
+      healthCheck.database = {
+        host: mongoose.connection.host,
+        name: mongoose.connection.name,
+        state: 'connected'
+      };
+    } else {
+      healthCheck.services.database = 'disconnected';
+      healthCheck.database = {
+        state: dbState === 0 ? 'disconnected' : dbState === 2 ? 'connecting' : 'error'
+      };
+      hasErrors = true;
+    }
+  } catch (error) {
+    healthCheck.services.database = 'error';
+    healthCheck.database = { error: error.message };
+    hasErrors = true;
+  }
+
+  try {
+    // Check Socket.io server
+    const { getIO } = require('./config/socket');
+    const io = getIO();
+    if (io && io.engine) {
+      const clientsCount = io.engine.clientsCount || 0;
+      healthCheck.services.socketio = 'running';
+      healthCheck.socketio = {
+        status: 'running',
+        connectedClients: clientsCount
+      };
+    } else {
+      healthCheck.services.socketio = 'not initialized';
+      hasErrors = true;
+    }
+  } catch (error) {
+    healthCheck.services.socketio = 'error';
+    healthCheck.socketio = { error: error.message };
+    hasErrors = true;
+  }
+
+  try {
+    // Check GridFS availability
+    const { getGridFSBucket } = require('./config/gridfs');
+    const bucket = getGridFSBucket();
+    if (bucket) {
+      healthCheck.services.gridfs = 'available';
+      healthCheck.gridfs = {
+        status: 'available',
+        bucketName: bucket.bucketName
+      };
+    } else {
+      healthCheck.services.gridfs = 'not initialized';
+      hasErrors = true;
+    }
+  } catch (error) {
+    healthCheck.services.gridfs = 'error';
+    healthCheck.gridfs = { error: error.message };
+    hasErrors = true;
+  }
+
+  // Set overall status based on critical services
+  if (hasErrors) {
+    healthCheck.status = 'DEGRADED';
+    return res.status(503).json(healthCheck);
+  }
+
+  res.status(200).json(healthCheck);
 });
 
 // API Routes
@@ -108,6 +196,13 @@ app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/admin', require('./routes/api/admin'));
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/jobs', require('./routes/api/jobs'));
+app.use('/api/contact', require('./routes/api/contact'));
+app.use('/api/news', require('./routes/api/news'));
+app.use('/api/resume', require('./routes/api/resume'));
+app.use('/api/files', require('./routes/api/files')); // GridFS file serving
+
+// Ignore favicon requests to prevent 404 errors in logs
+app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 // 404 handler - must be after all routes
 app.use(notFound);
