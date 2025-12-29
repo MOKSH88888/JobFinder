@@ -75,7 +75,8 @@ export const SocketProvider = ({ children }) => {
         setConnected(false);
       }
     }
-  }, [user, admin, socket]); // eslint-disable-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, admin]); // Intentionally excluding socket to prevent reconnection loop
 
   // Add notification to state
   const addNotification = useCallback((notification) => {
