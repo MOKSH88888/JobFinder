@@ -34,18 +34,13 @@ const AdminDashboard = () => {
     fetchDashboardData();
   }, []);
 
-  // Listen for new applications via WebSocket
   useEffect(() => {
     if (!socket) return;
 
     const handleNewApplication = (data) => {
-      // Show professional toast notification
       setCurrentNotification(data);
       setShowNotification(true);
-      
       addNotification(data);
-      
-      // Refresh stats to show updated count
       fetchDashboardData();
     };
 

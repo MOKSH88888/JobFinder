@@ -8,24 +8,17 @@ const logger = require('../config/logger');
 const constants = require('../config/constants');
 const { asyncHandler, APIError } = require('../middleware/errorMiddleware');
 
-// === User Registration ===
 exports.registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, gender } = req.body;
 
-  // Check if user already exists
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     throw new APIError(constants.ERROR_MESSAGES.USER_EXISTS, 400);
   }
 
-  // Create new user instance
   const user = new User({ name, email, password, gender });
-
-  // Hash password
   const salt = await bcrypt.genSalt(constants.BCRYPT_SALT_ROUNDS);
   user.password = await bcrypt.hash(password, salt);
-
-  // Save user to database
   await user.save();
   logger.info(`New user registered: ${email}`)
 
@@ -46,7 +39,6 @@ exports.registerUser = asyncHandler(async (req, res) => {
   });
 });
 
-// === User Login ===
 exports.loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 

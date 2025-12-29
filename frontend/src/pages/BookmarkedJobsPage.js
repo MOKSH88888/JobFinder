@@ -25,10 +25,8 @@ const BookmarkedJobsPage = () => {
     fetchBookmarkedJobs();
   }, []);
 
-  // Sync with user's bookmarked jobs from context
   useEffect(() => {
     if (user && user.bookmarkedJobs) {
-      // If user has bookmarks in context, filter the displayed jobs to match
       setBookmarkedJobs(prev => 
         prev.filter(job => 
           user.bookmarkedJobs.some(bookmark => {
@@ -44,13 +42,12 @@ const BookmarkedJobsPage = () => {
     try {
       setLoading(true);
       const { data } = await getBookmarkedJobs();
-      // Extract bookmarkedJobs from response wrapper
       const bookmarks = data?.bookmarkedJobs || [];
       setBookmarkedJobs(Array.isArray(bookmarks) ? bookmarks : []);
       setError('');
     } catch (err) {
       setError(err.response?.data?.msg || 'Failed to load bookmarked jobs');
-      setBookmarkedJobs([]); // Set to empty array on error
+      setBookmarkedJobs([]);
     } finally {
       setLoading(false);
     }

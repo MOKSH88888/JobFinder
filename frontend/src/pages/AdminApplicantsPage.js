@@ -34,14 +34,12 @@ const AdminApplicantsPage = () => {
 
   useEffect(() => {
     fetchApplicants();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jobId]);
 
   const fetchApplicants = async () => {
     try {
       const { data } = await API.get(`/admin/jobs/${jobId}/applicants`);
       setJob(data?.job || null);
-      // Extract applicants from response wrapper and ensure all have status field
       const applicantsList = data?.applicants || [];
       const mappedApplicants = Array.isArray(applicantsList) 
         ? applicantsList.map(app => ({

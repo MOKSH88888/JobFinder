@@ -9,19 +9,13 @@ const {
   validateAdminLogin 
 } = require('../../middleware/validationMiddleware');
 
-// @route   POST api/auth/register
-// @desc    Register a new user
-// @access  Public
+// POST api/auth/register - Register new user
 router.post('/register', validateUserRegistration, registerUser);
 
-// @route   POST api/auth/login
-// @desc    Authenticate user & get token (User Login)
-// @access  Public
+// POST api/auth/login - User authentication
 router.post('/login', validateUserLogin, loginUser);
 
-// @route   POST api/auth/admin/login
-// @desc    Authenticate admin & get token (Admin Login)
-// @access  Public
+// POST api/auth/admin/login - Admin authentication
 router.post('/admin/login', validateAdminLogin, loginAdmin);
 
 module.exports = router;

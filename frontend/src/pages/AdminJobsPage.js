@@ -133,7 +133,6 @@ const AdminJobsPage = () => {
     const { name, value } = e.target;
     setNewJob({ ...newJob, [name]: value });
     
-    // Real-time validation for touched fields
     if (touched[name]) {
       validateField(name, value);
     }
@@ -146,7 +145,6 @@ const AdminJobsPage = () => {
   };
 
   const handleCreateJob = async () => {
-    // Validate all fields before submission
     const errors = {
       title: validateJobTitle(newJob.title),
       companyName: validateCompanyName(newJob.companyName),
@@ -156,7 +154,6 @@ const AdminJobsPage = () => {
       description: validateDescription(newJob.description, 10, 5000)
     };
     
-    // Filter out null values (no errors)
     const filteredErrors = Object.fromEntries(
       Object.entries(errors).filter(([_, value]) => value !== null)
     );

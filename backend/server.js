@@ -16,24 +16,16 @@ const { initializeSocket } = require('./config/socket');
 const { initGridFS } = require('./config/gridfs');
 require('dotenv').config();
 
-// Initialize Express application
 const app = express();
-
-// Create HTTP server (required for Socket.io)
 const server = http.createServer(app);
 
-// Connect to MongoDB Database
 connectDB();
 
-// Seed Default Admin on server start
 const seedAdmin = require('./config/seed');
 seedAdmin();
 
-// Trust proxy - Required for Render/Railway/Heroku (behind reverse proxy)
-// This allows Express to trust X-Forwarded-* headers from proxies
 app.set('trust proxy', 1);
 
-// CORS Configuration (MUST be before rate limiting)
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
     ? process.env.FRONTEND_URL 
@@ -43,15 +35,13 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Security Middleware
 app.use(helmet({
-  contentSecurityPolicy: false, // Disable for API-only backend
+  contentSecurityPolicy: false,
   crossOriginEmbedderPolicy: false,
-  crossOriginResourcePolicy: { policy: "cross-origin" }, // Allow cross-origin resources
-  frameguard: false // Disable X-Frame-Options to allow iframe embedding
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  frameguard: false
 }));
 
-// Rate Limiting
 const limiter = rateLimit({
   windowMs: constants.RATE_LIMIT_WINDOW_MS,
   max: constants.RATE_LIMIT_MAX_REQUESTS,
@@ -61,7 +51,6 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// Stricter rate limit for auth endpoints
 const authLimiter = rateLimit({
   windowMs: constants.RATE_LIMIT_WINDOW_MS,
   max: constants.AUTH_RATE_LIMIT_MAX,
@@ -72,19 +61,12 @@ app.use('/api/auth/login', authLimiter);
 app.use('/api/auth/admin/login', authLimiter);
 app.use('/api/auth/register', authLimiter);
 
-// Data Sanitization against NoSQL query injection
 app.use(mongoSanitize());
-
-// Data Sanitization against XSS
 app.use(xss());
 
-// Body parser with size limits
 app.use(express.json({ limit: constants.JSON_BODY_LIMIT }));
 app.use(express.urlencoded({ extended: true, limit: constants.JSON_BODY_LIMIT }));
 
-// All file uploads now go to MongoDB GridFS for permanent, scalable storage
-
-// Root endpoint - API information
 app.get('/', (req, res) => {
   res.status(200).json({
     name: 'Job Portal API',
@@ -101,7 +83,6 @@ app.get('/', (req, res) => {
   });
 });
 
-// Comprehensive health check endpoint
 app.get('/api/health', async (req, res) => {
   const healthCheck = {
     status: 'OK',
@@ -114,8 +95,8 @@ app.get('/api/health', async (req, res) => {
       gridfs: 'unknown'
     },
     memory: {
-      usage: Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100, // MB
-      total: Math.round((process.memoryUsage().heapTotal / 1024 / 1024) * 100) / 100 // MB
+      usage: Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100,
+      total: Math.round((process.memoryUsage().heapTotal / 1024 / 1024) * 100) / 100
     }
   };
 
@@ -204,21 +185,15 @@ app.use('/api/jobs', require('./routes/api/jobs'));
 app.use('/api/contact', require('./routes/api/contact'));
 app.use('/api/news', require('./routes/api/news'));
 app.use('/api/resume', require('./routes/api/resume'));
-app.use('/api/files', require('./routes/api/files')); // GridFS file serving
+app.use('/api/files', require('./routes/api/files'));
 
-// Ignore favicon requests to prevent 404 errors in logs
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 
-// 404 handler - must be after all routes
 app.use(notFound);
-
-// Error handler - must be last
 app.use(errorHandler);
 
-// Initialize Socket.io
 initializeSocket(server);
 
-// Start server
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   logger.info(`Server started on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
