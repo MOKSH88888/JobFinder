@@ -72,7 +72,7 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
           </IconButton>
         }
       >
-        <Stack spacing={2.5}>
+        <Stack spacing={1.5}>
           {/* Header */}
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
@@ -87,25 +87,15 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
               }}>
                 <FiberNewIcon sx={{ fontSize: 22, color: '#2563eb' }} />
               </Box>
-              <Box>
-                <Typography sx={{
-                  fontWeight: 700,
-                  fontSize: '1rem',
-                  color: '#111827',
-                  lineHeight: 1.3,
-                  letterSpacing: '-0.01em'
-                }}>
-                  New Application
-                </Typography>
-                <Typography sx={{
-                  fontSize: '0.813rem',
-                  color: '#6b7280',
-                  lineHeight: 1.3,
-                  mt: 0.25
-                }}>
-                  Requires review
+              <Typography sx={{
+                fontWeight: 700,
+                fontSize: '1rem',
+                color: '#111827',
+                lineHeight: 1.3,
+                letterSpacing: '-0.01em'
+              }}>
+                New Application
               </Typography>
-              </Box>
             </Box>
             <Box sx={{
               bgcolor: '#fef3c7',
@@ -133,15 +123,15 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
                 color: '#9ca3af',
                 textTransform: 'uppercase',
                 letterSpacing: '0.8px',
-                mb: 1.5
+                mb: 1
               }}>
                 Position Details
               </Typography>
               <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start' }}>
                 <Box sx={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 2,
+                  width: 32,
+                  height: 32,
+                  borderRadius: 1.5,
                   bgcolor: '#f9fafb',
                   display: 'flex',
                   alignItems: 'center',
@@ -185,7 +175,7 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
                 color: '#9ca3af',
                 textTransform: 'uppercase',
                 letterSpacing: '0.8px',
-                mb: 1.5
+                mb: 1
               }}>
                 Candidate Information
               </Typography>
@@ -193,7 +183,7 @@ const NotificationToast = ({ notification, open, onClose, autoHideDuration = 600
                 bgcolor: '#f9fafb',
                 border: '1px solid #e5e7eb',
                 borderRadius: 2.5,
-                p: 2
+                p: 1.5
               }}>
                 <Stack spacing={1.5}>
                   <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
