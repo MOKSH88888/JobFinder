@@ -18,7 +18,7 @@ exports.sendContactEmail = asyncHandler(async (req, res) => {
 
   try {
     const emailData = {
-      from: process.env.SENDER_EMAIL || 'onboarding@resend.dev',
+      from: 'onboarding@resend.dev',
       to: process.env.CONTACT_EMAIL || 'admin@jobportal.com',
       subject: `Contact Form: Message from ${name}`,
       html: `
