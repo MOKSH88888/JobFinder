@@ -29,6 +29,10 @@ connectDB();
 const seedAdmin = require('./config/seed');
 seedAdmin();
 
+// Trust proxy - Required for Render/Railway/Heroku (behind reverse proxy)
+// This allows Express to trust X-Forwarded-* headers from proxies
+app.set('trust proxy', 1);
+
 // CORS Configuration (MUST be before rate limiting)
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
