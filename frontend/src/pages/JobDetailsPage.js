@@ -36,7 +36,7 @@ const JobDetailsPage = () => {
 
         // Check if the current logged-in user has applied for this job
         // appliedJobs is an array of objects with jobId property
-        if (user && user.appliedJobs?.some(app => app.jobId === id)) {
+        if (user && user.appliedJobs?.some(app => String(app.jobId) === String(id))) {
           setHasApplied(true);
         } else {
           setHasApplied(false);
