@@ -19,11 +19,14 @@ import AdminJobsPage from './pages/AdminJobsPage';
 import AdminApplicantsPage from './pages/AdminApplicantsPage';
 import AdminUsersPage from './pages/AdminUsersPage';
 import AdminAdminsPage from './pages/AdminAdminsPage';
+import ContactPage from './pages/ContactPage';
+import NewsPage from './pages/NewsPage';
 
 // Import Layout Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import NotificationSnackbar from './components/NotificationSnackbar';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // Import Protected Route Components
 import UserProtectedRoute from './components/UserProtectedRoute';
@@ -32,9 +35,10 @@ import AdminProtectedRoute from './components/AdminProtectedRoute';
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline /> {/* Normalizes CSS across browsers */}
-      <NotificationSnackbar />
+    <ErrorBoundary>
+      <ThemeProvider theme={theme}>
+        <CssBaseline /> {/* Normalizes CSS across browsers */}
+        <NotificationSnackbar />
       <Router>
         <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
           <Navbar />
@@ -46,6 +50,8 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/admin/login" element={<AdminLoginPage />} />
           <Route path="/browse" element={<HomePage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/news" element={<NewsPage />} />
 
           {/* User Protected Routes */}
           <Route element={<UserProtectedRoute />}>
@@ -69,6 +75,7 @@ function App() {
         </Box>
       </Router>
     </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 
