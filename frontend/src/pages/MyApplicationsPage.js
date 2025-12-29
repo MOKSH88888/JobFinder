@@ -77,11 +77,11 @@ const MyApplicationsPage = () => {
       
       // Update local state
       setAppliedJobs(prev => 
-        prev.map(job => 
+        Array.isArray(prev) ? prev.map(job => 
           job._id === data.jobId 
             ? { ...job, applicationStatus: data.status }
             : job
-        )
+        ) : []
       );
     };
 
@@ -94,6 +94,11 @@ const MyApplicationsPage = () => {
 
   // Sort applications: Accepted/Rejected at top, then Pending
   const sortedApplications = useMemo(() => {
+    // Defensive check - ensure appliedJobs is always an array
+    if (!Array.isArray(appliedJobs)) {
+      return [];
+    }
+    
     return [...appliedJobs].sort((a, b) => {
       const statusA = (a.applicationStatus || 'pending').toLowerCase();
       const statusB = (b.applicationStatus || 'pending').toLowerCase();

@@ -102,7 +102,7 @@ const HomePage = () => {
   const loadBookmarks = async () => {
     try {
       const { data } = await getBookmarkedJobs();
-      setBookmarkedJobIds(data.map(job => job._id));
+      setBookmarkedJobIds(Array.isArray(data) ? data.map(job => job._id) : []);
     } catch (err) {
       console.error('Failed to load bookmarks:', err);
     }
@@ -110,14 +110,19 @@ const HomePage = () => {
 
   const handleBookmarkChange = (jobId, isBookmarked) => {
     if (isBookmarked) {
-      setBookmarkedJobIds(prev => [...prev, jobId]);
+      setBookmarkedJobIds(prev => Array.isArray(prev) ? [...prev, jobId] : [jobId]);
     } else {
-      setBookmarkedJobIds(prev => prev.filter(id => id !== jobId));
+      setBookmarkedJobIds(prev => Array.isArray(prev) ? prev.filter(id => id !== jobId) : []);
     }
   };
 
   // Enhanced filtering and sorting algorithm with useMemo for performance
   const filteredJobs = useMemo(() => {
+    // Defensive check - ensure jobs is always an array
+    if (!Array.isArray(jobs)) {
+      return [];
+    }
+    
     let filtered = [...jobs];
 
     // Search filter with multi-field fuzzy matching

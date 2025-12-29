@@ -39,7 +39,7 @@ const BookmarkedJobsPage = () => {
   const handleBookmarkChange = (jobId, isBookmarked) => {
     if (!isBookmarked) {
       // Remove from list when unbookmarked
-      setBookmarkedJobs(prev => prev.filter(job => job._id !== jobId));
+      setBookmarkedJobs(prev => Array.isArray(prev) ? prev.filter(job => job._id !== jobId) : []);
     }
   };
 
