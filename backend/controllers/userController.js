@@ -185,7 +185,12 @@ exports.bookmarkJob = asyncHandler(async (req, res) => {
     throw new APIError('Job not found', 404);
   }
 
-  if (user.bookmarkedJobs.includes(jobId)) {
+  // Check if already bookmarked using string comparison
+  const isAlreadyBookmarked = user.bookmarkedJobs.some(
+    bookmark => bookmark.toString() === jobId.toString()
+  );
+
+  if (isAlreadyBookmarked) {
     throw new APIError('Job already bookmarked', 400);
   }
 
