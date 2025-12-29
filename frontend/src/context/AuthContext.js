@@ -74,26 +74,33 @@ export const AuthProvider = ({ children }) => {
 
   const loginUser = async (email, password) => {
     try {
-      console.log('Attempting login to:', process.env.REACT_APP_API_BASE_URL);
       const { data } = await API.post('/auth/login', { email, password });
+      // Clear admin token if exists to prevent mixed sessions
+      localStorage.removeItem('adminToken');
+      setAdmin(null);
       localStorage.setItem('userToken', data.token);
       const { data: profile } = await API.get('/users/profile', {
         headers: { Authorization: `Bearer ${data.token}` }
       });
       setUser(profile);
     } catch (error) {
-      console.error('Login error details:', {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status,
-        url: error.config?.url
-      });
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Login error details:', {
+          message: error.message,
+          response: error.response?.data,
+          status: error.response?.status,
+          url: error.config?.url
+        });
+      }
       throw error;
     }
   };
   
   const loginAdmin = async (username, password) => {
     const { data } = await API.post('/auth/admin/login', { username, password });
+    // Clear user token if exists to prevent mixed sessions
+    localStorage.removeItem('userToken');
+    setUser(null);
     localStorage.setItem('adminToken', data.token);
     const decoded = jwtDecode(data.token);
     setAdmin({ id: decoded.admin.id, isDefault: decoded.admin.isDefault });
