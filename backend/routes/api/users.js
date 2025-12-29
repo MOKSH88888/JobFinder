@@ -2,9 +2,11 @@
 
 const express = require('express');
 const router = express.Router();
+const rateLimit = require('express-rate-limit');
 const { authUser } = require('../../middleware/authMiddleware');
-const { upload, validateUploadedFiles } = require('../../middleware/uploadMiddleware');
+const { upload } = require('../../middleware/uploadMiddlewareGridFS');
 const { validateUserProfile, validateJobId } = require('../../middleware/validationMiddleware');
+const constants = require('../../config/constants');
 const {
   getUserProfile,
   updateUserProfile,
@@ -15,6 +17,15 @@ const {
   removeBookmark,
   getBookmarkedJobs
 } = require('../../controllers/userController');
+
+// Rate limiter for file uploads (stricter than general API)
+const uploadLimiter = rateLimit({
+  windowMs: constants.RATE_LIMIT_WINDOW_MS,
+  max: 10, // 10 file uploads per 15 minutes
+  message: 'Too many file uploads, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 // --- Profile Routes ---
 
@@ -29,8 +40,8 @@ router.get('/profile', authUser, getUserProfile);
 router.put(
   '/profile',
   authUser,
+  uploadLimiter, // Add rate limiting for file uploads
   upload.fields([{ name: 'profilePhoto', maxCount: 1 }, { name: 'resume', maxCount: 1 }]),
-  validateUploadedFiles,
   validateUserProfile,
   updateUserProfile
 );

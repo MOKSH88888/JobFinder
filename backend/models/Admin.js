@@ -5,7 +5,11 @@ const adminSchema = new mongoose.Schema({
   isDefault: { type: Boolean, default: false } // To identify the root admin
 });
 
-// Indexes for performance optimization (username already has unique index from schema)
+// Indexes for performance optimization
+adminSchema.index({ username: 1 }, { unique: true }); // Explicit unique index for username
 adminSchema.index({ isDefault: 1 }); // For finding default admin quickly
+
+// Compound index for admin login queries
+adminSchema.index({ username: 1, isDefault: 1 });
 
 module.exports = mongoose.model('Admin', adminSchema);

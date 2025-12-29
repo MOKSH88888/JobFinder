@@ -21,15 +21,32 @@ const jobSchema = new mongoose.Schema({
       enum: ['Pending', 'Accepted', 'Rejected'], 
       default: 'Pending' 
     }
-  }]
+  }],
+  isDeleted: { type: Boolean, default: false },
+  deletedAt: { type: Date }
 }, { timestamps: true });
 
 // Indexes for performance optimization
 jobSchema.index({ createdAt: -1 }); // For sorting by newest jobs first
 jobSchema.index({ experienceRequired: 1 }); // For filtering by experience
 jobSchema.index({ salary: 1 }); // For filtering by salary
-jobSchema.index({ title: 'text', companyName: 'text', location: 'text' }); // Text search capability
-jobSchema.index({ experienceRequired: 1, salary: 1 }); // Compound index for common filter combination
-jobSchema.index({ postedBy: 1, createdAt: -1 }); // For admin to see their posted jobs
+jobSchema.index({ jobType: 1 }); // For filtering by job type
+jobSchema.index({ location: 1 }); // For location-based searches
+jobSchema.index({ isDeleted: 1 }); // For filtering active jobs
+jobSchema.index({ postedBy: 1 }); // For admin job queries
+jobSchema.index({ 'applicants.userId': 1 }); // For finding jobs user applied to
+jobSchema.index({ 'applicants.status': 1 }); // For filtering by applicant status
+
+// Text search index for title, company, and location
+jobSchema.index({ title: 'text', companyName: 'text', location: 'text' }); 
+
+// Compound indexes for common query patterns
+jobSchema.index({ isDeleted: 1, createdAt: -1 }); // Active jobs sorted by date
+jobSchema.index({ isDeleted: 1, experienceRequired: 1 }); // Active jobs by experience
+jobSchema.index({ isDeleted: 1, salary: 1 }); // Active jobs by salary
+jobSchema.index({ isDeleted: 1, jobType: 1 }); // Active jobs by type
+jobSchema.index({ isDeleted: 1, location: 1 }); // Active jobs by location
+jobSchema.index({ postedBy: 1, isDeleted: 1, createdAt: -1 }); // Admin's active jobs
+jobSchema.index({ experienceRequired: 1, salary: 1, isDeleted: 1 }); // Multi-filter searches
 
 module.exports = mongoose.model('Job', jobSchema);

@@ -22,11 +22,22 @@ const userSchema = new mongoose.Schema({
   bookmarkedJobs: [{ 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Job' 
-  }]
+  }],
+  isDeleted: { type: Boolean, default: false },
+  deletedAt: { type: Date }
 });
 
-// Indexes for performance optimization (email already has unique index from schema)
+// Indexes for performance optimization
+userSchema.index({ email: 1 }, { unique: true }); // Explicit unique index for email lookups
 userSchema.index({ experience: 1 }); // For filtering users by experience
-userSchema.index({ createdAt: -1 }); // If you add timestamps later
+userSchema.index({ skills: 1 }); // For searching users by skills
+userSchema.index({ isDeleted: 1 }); // For filtering active/deleted users
+userSchema.index({ 'appliedJobs.jobId': 1 }); // For finding users who applied to specific job
+userSchema.index({ 'appliedJobs.status': 1 }); // For filtering by application status
+userSchema.index({ bookmarkedJobs: 1 }); // For bookmark lookups
+
+// Compound indexes for common query patterns
+userSchema.index({ isDeleted: 1, experience: 1 }); // Active users by experience
+userSchema.index({ email: 1, isDeleted: 1 }); // Login queries
 
 module.exports = mongoose.model('User', userSchema);
