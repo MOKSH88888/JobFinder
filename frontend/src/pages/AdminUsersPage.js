@@ -21,6 +21,7 @@ import {
   Fade,
   IconButton,
   TextField,
+  TablePagination,
   alpha
 } from '@mui/material';
 import {
@@ -39,6 +40,8 @@ const AdminUsersPage = () => {
   const [message, setMessage] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [pdfViewerOpen, setPdfViewerOpen] = useState(false);
   const [selectedPdf, setSelectedPdf] = useState({ url: '', name: '' });
 
@@ -112,6 +115,17 @@ const AdminUsersPage = () => {
 
   const filteredUsers = getFilteredAndSortedUsers();
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const paginatedUsers = filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
   if (loading) {
     return (
       <AdminLayout>
@@ -149,33 +163,42 @@ const AdminUsersPage = () => {
         )}
 
         <Fade in timeout={600}>
-          <Box sx={{ mb: 3 }}>
-            <TextField
-              fullWidth
-              placeholder="Search users by name, email, phone, or gender..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <SearchIcon sx={{ color: '#667eea', mr: 1 }} />
-                )
-              }}
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: 2,
-                  background: 'rgba(255, 255, 255, 0.9)',
-                  '& fieldset': {
-                    borderColor: 'rgba(0, 0, 0, 0.1)'
-                  },
-                  '&:hover fieldset': {
-                    borderColor: '#667eea'
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: '#667eea'
-                  }
-                }
-              }}
-            />
+          <Box sx={{ mb: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.5, flexWrap: 'wrap', gap: 2 }}>
+              <Box sx={{ flex: '1 1 300px', maxWidth: { xs: '100%', md: '500px' } }}>
+                <TextField
+                  fullWidth
+                  placeholder="Search users by name, email, phone, or gender..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  size="small"
+                  InputProps={{
+                    startAdornment: (
+                      <SearchIcon sx={{ color: '#667eea', mr: 1 }} />
+                    )
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                      background: 'rgba(255, 255, 255, 0.9)',
+                      '& fieldset': {
+                        borderColor: 'rgba(0, 0, 0, 0.1)'
+                      },
+                      '&:hover fieldset': {
+                        borderColor: '#667eea'
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: '#667eea'
+                      }
+                    }
+                  }}
+                />
+              </Box>
+              <Typography variant="body2" color="text.secondary" fontWeight={500}>
+                Showing {paginatedUsers.length} of {filteredUsers.length} {filteredUsers.length === 1 ? 'user' : 'users'}
+                {searchQuery && ` (filtered from ${users.length} total)`}
+              </Typography>
+            </Box>
           </Box>
         </Fade>
 
@@ -191,95 +214,118 @@ const AdminUsersPage = () => {
               overflow: 'hidden'
             }}
           >
-            <TableContainer>
+            <TableContainer sx={{ overflowX: 'auto' }}>
               <Table>
                 <TableHead>
                   <TableRow sx={{ bgcolor: '#f8fafc' }}>
                     <TableCell 
                       sx={{ 
                         fontWeight: 700, 
+                        fontSize: '0.75rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
                         color: '#475569', 
-                        py: 2,
+                        py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                        bgcolor: sortConfig.key === 'name' ? alpha('#667eea', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('name')}
                     >
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
                         User
                         {sortConfig.key === 'name' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
-                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
                         )}
                       </Box>
                     </TableCell>
                     <TableCell 
                       sx={{ 
                         fontWeight: 700, 
+                        fontSize: '0.75rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
                         color: '#475569',
+                        py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                        bgcolor: sortConfig.key === 'email' ? alpha('#667eea', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('email')}
                     >
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
                         Email
                         {sortConfig.key === 'email' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
-                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
                         )}
                       </Box>
                     </TableCell>
-                    <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Phone</TableCell>
+                    <TableCell sx={{ fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', color: '#475569', py: 1.5 }}>Phone</TableCell>
                     <TableCell 
                       sx={{ 
                         fontWeight: 700, 
+                        fontSize: '0.75rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
                         color: '#475569',
+                        py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                        bgcolor: sortConfig.key === 'experience' ? alpha('#667eea', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('experience')}
                     >
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
                         Experience
                         {sortConfig.key === 'experience' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
-                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
                         )}
                       </Box>
                     </TableCell>
                     <TableCell 
                       sx={{ 
                         fontWeight: 700, 
+                        fontSize: '0.75rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
                         color: '#475569',
+                        py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                        bgcolor: sortConfig.key === 'gender' ? alpha('#667eea', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('gender')}
                     >
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
                         Gender
                         {sortConfig.key === 'gender' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
-                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
                         )}
                       </Box>
                     </TableCell>
-                    <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Resume</TableCell>
-                    <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Actions</TableCell>
+                    <TableCell sx={{ fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', color: '#475569', py: 1.5 }}>Resume</TableCell>
+                    <TableCell sx={{ fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', color: '#475569', py: 1.5 }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {filteredUsers.length > 0 ? (
-                    filteredUsers.map((user) => (
+                  {paginatedUsers.length > 0 ? (
+                    paginatedUsers.map((user) => (
                       <TableRow
                         key={user._id}
                         sx={{
@@ -287,7 +333,7 @@ const AdminUsersPage = () => {
                           transition: 'background-color 0.2s ease'
                         }}
                       >
-                        <TableCell>
+                        <TableCell sx={{ py: 1 }}>
                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                             <Avatar
                               src={
@@ -298,8 +344,8 @@ const AdminUsersPage = () => {
                                   : undefined
                               }
                               sx={{
-                                width: 48,
-                                height: 48,
+                                width: 32,
+                                height: 32,
                                 border: '2px solid #e2e8f0',
                                 bgcolor: alpha('#667eea', 0.1),
                                 color: '#667eea',
@@ -308,14 +354,14 @@ const AdminUsersPage = () => {
                             >
                               {user.name?.charAt(0)}
                             </Avatar>
-                            <Typography fontWeight={600} color="#1e293b">
+                            <Typography fontWeight={600} fontSize="0.875rem" color="#1e293b">
                               {user.name}
                             </Typography>
                           </Box>
                         </TableCell>
-                        <TableCell sx={{ color: 'text.secondary' }}>{user.email}</TableCell>
-                        <TableCell>{user.phone || 'N/A'}</TableCell>
-                        <TableCell>
+                        <TableCell sx={{ py: 1, fontSize: '0.875rem', color: 'text.secondary' }}>{user.email}</TableCell>
+                        <TableCell sx={{ py: 1, fontSize: '0.875rem' }}>{user.phone || 'N/A'}</TableCell>
+                        <TableCell sx={{ py: 1 }}>
                           <Chip
                             label={`${user.experience || 0} years`}
                             size="small"
@@ -326,8 +372,8 @@ const AdminUsersPage = () => {
                             }}
                           />
                         </TableCell>
-                        <TableCell>{user.gender || 'Not specified'}</TableCell>
-                        <TableCell>
+                        <TableCell sx={{ py: 1, fontSize: '0.875rem' }}>{user.gender || 'Not specified'}</TableCell>
+                        <TableCell sx={{ py: 1 }}>
                           {user.resume ? (
                             <Button
                               size="small"
@@ -356,7 +402,7 @@ const AdminUsersPage = () => {
                             </Typography>
                           )}
                         </TableCell>
-                        <TableCell>
+                        <TableCell sx={{ py: 1 }}>
                           <IconButton
                             size="small"
                             onClick={() => handleDelete(user._id)}
@@ -386,6 +432,21 @@ const AdminUsersPage = () => {
                 </TableBody>
               </Table>
             </TableContainer>
+            <TablePagination
+              component="div"
+              count={filteredUsers.length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              rowsPerPageOptions={[10, 25, 50]}
+              sx={{
+                borderTop: '1px solid rgba(0, 0, 0, 0.05)',
+                '.MuiTablePagination-select': {
+                  borderRadius: 1
+                }
+              }}
+            />
           </Paper>
         </Fade>
 

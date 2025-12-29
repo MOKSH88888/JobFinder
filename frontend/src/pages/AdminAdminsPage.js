@@ -23,6 +23,7 @@ import {
   Chip,
   Fade,
   IconButton,
+  TablePagination,
   alpha,
   Avatar
 } from '@mui/material';
@@ -43,6 +44,8 @@ const AdminAdminsPage = () => {
   const [creating, setCreating] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [message, setMessage] = useState({ text: '', severity: 'success' });
   const [openDialog, setOpenDialog] = useState(false);
   const [newAdmin, setNewAdmin] = useState({ username: '', password: '' });
@@ -132,6 +135,17 @@ const AdminAdminsPage = () => {
 
   const filteredAdmins = getFilteredAndSortedAdmins();
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const paginatedAdmins = filteredAdmins.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
   if (loading) {
     return (
       <AdminLayout>
@@ -193,33 +207,42 @@ const AdminAdminsPage = () => {
         )}
 
         <Fade in timeout={600}>
-          <Box sx={{ mb: 3 }}>
-            <TextField
-              fullWidth
-              placeholder="Search admins by username or role..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <SearchIcon sx={{ color: '#667eea', mr: 1 }} />
-                )
-              }}
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: 2,
-                  background: 'rgba(255, 255, 255, 0.9)',
-                  '& fieldset': {
-                    borderColor: 'rgba(0, 0, 0, 0.1)'
-                  },
-                  '&:hover fieldset': {
-                    borderColor: '#667eea'
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: '#667eea'
-                  }
-                }
-              }}
-            />
+          <Box sx={{ mb: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.5, flexWrap: 'wrap', gap: 2 }}>
+              <Box sx={{ flex: '1 1 300px', maxWidth: { xs: '100%', md: '500px' } }}>
+                <TextField
+                  fullWidth
+                  placeholder="Search admins by username or role..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  size="small"
+                  InputProps={{
+                    startAdornment: (
+                      <SearchIcon sx={{ color: '#667eea', mr: 1 }} />
+                    )
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                      background: 'rgba(255, 255, 255, 0.9)',
+                      '& fieldset': {
+                        borderColor: 'rgba(0, 0, 0, 0.1)'
+                      },
+                      '&:hover fieldset': {
+                        borderColor: '#667eea'
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: '#667eea'
+                      }
+                    }
+                  }}
+                />
+              </Box>
+              <Typography variant="body2" color="text.secondary" fontWeight={500}>
+                Showing {paginatedAdmins.length} of {filteredAdmins.length} {filteredAdmins.length === 1 ? 'admin' : 'admins'}
+                {searchQuery && ` (filtered from ${admins.length} total)`}
+              </Typography>
+            </Box>
           </Box>
         </Fade>
 
@@ -235,54 +258,66 @@ const AdminAdminsPage = () => {
               overflow: 'hidden'
             }}
           >
-            <TableContainer>
+            <TableContainer sx={{ overflowX: 'auto' }}>
               <Table>
                 <TableHead>
                   <TableRow sx={{ bgcolor: '#f8fafc' }}>
-                    <TableCell sx={{ fontWeight: 700, color: '#475569', py: 2 }}>Admin</TableCell>
+                    <TableCell sx={{ fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', color: '#475569', py: 1.5 }}>Admin</TableCell>
                     <TableCell 
                       sx={{ 
                         fontWeight: 700, 
+                        fontSize: '0.75rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
                         color: '#475569',
+                        py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                        bgcolor: sortConfig.key === 'username' ? alpha('#667eea', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('username')}
                     >
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
                         Username
                         {sortConfig.key === 'username' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
-                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
                         )}
                       </Box>
                     </TableCell>
                     <TableCell 
                       sx={{ 
                         fontWeight: 700, 
+                        fontSize: '0.75rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
                         color: '#475569',
+                        py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                        bgcolor: sortConfig.key === 'role' ? alpha('#667eea', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('role')}
                     >
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
                         Role
                         {sortConfig.key === 'role' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
-                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea' }} />
                         )}
                       </Box>
                     </TableCell>
-                    <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Actions</TableCell>
+                    <TableCell sx={{ fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', color: '#475569', py: 1.5 }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {Array.isArray(filteredAdmins) && filteredAdmins.map((admin) => (
+                  {Array.isArray(paginatedAdmins) && paginatedAdmins.map((admin) => (
                     <TableRow
                       key={admin._id}
                       sx={{
@@ -290,12 +325,12 @@ const AdminAdminsPage = () => {
                         transition: 'background-color 0.2s ease'
                       }}
                     >
-                      <TableCell>
+                      <TableCell sx={{ py: 1 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                           <Avatar
                             sx={{
-                              width: 48,
-                              height: 48,
+                              width: 32,
+                              height: 32,
                               bgcolor: admin.isDefault 
                                 ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
                                 : alpha('#667eea', 0.1),
@@ -308,12 +343,12 @@ const AdminAdminsPage = () => {
                           </Avatar>
                         </Box>
                       </TableCell>
-                      <TableCell>
-                        <Typography fontWeight={600} color="#1e293b">
+                      <TableCell sx={{ py: 1 }}>
+                        <Typography fontWeight={600} fontSize="0.875rem" color="#1e293b">
                           {admin.username}
                         </Typography>
                       </TableCell>
-                      <TableCell>
+                      <TableCell sx={{ py: 1 }}>
                         {admin.isDefault ? (
                           <Chip
                             label="Super Admin"
@@ -340,7 +375,7 @@ const AdminAdminsPage = () => {
                           />
                         )}
                       </TableCell>
-                      <TableCell>
+                      <TableCell sx={{ py: 1 }}>
                         {!admin.isDefault ? (
                           <IconButton
                             size="small"
@@ -372,6 +407,21 @@ const AdminAdminsPage = () => {
                 </TableBody>
               </Table>
             </TableContainer>
+            <TablePagination
+              component="div"
+              count={filteredAdmins.length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              rowsPerPageOptions={[10, 25, 50]}
+              sx={{
+                borderTop: '1px solid rgba(0, 0, 0, 0.05)',
+                '.MuiTablePagination-select': {
+                  borderRadius: 1
+                }
+              }}
+            />
 
             {admins.length === 0 && (
               <Box sx={{ textAlign: 'center', py: 12 }}>

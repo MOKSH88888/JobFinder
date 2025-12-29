@@ -25,6 +25,7 @@ import {
   Chip,
   Fade,
   IconButton,
+  TablePagination,
   alpha
 } from '@mui/material';
 import {
@@ -53,6 +54,8 @@ const AdminJobsPage = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [newJob, setNewJob] = useState({
     title: '',
     companyName: '',
@@ -253,6 +256,17 @@ const AdminJobsPage = () => {
 
   const filteredJobs = getFilteredAndSortedJobs();
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const paginatedJobs = filteredJobs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
   if (loading) {
     return (
       <AdminLayout>
@@ -314,33 +328,42 @@ const AdminJobsPage = () => {
         )}
 
         <Fade in timeout={600}>
-          <Box sx={{ mb: 3 }}>
-            <TextField
-              fullWidth
-              placeholder="Search jobs by title, company, location, or type..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <SearchIcon sx={{ color: '#667eea', mr: 1 }} />
-                )
-              }}
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: 2,
-                  background: 'rgba(255, 255, 255, 0.9)',
-                  '& fieldset': {
-                    borderColor: 'rgba(0, 0, 0, 0.1)'
-                  },
-                  '&:hover fieldset': {
-                    borderColor: '#667eea'
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: '#667eea'
-                  }
-                }
-              }}
-            />
+          <Box sx={{ mb: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.5, flexWrap: 'wrap', gap: 2 }}>
+              <Box sx={{ flex: '1 1 300px', maxWidth: { xs: '100%', md: '500px' } }}>
+                <TextField
+                  fullWidth
+                  placeholder="Search jobs by title, company, location, or type..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  size="small"
+                  InputProps={{
+                    startAdornment: (
+                      <SearchIcon sx={{ color: '#667eea', mr: 1 }} />
+                    )
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                      background: 'rgba(255, 255, 255, 0.9)',
+                      '& fieldset': {
+                        borderColor: 'rgba(0, 0, 0, 0.1)'
+                      },
+                      '&:hover fieldset': {
+                        borderColor: '#667eea'
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: '#667eea'
+                      }
+                    }
+                  }}
+                />
+              </Box>
+              <Typography variant="body2" color="text.secondary" fontWeight={500}>
+                Showing {paginatedJobs.length} of {filteredJobs.length} {filteredJobs.length === 1 ? 'job' : 'jobs'}
+                {searchQuery && ` (filtered from ${jobs.length} total)`}
+              </Typography>
+            </Box>
           </Box>
         </Fade>
 
@@ -356,131 +379,166 @@ const AdminJobsPage = () => {
               overflow: 'hidden'
             }}
           >
-            <TableContainer>
+            <TableContainer sx={{ overflowX: 'auto' }}>
               <Table>
                 <TableHead>
                   <TableRow sx={{ bgcolor: '#f8fafc' }}>
                     <TableCell 
                       sx={{ 
                         fontWeight: 700, 
+                        fontSize: '0.75rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
                         color: '#475569', 
-                        py: 2,
+                        py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                        bgcolor: sortConfig.key === 'title' ? alpha('#667eea', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('title')}
                     >
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
                         Job Title
                         {sortConfig.key === 'title' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
-                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
                         )}
                       </Box>
                     </TableCell>
                     <TableCell 
                       sx={{ 
                         fontWeight: 700, 
+                        fontSize: '0.75rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
                         color: '#475569',
+                        py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                        bgcolor: sortConfig.key === 'companyName' ? alpha('#667eea', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('companyName')}
                     >
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
                         Company
                         {sortConfig.key === 'companyName' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
-                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
                         )}
                       </Box>
                     </TableCell>
                     <TableCell 
                       sx={{ 
                         fontWeight: 700, 
+                        fontSize: '0.75rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
                         color: '#475569',
+                        py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                        bgcolor: sortConfig.key === 'location' ? alpha('#667eea', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('location')}
                     >
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
                         Location
                         {sortConfig.key === 'location' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
-                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
                         )}
                       </Box>
                     </TableCell>
                     <TableCell 
                       sx={{ 
                         fontWeight: 700, 
+                        fontSize: '0.75rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
                         color: '#475569',
+                        py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                        bgcolor: sortConfig.key === 'salary' ? alpha('#667eea', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('salary')}
                     >
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
                         Salary
                         {sortConfig.key === 'salary' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
-                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
                         )}
                       </Box>
                     </TableCell>
                     <TableCell 
                       sx={{ 
                         fontWeight: 700, 
+                        fontSize: '0.75rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
                         color: '#475569',
+                        py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                        bgcolor: sortConfig.key === 'jobType' ? alpha('#667eea', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('jobType')}
                     >
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
                         Type
                         {sortConfig.key === 'jobType' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
-                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
                         )}
                       </Box>
                     </TableCell>
                     <TableCell 
                       sx={{ 
                         fontWeight: 700, 
+                        fontSize: '0.75rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
                         color: '#475569',
+                        py: 1.5,
                         cursor: 'pointer',
                         userSelect: 'none',
-                        '&:hover': { bgcolor: alpha('#667eea', 0.05) }
+                        bgcolor: sortConfig.key === 'applicants' ? alpha('#667eea', 0.08) : 'transparent',
+                        '&:hover': { bgcolor: alpha('#667eea', 0.12) },
+                        transition: 'all 0.2s ease'
                       }}
                       onClick={() => handleSort('applicants')}
                     >
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
                         Applicants
                         {sortConfig.key === 'applicants' && (
                           sortConfig.direction === 'asc' 
-                            ? <ArrowUpwardIcon fontSize="small" sx={{ color: '#667eea' }} />
-                            : <ArrowDownwardIcon fontSize="small" sx={{ color: '#667eea' }} />
+                            ? <ArrowUpwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
+                            : <ArrowDownwardIcon fontSize="medium" sx={{ color: '#667eea', fontWeight: 900 }} />
                         )}
                       </Box>
                     </TableCell>
-                    <TableCell sx={{ fontWeight: 700, color: '#475569' }}>Actions</TableCell>
+                    <TableCell sx={{ fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', color: '#475569', py: 1.5 }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {filteredJobs.length > 0 ? (
-                    filteredJobs.map((job, index) => (
+                  {paginatedJobs.length > 0 ? (
+                    paginatedJobs.map((job, index) => (
                       <TableRow
                         key={job._id}
                         sx={{
@@ -488,22 +546,22 @@ const AdminJobsPage = () => {
                           transition: 'background-color 0.2s ease'
                         }}
                       >
-                        <TableCell>
-                          <Typography fontWeight={600} color="#1e293b">
+                        <TableCell sx={{ py: 1 }}>
+                          <Typography fontWeight={600} fontSize="0.875rem" color="#1e293b">
                             {job.title}
                           </Typography>
-                          <Typography variant="caption" color="text.secondary">
+                          <Typography variant="caption" fontSize="0.75rem" color="text.secondary">
                             {job.experienceRequired === 0 ? 'Fresher' : `${job.experienceRequired} yrs exp`}
                           </Typography>
                         </TableCell>
-                        <TableCell>{job.companyName}</TableCell>
-                        <TableCell>{job.location}</TableCell>
-                        <TableCell>
-                          <Typography fontWeight={600} color="#667eea">
+                        <TableCell sx={{ py: 1, fontSize: '0.875rem' }}>{job.companyName}</TableCell>
+                        <TableCell sx={{ py: 1, fontSize: '0.875rem' }}>{job.location}</TableCell>
+                        <TableCell sx={{ py: 1 }}>
+                          <Typography fontWeight={600} fontSize="0.875rem" color="#667eea">
                             ₹{job.salary?.toLocaleString('en-IN')}
                           </Typography>
                         </TableCell>
-                        <TableCell>
+                        <TableCell sx={{ py: 1 }}>
                           <Chip
                             label={job.jobType}
                             size="small"
@@ -515,7 +573,7 @@ const AdminJobsPage = () => {
                             }}
                           />
                         </TableCell>
-                        <TableCell>
+                        <TableCell sx={{ py: 1 }}>
                           <Chip
                             label={job.applicants?.length || 0}
                             size="small"
@@ -526,7 +584,7 @@ const AdminJobsPage = () => {
                             }}
                           />
                         </TableCell>
-                        <TableCell>
+                        <TableCell sx={{ py: 1 }}>
                           <Box sx={{ display: 'flex', gap: 1 }}>
                             <IconButton
                               size="small"
@@ -571,6 +629,21 @@ const AdminJobsPage = () => {
                 </TableBody>
               </Table>
             </TableContainer>
+            <TablePagination
+              component="div"
+              count={filteredJobs.length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              rowsPerPageOptions={[10, 25, 50]}
+              sx={{
+                borderTop: '1px solid rgba(0, 0, 0, 0.05)',
+                '.MuiTablePagination-select': {
+                  borderRadius: 1
+                }
+              }}
+            />
           </Paper>
         </Fade>
 
