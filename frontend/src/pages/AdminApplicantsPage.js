@@ -171,15 +171,17 @@ const AdminApplicantsPage = () => {
               <Typography variant="body1" color="text.secondary">
                 {job?.companyName}
               </Typography>
-              <Chip
-                label={job?.location}
-                size="small"
-                sx={{
-                  bgcolor: alpha('#5568d3', 0.1),
-                  color: '#5568d3',
-                  fontWeight: 600
-                }}
-              />
+              {job?.location && (
+                <Chip
+                  label={job.location}
+                  size="small"
+                  sx={{
+                    bgcolor: alpha('#5568d3', 0.1),
+                    color: '#5568d3',
+                    fontWeight: 600
+                  }}
+                />
+              )}
               <Box
                 component="span"
                 sx={{
