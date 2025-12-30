@@ -180,31 +180,27 @@ const AdminApplicantsPage = () => {
                   fontWeight: 600
                 }}
               />
-              <Chip
-                label={`${applicants.length} Applicants`}
-                size="small"
+              <Box
+                component="span"
                 sx={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   bgcolor: alpha('#5568d3', 0.1),
                   color: '#5568d3',
                   fontWeight: 600,
                   fontSize: '0.875rem',
                   border: '1px solid',
                   borderColor: alpha('#5568d3', 0.2),
-                  '& .MuiChip-label': {
-                    px: 1.5,
-                    py: 0.5
-                  },
-                  '& .MuiChip-icon, & .MuiChip-avatar, & .MuiChip-deleteIcon': {
-                    display: 'none !important',
-                    margin: 0,
-                    width: 0,
-                    height: 0
-                  },
-                  '&::before, &::after': {
-                    display: 'none'
-                  }
+                  borderRadius: '16px',
+                  px: 1.5,
+                  py: 0.5,
+                  height: '24px',
+                  lineHeight: 1
                 }}
-              />
+              >
+                {applicants.length} Applicants
+              </Box>
             </Box>
           </Box>
         </Fade>
