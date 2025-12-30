@@ -1,6 +1,7 @@
 // src/pages/AdminAdminsPage.js
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import API from '../api';
 import { useAuth } from '../context/AuthContext';
 import {
@@ -40,6 +41,7 @@ import {
 import AdminLayout from '../components/admin/AdminLayout';
 
 const AdminAdminsPage = () => {
+  const navigate = useNavigate();
   const { admin: currentAdmin } = useAuth();
   const [admins, setAdmins] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -51,6 +53,13 @@ const AdminAdminsPage = () => {
   const [message, setMessage] = useState({ text: '', severity: 'success' });
   const [openDialog, setOpenDialog] = useState(false);
   const [newAdmin, setNewAdmin] = useState({ username: '', password: '' });
+
+  // Redirect non-Super Admins
+  useEffect(() => {
+    if (currentAdmin && currentAdmin.role !== 'Super Admin') {
+      navigate('/admin-dashboard');
+    }
+  }, [currentAdmin, navigate]);
 
   useEffect(() => {
     fetchAdmins();
@@ -171,30 +180,28 @@ const AdminAdminsPage = () => {
                 Manage administrator accounts and permissions
               </Typography>
             </Box>
-            {currentAdmin?.role === 'Super Admin' && (
-              <Button
-                variant="contained"
-                startIcon={<AddIcon />}
-                onClick={() => setOpenDialog(true)}
-                sx={{
-                  background: 'linear-gradient(135deg, #5568d3 0%, #764ba2 100%)',
-                  textTransform: 'none',
-                  fontWeight: 600,
-                  px: 3,
-                  py: 1.5,
-                  borderRadius: 2,
-                  boxShadow: '0 4px 20px rgba(102, 126, 234, 0.4)',
-                  whiteSpace: 'nowrap',
-                  '&:hover': {
-                    boxShadow: '0 6px 28px rgba(102, 126, 234, 0.5)',
-                    transform: 'translateY(-2px)'
-                  },
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                Create Admin
-              </Button>
-            )}
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              onClick={() => setOpenDialog(true)}
+              sx={{
+                background: 'linear-gradient(135deg, #5568d3 0%, #764ba2 100%)',
+                textTransform: 'none',
+                fontWeight: 600,
+                px: 3,
+                py: 1.5,
+                borderRadius: 2,
+                boxShadow: '0 4px 20px rgba(102, 126, 234, 0.4)',
+                whiteSpace: 'nowrap',
+                '&:hover': {
+                  boxShadow: '0 6px 28px rgba(102, 126, 234, 0.5)',
+                  transform: 'translateY(-2px)'
+                },
+                transition: 'all 0.3s ease'
+              }}
+            >
+              Create Admin
+            </Button>
           </Box>
         </Fade>
 
@@ -387,7 +394,7 @@ const AdminAdminsPage = () => {
                         )}
                       </TableCell>
                       <TableCell sx={{ py: 1 }}>
-                        {!admin.isDefault && currentAdmin?.role === 'Super Admin' ? (
+                        {!admin.isDefault ? (
                           <IconButton
                             size="small"
                             onClick={() => handleDelete(admin._id)}
@@ -401,23 +408,13 @@ const AdminAdminsPage = () => {
                           >
                             <DeleteIcon fontSize="small" />
                           </IconButton>
-                        ) : admin.isDefault ? (
+                        ) : (
                           <Chip
                             label="Protected"
                             size="small"
                             sx={{
                               bgcolor: alpha('#22c55e', 0.1),
                               color: '#22c55e',
-                              fontWeight: 600
-                            }}
-                          />
-                        ) : (
-                          <Chip
-                            label="No Access"
-                            size="small"
-                            sx={{
-                              bgcolor: alpha('#6b7280', 0.1),
-                              color: '#6b7280',
                               fontWeight: 600
                             }}
                           />

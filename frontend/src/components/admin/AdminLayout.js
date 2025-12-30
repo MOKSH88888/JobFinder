@@ -42,8 +42,13 @@ const AdminLayout = ({ children }) => {
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/admin-dashboard' },
     { text: 'Jobs', icon: <WorkIcon />, path: '/admin-jobs' },
     { text: 'Users', icon: <PeopleIcon />, path: '/admin-users' },
-    { text: 'Admins', icon: <AdminIcon />, path: '/admin-admins' }
+    { text: 'Admins', icon: <AdminIcon />, path: '/admin-admins', superAdminOnly: true }
   ];
+
+  // Filter menu items based on admin role
+  const visibleMenuItems = menuItems.filter(item => 
+    !item.superAdminOnly || admin?.role === 'Super Admin'
+  );
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -99,7 +104,7 @@ const AdminLayout = ({ children }) => {
       </Box>
 
       <List sx={{ flex: 1, px: 2, pt: 2 }}>
-        {menuItems.map((item) => (
+        {visibleMenuItems.map((item) => (
           <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
             <ListItemButton
               selected={location.pathname === item.path}
