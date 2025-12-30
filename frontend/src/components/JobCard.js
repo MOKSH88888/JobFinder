@@ -130,7 +130,8 @@ const JobCard = ({ job }) => {
           p: 2.5,
           position: 'relative',
           borderBottom: '1px solid',
-          borderColor: '#e8eaf0'
+          borderColor: '#e8eaf0',
+          minHeight: user ? 110 : 95
         }}
       >
         {/* New Badge */}
@@ -140,17 +141,17 @@ const JobCard = ({ job }) => {
             size="small"
             sx={{ 
               position: 'absolute',
-              top: 8,
-              left: 8,
+              top: 10,
+              left: 10,
               bgcolor: '#4caf50',
               color: 'white',
-              fontWeight: 600,
-              fontSize: '0.625rem',
-              height: 18,
-              px: 0.75,
-              boxShadow: 'none',
+              fontWeight: 700,
+              fontSize: '0.65rem',
+              height: 20,
+              px: 1,
+              boxShadow: '0 2px 8px rgba(76,175,80,0.25)',
               '& .MuiChip-label': {
-                px: 0.75
+                px: 1
               }
             }}
           />
@@ -164,12 +165,14 @@ const JobCard = ({ job }) => {
               disabled={loading}
               sx={{
                 position: 'absolute',
-                top: 8,
-                right: 8,
+                top: 10,
+                right: 10,
                 bgcolor: 'white',
                 color: isBookmarked ? 'primary.main' : 'action.active',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
                 transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                width: 36,
+                height: 36,
                 '&:hover': {
                   bgcolor: 'white',
                   transform: 'scale(1.1)',
@@ -177,15 +180,14 @@ const JobCard = ({ job }) => {
                   color: isBookmarked ? 'primary.dark' : 'primary.main'
                 }
               }}
-              size="small"
             >
-              {isBookmarked ? <BookmarkIcon /> : <BookmarkBorderIcon />}
+              {isBookmarked ? <BookmarkIcon fontSize="small" /> : <BookmarkBorderIcon fontSize="small" />}
             </IconButton>
           </Tooltip>
         )}
         
         {/* Company Name */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5, mt: isNewJob ? 3 : 0 }}>
           <BusinessCenterIcon sx={{ color: 'primary.main', fontSize: 18 }} />
           <Typography 
             variant="body2" 
@@ -194,7 +196,7 @@ const JobCard = ({ job }) => {
               color: 'text.secondary',
               textTransform: 'uppercase',
               fontSize: '0.75rem',
-              letterSpacing: '0.5px'
+              letterSpacing: '0.8px'
             }}
           >
             {job.companyName}
@@ -207,7 +209,7 @@ const JobCard = ({ job }) => {
           sx={{ 
             fontWeight: 700,
             color: 'text.primary',
-            mb: 1,
+            mb: hasApplied ? 1.5 : 0.5,
             pr: user ? 5 : 0,
             lineHeight: 1.3,
             fontSize: { xs: '1.1rem', md: '1.15rem' }
@@ -219,7 +221,7 @@ const JobCard = ({ job }) => {
         {/* Applied Badge */}
         {hasApplied && (
           <Chip 
-            icon={<CheckCircleIcon sx={{ fontSize: 14 }} />}
+            icon={<CheckCircleIcon sx={{ fontSize: 16 }} />}
             label="Applied" 
             size="small"
             color="success"
@@ -227,40 +229,44 @@ const JobCard = ({ job }) => {
             sx={{ 
               fontWeight: 600,
               fontSize: '0.75rem',
-              height: 24,
-              borderWidth: '1.5px'
+              height: 26,
+              borderWidth: '1.5px',
+              '& .MuiChip-icon': {
+                ml: 0.5
+              }
             }}
           />
         )}
       </Box>
 
       <CardContent sx={{ flexGrow: 1, pt: 2.5, pb: 2, px: 2.5 }}>
-        {/* Key Info Chips */}
-        <Stack spacing={1.2}>
+        {/* Key Info - Better Alignment */}
+        <Stack spacing={1.5}>
           {/* Location */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <LocationOnIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
-            <Typography variant="body2" color="text.secondary">
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
+            <LocationOnIcon sx={{ fontSize: 19, color: 'text.secondary' }} />
+            <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.875rem' }}>
               {job.location}
             </Typography>
           </Box>
           
           {/* Experience */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <TrendingUpIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
-            <Typography variant="body2" color="text.secondary">
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
+            <TrendingUpIcon sx={{ fontSize: 19, color: 'text.secondary' }} />
+            <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.875rem' }}>
               {experienceText}
             </Typography>
           </Box>
           
           {/* Salary */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <CurrencyRupeeIcon sx={{ fontSize: 18, color: 'success.main' }} />
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
+            <CurrencyRupeeIcon sx={{ fontSize: 19, color: 'success.main' }} />
             <Typography 
               variant="body2" 
               sx={{ 
                 fontWeight: 600, 
-                color: 'success.main'
+                color: 'success.main',
+                fontSize: '0.875rem'
               }}
             >
               {formattedSalary} / year
