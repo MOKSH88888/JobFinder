@@ -100,7 +100,7 @@ exports.loginAdmin = asyncHandler(async (req, res) => {
       id: admin.id,
       isDefault: admin.isDefault,
       username: admin.username,
-      role: admin.role
+      role: admin.isDefault ? 'Super Admin' : 'Admin'
     }
   };
 
