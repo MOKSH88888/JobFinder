@@ -552,21 +552,29 @@ const HomePage = () => {
             sx={{ 
               bgcolor: showFilters ? 'primary.main' : 'white',
               color: showFilters ? 'white' : 'primary.main',
-              border: '1px solid',
+              border: '1.5px solid',
               borderColor: 'primary.main',
-              boxShadow: showFilters ? '0 4px 12px rgba(102, 126, 234, 0.3)' : 'none',
+              boxShadow: showFilters ? '0 2px 8px rgba(102, 126, 234, 0.25)' : '0 1px 3px rgba(0,0,0,0.08)',
               '&:hover': { 
-                bgcolor: showFilters ? 'primary.dark' : alpha('#667eea', 0.08),
-                boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)'
+                bgcolor: showFilters ? 'primary.dark' : alpha('#667eea', 0.05),
+                boxShadow: '0 2px 8px rgba(102, 126, 234, 0.25)'
               },
-              transition: 'all 0.3s'
+              transition: 'all 0.2s'
             }}
           >
             <Badge 
               badgeContent={hasActiveFilters ? Object.values(filters).filter(v => v !== '').length : 0} 
               color="error"
+              sx={{
+                '& .MuiBadge-badge': {
+                  fontSize: '0.65rem',
+                  height: 16,
+                  minWidth: 16,
+                  fontWeight: 600
+                }
+              }}
             >
-              <TuneIcon />
+              <TuneIcon sx={{ fontSize: 20 }} />
             </Badge>
           </IconButton>
         </Box>
@@ -576,41 +584,47 @@ const HomePage = () => {
           <Paper 
             elevation={0} 
             sx={{ 
-              mb: 4, 
-              p: { xs: 2, sm: 3 }, 
-              borderRadius: 3,
+              mb: 5, 
+              p: 3, 
+              borderRadius: 2.5,
               border: '1px solid',
-              borderColor: alpha('#5e72e4', 0.15),
+              borderColor: alpha('#e0e0e0', 1),
               bgcolor: 'white',
-              boxShadow: '0 2px 16px rgba(94, 114, 228, 0.08)'
+              boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
             }}
           >
             {/* Inline Search & Filters */}
-            <Grid container spacing={2} alignItems="flex-end">
+            <Grid container spacing={2.5} alignItems="flex-end">
               {/* Main Search - 40% width on desktop */}
               <Grid item xs={12} md={5}>
                 <TextField
                   fullWidth
-                  size="medium"
                   name="search"
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
-                  placeholder="Search job title, company, keywords..."
+                  placeholder="Search by job title, company, or keywords..."
                   variant="outlined"
                   sx={{ 
                     '& .MuiOutlinedInput-root': {
-                      bgcolor: alpha('#f8f9fa', 0.6),
-                      borderRadius: 2,
+                      bgcolor: '#fafafa',
+                      borderRadius: 1.5,
+                      fontSize: '0.9375rem',
+                      transition: 'all 0.2s',
+                      '& fieldset': {
+                        borderColor: '#e0e0e0',
+                      },
                       '&:hover': {
-                        bgcolor: '#f8f9fa',
-                        boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+                        bgcolor: 'white',
+                        '& fieldset': {
+                          borderColor: '#bdbdbd',
+                        }
                       },
                       '&.Mui-focused': {
                         bgcolor: 'white',
-                        boxShadow: `0 0 0 3px ${alpha('#5e72e4', 0.1)}`,
+                        boxShadow: `0 0 0 3px ${alpha('#667eea', 0.08)}`,
                         '& fieldset': {
                           borderColor: 'primary.main',
-                          borderWidth: '2px'
+                          borderWidth: '1.5px'
                         }
                       }
                     }
@@ -618,7 +632,7 @@ const HomePage = () => {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <SearchIcon sx={{ color: 'primary.main', fontSize: 22 }} />
+                        <SearchIcon sx={{ color: '#757575', fontSize: 20 }} />
                       </InputAdornment>
                     ),
                     endAdornment: searchInput && (
@@ -627,6 +641,7 @@ const HomePage = () => {
                           size="small" 
                           onClick={() => setSearchInput('')}
                           sx={{ 
+                            color: '#757575',
                             '&:hover': { 
                               color: 'error.main',
                               bgcolor: alpha('#f44336', 0.08)
@@ -645,22 +660,38 @@ const HomePage = () => {
               <Grid item xs={12} sm={4} md={2}>
                 <FormControl 
                   fullWidth 
-                  size="small"
+                  size="medium"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      bgcolor: '#fafafa',
+                      borderRadius: 1.5,
+                      '& fieldset': {
+                        borderColor: '#e0e0e0',
+                      },
+                      '&:hover fieldset': {
+                        borderColor: '#bdbdbd',
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: 'primary.main',
+                        borderWidth: '1.5px'
+                      }
+                    }
+                  }}
                 >
-                  <InputLabel>Exp.</InputLabel>
+                  <InputLabel>Experience</InputLabel>
                   <Select
                     name="experience"
                     value={filters.experience}
-                    label="Exp."
+                    label="Experience"
                     onChange={handleFilterChange}
                     displayEmpty
                   >
-                    <MenuItem value="">All</MenuItem>
+                    <MenuItem value="">All Levels</MenuItem>
                     <MenuItem value={0}>Fresher</MenuItem>
-                    <MenuItem value={1}>1-2 yrs</MenuItem>
-                    <MenuItem value={3}>3-4 yrs</MenuItem>
-                    <MenuItem value={5}>5-6 yrs</MenuItem>
-                    <MenuItem value={7}>7+ yrs</MenuItem>
+                    <MenuItem value={1}>1-2 years</MenuItem>
+                    <MenuItem value={3}>3-4 years</MenuItem>
+                    <MenuItem value={5}>5-6 years</MenuItem>
+                    <MenuItem value={7}>7+ years</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -668,17 +699,32 @@ const HomePage = () => {
               <Grid item xs={6} sm={3} md={2}>
                 <TextField
                   fullWidth
-                  size="small"
-                  label="Min Salary"
+                  label="Min Salary (LPA)"
                   name="minSalary"
                   type="number"
                   value={filters.minSalary}
                   onChange={handleFilterChange}
-                  placeholder="5L"
+                  placeholder="5"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      bgcolor: '#fafafa',
+                      borderRadius: 1.5,
+                      '& fieldset': {
+                        borderColor: '#e0e0e0',
+                      },
+                      '&:hover fieldset': {
+                        borderColor: '#bdbdbd',
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: 'primary.main',
+                        borderWidth: '1.5px'
+                      }
+                    }
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <CurrencyRupeeIcon fontSize="small" />
+                        <CurrencyRupeeIcon sx={{ fontSize: 18, color: '#757575' }} />
                       </InputAdornment>
                     )
                   }}
@@ -688,17 +734,32 @@ const HomePage = () => {
               <Grid item xs={6} sm={3} md={2}>
                 <TextField
                   fullWidth
-                  size="small"
-                  label="Max Salary"
+                  label="Max Salary (LPA)"
                   name="maxSalary"
                   type="number"
                   value={filters.maxSalary}
                   onChange={handleFilterChange}
-                  placeholder="15L"
+                  placeholder="15"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      bgcolor: '#fafafa',
+                      borderRadius: 1.5,
+                      '& fieldset': {
+                        borderColor: '#e0e0e0',
+                      },
+                      '&:hover fieldset': {
+                        borderColor: '#bdbdbd',
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: 'primary.main',
+                        borderWidth: '1.5px'
+                      }
+                    }
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <CurrencyRupeeIcon fontSize="small" />
+                        <CurrencyRupeeIcon sx={{ fontSize: 18, color: '#757575' }} />
                       </InputAdornment>
                     )
                   }}

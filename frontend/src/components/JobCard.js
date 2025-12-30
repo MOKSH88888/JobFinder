@@ -126,11 +126,11 @@ const JobCard = ({ job }) => {
       {/* Header Section */}
       <Box 
         sx={{ 
-          background: `linear-gradient(135deg, ${alpha('#667eea', 0.08)} 0%, ${alpha('#764ba2', 0.04)} 100%)`,
+          background: alpha('#f5f7fa', 1),
           p: 2.5,
           position: 'relative',
           borderBottom: '1px solid',
-          borderColor: 'divider'
+          borderColor: '#e8eaf0'
         }}
       >
         {/* New Badge */}
@@ -140,15 +140,18 @@ const JobCard = ({ job }) => {
             size="small"
             sx={{ 
               position: 'absolute',
-              top: user ? 40 : 8,
-              right: 8,
-              bgcolor: '#ff5722',
+              top: 8,
+              left: 8,
+              bgcolor: '#4caf50',
               color: 'white',
               fontWeight: 600,
-              fontSize: '0.65rem',
-              height: 20,
+              fontSize: '0.625rem',
+              height: 18,
               px: 0.75,
-              boxShadow: '0 2px 4px rgba(255, 87, 34, 0.3)'
+              boxShadow: 'none',
+              '& .MuiChip-label': {
+                px: 0.75
+              }
             }}
           />
         )}
