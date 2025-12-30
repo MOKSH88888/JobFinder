@@ -59,7 +59,12 @@ export const AuthProvider = ({ children }) => {
             localStorage.removeItem('adminToken');
             setAdmin(null);
           } else if (decoded.admin) {
-            setAdmin({ id: decoded.admin.id, isDefault: decoded.admin.isDefault });
+            setAdmin({ 
+              id: decoded.admin.id, 
+              isDefault: decoded.admin.isDefault,
+              username: decoded.admin.username,
+              role: decoded.admin.role
+            });
           }
         } catch (error) {
           localStorage.removeItem('adminToken');
@@ -96,7 +101,12 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     localStorage.setItem('adminToken', data.token);
     const decoded = jwtDecode(data.token);
-    setAdmin({ id: decoded.admin.id, isDefault: decoded.admin.isDefault });
+    setAdmin({ 
+      id: decoded.admin.id, 
+      isDefault: decoded.admin.isDefault,
+      username: decoded.admin.username,
+      role: decoded.admin.role
+    });
   };
   
   const registerUser = async (name, email, password, gender) => {

@@ -98,7 +98,9 @@ exports.loginAdmin = asyncHandler(async (req, res) => {
   const payload = {
     admin: {
       id: admin.id,
-      isDefault: admin.isDefault
+      isDefault: admin.isDefault,
+      username: admin.username,
+      role: admin.role
     }
   };
 
