@@ -656,7 +656,7 @@ const HomePage = () => {
             {/* Inline Search & Filters */}
             <Grid container spacing={2} alignItems="flex-end">
               {/* Main Search */}
-              <Grid item xs={12} sm={12} md={4}>
+              <Grid item xs={12} sm={4} md={4}>
                 <TextField
                   fullWidth
                   name="search"
@@ -717,7 +717,7 @@ const HomePage = () => {
               </Grid>
 
               {/* Experience Filter */}
-              <Grid item xs={6} sm={3} md={2.5}>
+              <Grid item xs={6} sm={2.5} md={2.5}>
                 <FormControl 
                   fullWidth 
                   size="medium"
@@ -756,7 +756,7 @@ const HomePage = () => {
                 </FormControl>
               </Grid>
 
-              <Grid item xs={6} sm={4} md={1.5}>
+              <Grid item xs={6} sm={1.5} md={1.5}>
                 <TextField
                   fullWidth
                   label="Min Salary (LPA)"
@@ -791,7 +791,7 @@ const HomePage = () => {
                 />
               </Grid>
 
-              <Grid item xs={6} sm={4} md={1.5}>
+              <Grid item xs={6} sm={1.5} md={1.5}>
                 <TextField
                   fullWidth
                   label="Max Salary (LPA)"
@@ -826,7 +826,7 @@ const HomePage = () => {
                 />
               </Grid>
 
-              <Grid item xs={6} sm={3} md={2.5}>
+              <Grid item xs={6} sm={2.5} md={2.5}>
                 <TextField
                   fullWidth
                   label="Location"
