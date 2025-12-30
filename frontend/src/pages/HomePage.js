@@ -21,6 +21,8 @@ import SecurityIcon from '@mui/icons-material/Security';
 import SpeedIcon from '@mui/icons-material/Speed';
 import GroupsIcon from '@mui/icons-material/Groups';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import JobCard from '../components/JobCard';
 
 // Loading Skeleton Component
@@ -547,36 +549,60 @@ const HomePage = () => {
           </Box>
           
           {/* Filter Toggle Button */}
-          <IconButton 
+          <Button 
+            variant={showFilters ? "contained" : "outlined"}
             onClick={() => setShowFilters(!showFilters)}
+            startIcon={
+              <Badge 
+                badgeContent={hasActiveFilters ? Object.values(filters).filter(v => v !== '').length : 0} 
+                color="error"
+                sx={{
+                  '& .MuiBadge-badge': {
+                    fontSize: '0.65rem',
+                    height: 18,
+                    minWidth: 18,
+                    fontWeight: 700,
+                    right: -3,
+                    top: -3
+                  }
+                }}
+              >
+                <TuneIcon sx={{ fontSize: 22 }} />
+              </Badge>
+            }
+            endIcon={showFilters ? <ExpandLessIcon /> : <ExpandMoreIcon />}
             sx={{ 
+              px: { xs: 2, sm: 3 },
+              py: 1.2,
+              borderRadius: 2,
+              fontSize: { xs: '0.875rem', sm: '0.9375rem' },
+              fontWeight: 600,
+              textTransform: 'none',
+              border: '2px solid',
+              borderColor: showFilters ? 'primary.main' : alpha('#667eea', 0.3),
               bgcolor: showFilters ? 'primary.main' : 'white',
               color: showFilters ? 'white' : 'primary.main',
-              border: '1.5px solid',
-              borderColor: 'primary.main',
-              boxShadow: showFilters ? '0 2px 8px rgba(102, 126, 234, 0.25)' : '0 1px 3px rgba(0,0,0,0.08)',
+              boxShadow: showFilters 
+                ? '0 4px 12px rgba(102, 126, 234, 0.3)' 
+                : '0 2px 8px rgba(0,0,0,0.08)',
               '&:hover': { 
-                bgcolor: showFilters ? 'primary.dark' : alpha('#667eea', 0.05),
-                boxShadow: '0 2px 8px rgba(102, 126, 234, 0.25)'
+                bgcolor: showFilters ? 'primary.dark' : alpha('#667eea', 0.04),
+                borderColor: 'primary.main',
+                boxShadow: '0 4px 16px rgba(102, 126, 234, 0.35)',
+                transform: 'translateY(-1px)'
               },
-              transition: 'all 0.2s'
+              transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+              minWidth: { xs: 'auto', sm: 140 },
+              whiteSpace: 'nowrap'
             }}
           >
-            <Badge 
-              badgeContent={hasActiveFilters ? Object.values(filters).filter(v => v !== '').length : 0} 
-              color="error"
-              sx={{
-                '& .MuiBadge-badge': {
-                  fontSize: '0.65rem',
-                  height: 16,
-                  minWidth: 16,
-                  fontWeight: 600
-                }
-              }}
-            >
-              <TuneIcon sx={{ fontSize: 20 }} />
-            </Badge>
-          </IconButton>
+            <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
+              {showFilters ? 'Hide Filters' : 'Show Filters'}
+            </Box>
+            <Box component="span" sx={{ display: { xs: 'inline', sm: 'none' } }}>
+              Filters
+            </Box>
+          </Button>
         </Box>
 
         {/* Streamlined Search & Filter Bar */}
