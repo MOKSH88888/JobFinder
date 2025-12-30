@@ -183,6 +183,8 @@ const AdminApplicantsPage = () => {
               <Chip
                 label={`${applicants.length} Applicants`}
                 size="small"
+                icon={null}
+                deleteIcon={null}
                 sx={{
                   bgcolor: alpha('#5568d3', 0.1),
                   color: '#5568d3',
@@ -191,7 +193,11 @@ const AdminApplicantsPage = () => {
                   border: '1px solid',
                   borderColor: alpha('#5568d3', 0.2),
                   '& .MuiChip-label': {
-                    px: 1.5
+                    px: 1.5,
+                    py: 0.5
+                  },
+                  '& .MuiChip-icon': {
+                    display: 'none'
                   }
                 }}
               />
