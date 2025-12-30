@@ -611,7 +611,7 @@ const HomePage = () => {
             elevation={0} 
             sx={{ 
               mb: 5, 
-              p: 3, 
+              p: 2, 
               borderRadius: 2.5,
               border: '1px solid',
               borderColor: alpha('#e0e0e0', 1),
@@ -620,9 +620,9 @@ const HomePage = () => {
             }}
           >
             {/* Inline Search & Filters */}
-            <Grid container spacing={2.5} alignItems="flex-end">
-              {/* Main Search - 40% width on desktop */}
-              <Grid item xs={12} md={5}>
+            <Grid container spacing={2} alignItems="flex-end">
+              {/* Main Search */}
+              <Grid item xs={12} sm={12} md={3}>
                 <TextField
                   fullWidth
                   name="search"
@@ -682,8 +682,8 @@ const HomePage = () => {
                 />
               </Grid>
 
-              {/* Experience Filter - 2 cols on desktop */}
-              <Grid item xs={12} sm={4} md={2}>
+              {/* Experience Filter */}
+              <Grid item xs={6} sm={4} md={2}>
                 <FormControl 
                   fullWidth 
                   size="medium"
@@ -704,15 +704,15 @@ const HomePage = () => {
                     }
                   }}
                 >
-                  <InputLabel>Experience</InputLabel>
+                  <InputLabel id="experience-label">Experience</InputLabel>
                   <Select
+                    labelId="experience-label"
                     name="experience"
                     value={filters.experience}
                     label="Experience"
                     onChange={handleFilterChange}
-                    displayEmpty
                   >
-                    <MenuItem value="">All Levels</MenuItem>
+                    <MenuItem value=""><em>All Levels</em></MenuItem>
                     <MenuItem value={0}>Fresher</MenuItem>
                     <MenuItem value={1}>1-2 years</MenuItem>
                     <MenuItem value={3}>3-4 years</MenuItem>
@@ -722,7 +722,7 @@ const HomePage = () => {
                 </FormControl>
               </Grid>
 
-              <Grid item xs={6} sm={3} md={2}>
+              <Grid item xs={6} sm={4} md={2}>
                 <TextField
                   fullWidth
                   label="Min Salary (LPA)"
@@ -757,7 +757,7 @@ const HomePage = () => {
                 />
               </Grid>
 
-              <Grid item xs={6} sm={3} md={2}>
+              <Grid item xs={6} sm={4} md={2}>
                 <TextField
                   fullWidth
                   label="Max Salary (LPA)"
@@ -792,19 +792,35 @@ const HomePage = () => {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid item xs={6} sm={3} md={3}>
                 <TextField
                   fullWidth
-                  size="small"
                   label="Location"
                   name="location"
                   value={filters.location}
                   onChange={handleFilterChange}
                   placeholder="City or Remote"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      bgcolor: '#fafafa',
+                      borderRadius: 1.5,
+                      fontSize: '0.9375rem',
+                      '& fieldset': {
+                        borderColor: '#e0e0e0',
+                      },
+                      '&:hover fieldset': {
+                        borderColor: '#bdbdbd',
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: 'primary.main',
+                        borderWidth: '1.5px'
+                      }
+                    }
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <LocationOnIcon fontSize="small" />
+                        <LocationOnIcon sx={{ color: '#757575', fontSize: 20 }} />
                       </InputAdornment>
                     )
                   }}
