@@ -102,10 +102,10 @@ const AdminLoginPage = () => {
           <Box sx={{ textAlign: 'center' }}>
             <AdminPanelSettingsIcon sx={{ fontSize: 120, mb: 3, opacity: 0.95 }} />
             <Typography variant="h2" fontWeight={700} gutterBottom sx={{ letterSpacing: -1 }}>
-              Admin Portal
+              Administration
             </Typography>
             <Typography variant="h6" sx={{ opacity: 0.9, maxWidth: 500, mx: 'auto', lineHeight: 1.6 }}>
-              Secure access to JobFinder's administrative dashboard
+              Authorized Access Only
             </Typography>
             
             <Box sx={{ mt: 6, display: 'flex', gap: 4, justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -168,7 +168,7 @@ const AdminLoginPage = () => {
                 mb: 1
               }}
             >
-              Administrator Login
+              Admin Sign In
             </Typography>
             
             <Typography 
@@ -177,7 +177,7 @@ const AdminLoginPage = () => {
               color="text.secondary"
               sx={{ mb: 4 }}
             >
-              Enter your credentials to access the admin dashboard
+              Please enter your credentials to continue
             </Typography>
 
             {error && (
@@ -310,7 +310,7 @@ const AdminLoginPage = () => {
                 {loading ? (
                   <CircularProgress size={24} sx={{ color: 'white' }} />
                 ) : (
-                  'Sign In to Dashboard'
+                  'Sign In'
                 )}
               </Button>
 
@@ -336,7 +336,7 @@ const AdminLoginPage = () => {
                     }
                   }}
                 >
-                  Not an admin? Go to user login →
+                  User Login →
                 </Link>
               </Box>
 
@@ -351,7 +351,7 @@ const AdminLoginPage = () => {
               >
                 <Typography variant="caption" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0.5 }}>
                   <SecurityIcon sx={{ fontSize: 14 }} />
-                  Secure encrypted connection
+                  Protected by SSL encryption
                 </Typography>
               </Box>
             </Box>
