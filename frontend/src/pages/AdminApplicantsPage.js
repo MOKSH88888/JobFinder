@@ -24,8 +24,7 @@ import {
   Fade,
   alpha,
   TablePagination,
-  TextField,
-  IconButton
+  TextField
 } from '@mui/material';
 import {
   Description as ResumeIcon,
