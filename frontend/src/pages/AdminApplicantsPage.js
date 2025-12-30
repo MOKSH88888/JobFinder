@@ -186,7 +186,13 @@ const AdminApplicantsPage = () => {
                 sx={{
                   bgcolor: alpha('#5568d3', 0.1),
                   color: '#5568d3',
-                  fontWeight: 600
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  border: '1px solid',
+                  borderColor: alpha('#5568d3', 0.2),
+                  '& .MuiChip-label': {
+                    px: 1.5
+                  }
                 }}
               />
             </Box>

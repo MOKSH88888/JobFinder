@@ -33,11 +33,11 @@ import AdminProtectedRoute from './components/AdminProtectedRoute';
 
 function AppContent() {
   const location = useLocation();
-  const isAdminLogin = location.pathname === '/admin/login';
+  const isAdminRoute = location.pathname.startsWith('/admin');
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      {!isAdminLogin && <Navbar />}
+      {!isAdminRoute && <Navbar />}
       <Box component="main" sx={{ flex: 1 }}>
         <Routes>
           {/* Public Routes */}
@@ -67,7 +67,7 @@ function AppContent() {
           </Route>
         </Routes>
       </Box>
-      {!isAdminLogin && <Footer />}
+      {!isAdminRoute && <Footer />}
     </Box>
   );
 }
