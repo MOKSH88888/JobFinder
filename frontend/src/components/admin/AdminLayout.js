@@ -5,12 +5,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
   Box,
-  AppBar,
-  Toolbar,
   Typography,
   IconButton,
-  Menu,
-  MenuItem,
   Avatar,
   Drawer,
   List,
@@ -41,7 +37,6 @@ const AdminLayout = ({ children }) => {
   const { admin, logout } = useAuth();
   const { notifications } = useSocket();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
 
   const menuItems = [
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/admin-dashboard' },
@@ -52,14 +47,6 @@ const AdminLayout = ({ children }) => {
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
-  };
-
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
   };
 
   const handleLogout = () => {
@@ -84,6 +71,33 @@ const AdminLayout = ({ children }) => {
         </Typography>
       </Box>
 
+      {/* Admin Profile Section */}
+      <Box sx={{ p: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+          <Avatar sx={{ 
+            width: 40, 
+            height: 40, 
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            fontWeight: 700
+          }}>
+            {admin?.username?.charAt(0).toUpperCase()}
+          </Avatar>
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <Typography variant="subtitle2" fontWeight={600} noWrap>
+              {admin?.username}
+            </Typography>
+            <Typography variant="caption" color="text.secondary" noWrap>
+              Administrator
+            </Typography>
+          </Box>
+          <IconButton size="small" sx={{ color: 'text.secondary' }}>
+            <Badge badgeContent={notifications.length} color="error">
+              <NotificationsIcon fontSize="small" />
+            </Badge>
+          </IconButton>
+        </Box>
+      </Box>
+
       <List sx={{ flex: 1, px: 2, pt: 2 }}>
         {menuItems.map((item) => (
           <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
@@ -96,14 +110,14 @@ const AdminLayout = ({ children }) => {
               sx={{
                 borderRadius: 2,
                 '&.Mui-selected': {
-                  bgcolor: alpha('#667eea', 0.12),
-                  color: '#667eea',
+                  bgcolor: alpha('#5568d3', 0.12),
+                  color: '#5568d3',
                   '&:hover': {
-                    bgcolor: alpha('#667eea', 0.18)
+                    bgcolor: alpha('#5568d3', 0.18)
                   }
                 },
                 '&:hover': {
-                  bgcolor: alpha('#667eea', 0.08)
+                  bgcolor: alpha('#5568d3', 0.08)
                 }
               }}
             >
@@ -120,8 +134,28 @@ const AdminLayout = ({ children }) => {
       </List>
 
       <Divider />
+      
+      {/* Logout Button */}
       <Box sx={{ p: 2 }}>
-        <Typography variant="caption" color="text.secondary" sx={{ px: 2 }}>
+        <ListItemButton
+          onClick={handleLogout}
+          sx={{
+            borderRadius: 2,
+            color: '#dc2626',
+            '&:hover': {
+              bgcolor: alpha('#dc2626', 0.08)
+            }
+          }}
+        >
+          <ListItemIcon sx={{ color: 'inherit', minWidth: 40 }}>
+            <LogoutIcon />
+          </ListItemIcon>
+          <ListItemText 
+            primary="Logout" 
+            primaryTypographyProps={{ fontWeight: 600 }}
+          />
+        </ListItemButton>
+        <Typography variant="caption" color="text.secondary" sx={{ px: 2, mt: 1, display: 'block' }}>
           Version 1.2.0
         </Typography>
       </Box>
@@ -130,62 +164,25 @@ const AdminLayout = ({ children }) => {
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#f8f9fa' }}>
-      <AppBar
-        position="fixed"
-        elevation={0}
+      {/* Mobile Menu Button - Floating */}
+      <IconButton
+        onClick={handleDrawerToggle}
         sx={{
-          width: { md: `calc(100% - ${drawerWidth}px)` },
-          ml: { md: `${drawerWidth}px` },
+          display: { xs: 'flex', md: 'none' },
+          position: 'fixed',
+          top: 16,
+          left: 16,
+          zIndex: 1300,
           bgcolor: 'white',
-          borderBottom: '1px solid #e2e8f0',
-          color: 'text.primary'
+          boxShadow: 2,
+          '&:hover': {
+            bgcolor: 'white',
+            boxShadow: 4
+          }
         }}
       >
-        <Toolbar>
-          <IconButton
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { md: 'none' } }}
-          >
-            <MenuIcon />
-          </IconButton>
-
-          <Box sx={{ flexGrow: 1 }} />
-
-          <IconButton sx={{ mr: 1 }}>
-            <Badge badgeContent={notifications.length} color="error">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-
-          <IconButton onClick={handleMenuOpen}>
-            <Avatar sx={{ width: 36, height: 36, bgcolor: 'primary.main' }}>
-              {admin?.username?.charAt(0).toUpperCase()}
-            </Avatar>
-          </IconButton>
-
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-          >
-            <Box sx={{ px: 2, py: 1.5, minWidth: 200 }}>
-              <Typography variant="subtitle2" fontWeight={600}>
-                {admin?.username}
-              </Typography>
-              <Typography variant="caption" color="text.secondary">
-                Administrator
-              </Typography>
-            </Box>
-            <Divider />
-            <MenuItem onClick={handleLogout} sx={{ gap: 1.5 }}>
-              <LogoutIcon fontSize="small" /> Logout
-            </MenuItem>
-          </Menu>
-        </Toolbar>
-      </AppBar>
+        <MenuIcon />
+      </IconButton>
 
       <Box
         component="nav"
@@ -226,7 +223,6 @@ const AdminLayout = ({ children }) => {
           flexGrow: 1,
           p: { xs: 2, sm: 3 },
           width: { md: `calc(100% - ${drawerWidth}px)` },
-          mt: { xs: 7, sm: 8 },
           minHeight: '100vh'
         }}
       >
