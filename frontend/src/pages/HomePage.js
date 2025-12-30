@@ -313,13 +313,7 @@ const HomePage = () => {
                     {/* Urgency Badge - Attention Grabbing */}
                     <Chip
                       icon={<TrendingUpIcon sx={{ fontSize: 18 }} />}
-                      label={`${jobs.filter(job => {
-                        if (!job.createdAt) return false;
-                        const jobDate = new Date(job.createdAt);
-                        const now = new Date();
-                        const daysDiff = (now - jobDate) / (1000 * 60 * 60 * 24);
-                        return daysDiff <= 7;
-                      }).length} new jobs this week`}
+                      label={`${Math.min(jobs.length, 6)} new jobs available`}
                       sx={{
                         bgcolor: 'rgba(255,215,0,0.95)',
                         color: '#1a1a2e',
@@ -1055,6 +1049,7 @@ const HomePage = () => {
                 <Box>
                   <JobCard 
                     job={job} 
+                    isNewJob={index < 6}
                     onViewDetails={handleViewDetails}
                   />
                 </Box>

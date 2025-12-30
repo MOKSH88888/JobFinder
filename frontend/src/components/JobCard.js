@@ -56,15 +56,6 @@ const JobCard = ({ job }) => {
     return `${job.experienceRequired}+ years experience`;
   }, [job.experienceRequired]);
 
-  // Check if job is new (posted in last 24 hours)
-  const isNewJob = useMemo(() => {
-    if (!job.createdAt) return false;
-    const jobDate = new Date(job.createdAt);
-    const now = new Date();
-    const hoursDiff = (now - jobDate) / (1000 * 60 * 60);
-    return hoursDiff <= 24;
-  }, [job.createdAt]);
-
   const handleBookmarkToggle = async (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -143,13 +134,14 @@ const JobCard = ({ job }) => {
               position: 'absolute',
               top: 10,
               left: 10,
-              bgcolor: '#4caf50',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
               color: 'white',
               fontWeight: 700,
               fontSize: '0.65rem',
               height: 20,
               px: 1,
-              boxShadow: '0 2px 8px rgba(76,175,80,0.25)',
+              boxShadow: '0 2px 8px rgba(102, 126, 234, 0.4)',
+              border: '1px solid rgba(255,255,255,0.2)',
               '& .MuiChip-label': {
                 px: 1
               }
