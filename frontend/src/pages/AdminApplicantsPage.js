@@ -254,7 +254,7 @@ const AdminApplicantsPage = () => {
           >
             {applicants.length > 0 ? (
               <>
-              <TableContainer sx={{ overflowX: 'auto' }}>
+              <TableContainer sx={{ overflowX: 'auto', maxWidth: '100%' }}>
                 <Table>
                   <TableHead>
                     <TableRow sx={{ bgcolor: '#f8fafc' }}>
@@ -320,7 +320,8 @@ const AdminApplicantsPage = () => {
                           userSelect: 'none',
                           bgcolor: sortConfig.key === 'experience' ? alpha('#5568d3', 0.08) : 'transparent',
                           '&:hover': { bgcolor: alpha('#5568d3', 0.12) },
-                          transition: 'all 0.2s ease'
+                          transition: 'all 0.2s ease',
+                          minWidth: { xs: 70, md: 100 }
                         }}
                         onClick={() => handleSort('experience')}
                       >
@@ -345,7 +346,8 @@ const AdminApplicantsPage = () => {
                           userSelect: 'none',
                           bgcolor: sortConfig.key === 'gender' ? alpha('#5568d3', 0.08) : 'transparent',
                           '&:hover': { bgcolor: alpha('#5568d3', 0.12) },
-                          transition: 'all 0.2s ease'
+                          transition: 'all 0.2s ease',
+                          display: { xs: 'none', md: 'table-cell' }
                         }}
                         onClick={() => handleSort('gender')}
                       >
@@ -358,9 +360,9 @@ const AdminApplicantsPage = () => {
                           )}
                         </Box>
                       </TableCell>
-                      <TableCell sx={{ fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', color: '#475569', py: 1.5 }}>Phone</TableCell>
+                      <TableCell sx={{ fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', color: '#475569', py: 1.5, display: { xs: 'none', lg: 'table-cell' } }}>Phone</TableCell>
                       <TableCell sx={{ fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', color: '#475569', py: 1.5 }}>Resume</TableCell>
-                      <TableCell sx={{ fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', color: '#475569', py: 1.5, minWidth: 200 }}>
+                      <TableCell sx={{ fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', color: '#475569', py: 1.5, minWidth: { xs: 140, md: 180 } }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, cursor: 'pointer' }} onClick={() => handleSort('status')}>
                           Status
                           {sortConfig.key === 'status' && (
@@ -401,7 +403,7 @@ const AdminApplicantsPage = () => {
                             </Typography>
                           </Box>
                         </TableCell>
-                        <TableCell sx={{ py: 1, fontSize: '0.875rem', color: 'text.secondary' }}>{applicant.email}</TableCell>
+                        <TableCell sx={{ py: 1, fontSize: '0.875rem', color: 'text.secondary', maxWidth: { xs: 150, md: 250 }, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{applicant.email}</TableCell>
                         <TableCell sx={{ py: 1 }}>
                           <Chip
                             label={`${applicant.experience} yrs`}
@@ -416,8 +418,8 @@ const AdminApplicantsPage = () => {
                             }}
                           />
                         </TableCell>
-                        <TableCell sx={{ py: 1, fontSize: '0.875rem' }}>{applicant.gender || 'N/A'}</TableCell>
-                        <TableCell sx={{ py: 1, fontSize: '0.875rem' }}>{applicant.phone || 'N/A'}</TableCell>
+                        <TableCell sx={{ py: 1, fontSize: '0.875rem', display: { xs: 'none', md: 'table-cell' } }}>{applicant.gender || 'N/A'}</TableCell>
+                        <TableCell sx={{ py: 1, fontSize: '0.875rem', display: { xs: 'none', lg: 'table-cell' } }}>{applicant.phone || 'N/A'}</TableCell>
                         <TableCell sx={{ py: 1 }}>
                           {applicant.resume ? (
                             <Button
