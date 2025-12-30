@@ -216,23 +216,6 @@ const HomePage = () => {
     navigate(`/jobs/${jobId}`);
   };
 
-  // Modern loading skeleton component
-  const JobCardSkeleton = () => (
-    <Card sx={{ height: '100%', borderRadius: 3 }}>
-      <CardContent>
-        <Skeleton variant="rectangular" height={40} sx={{ mb: 2, borderRadius: 1 }} />
-        <Skeleton variant="text" width="60%" height={30} sx={{ mb: 1 }} />
-        <Skeleton variant="text" width="80%" height={20} sx={{ mb: 2 }} />
-        <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
-          <Skeleton variant="circular" width={30} height={30} />
-          <Skeleton variant="circular" width={30} height={30} />
-          <Skeleton variant="circular" width={30} height={30} />
-        </Box>
-        <Skeleton variant="rectangular" height={100} sx={{ borderRadius: 1 }} />
-      </CardContent>
-    </Card>
-  );
-
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: '#f8f9fa' }}>
       {error && (
