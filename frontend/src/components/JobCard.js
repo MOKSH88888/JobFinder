@@ -140,23 +140,15 @@ const JobCard = ({ job }) => {
             size="small"
             sx={{ 
               position: 'absolute',
-              top: 8,
-              left: 8,
-              bgcolor: '#ff9800',
+              top: user ? 40 : 8,
+              right: 8,
+              bgcolor: '#ff5722',
               color: 'white',
-              fontWeight: 700,
-              fontSize: '0.7rem',
-              height: 22,
-              px: 1,
-              animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              '@keyframes pulse': {
-                '0%, 100%': {
-                  opacity: 1,
-                },
-                '50%': {
-                  opacity: 0.8,
-                }
-              }
+              fontWeight: 600,
+              fontSize: '0.65rem',
+              height: 20,
+              px: 0.75,
+              boxShadow: '0 2px 4px rgba(255, 87, 34, 0.3)'
             }}
           />
         )}
@@ -173,12 +165,13 @@ const JobCard = ({ job }) => {
                 right: 8,
                 bgcolor: 'white',
                 color: isBookmarked ? 'primary.main' : 'action.active',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
                 transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
                 '&:hover': {
                   bgcolor: 'white',
-                  transform: 'scale(1.15)',
-                  boxShadow: isBookmarked ? '0 4px 12px rgba(102, 126, 234, 0.35)' : '0 4px 12px rgba(0,0,0,0.15)',
+                  transform: 'scale(1.1)',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
+                  color: isBookmarked ? 'primary.dark' : 'primary.main'
                 }
               }}
               size="small"
@@ -223,26 +216,24 @@ const JobCard = ({ job }) => {
         {/* Applied Badge */}
         {hasApplied && (
           <Chip 
-            icon={<CheckCircleIcon sx={{ fontSize: 16, color: '#28a745' }} />}
-            label="✓ Applied" 
+            icon={<CheckCircleIcon sx={{ fontSize: 14 }} />}
+            label="Applied" 
             size="small"
+            color="success"
+            variant="outlined"
             sx={{ 
-              bgcolor: '#d4edda',
-              color: '#155724',
-              fontWeight: 700,
-              fontSize: '0.8rem',
-              height: 26,
-              border: '2px solid #c3e6cb',
-              px: 1.5,
-              '& .MuiChip-icon': { color: '#28a745' }
+              fontWeight: 600,
+              fontSize: '0.75rem',
+              height: 24,
+              borderWidth: '1.5px'
             }}
           />
         )}
       </Box>
 
-      <CardContent sx={{ flexGrow: 1, pt: 3, pb: 2.5, px: 3 }}>
+      <CardContent sx={{ flexGrow: 1, pt: 2.5, pb: 2, px: 2.5 }}>
         {/* Key Info Chips */}
-        <Stack spacing={1.5}>
+        <Stack spacing={1.2}>
           {/* Location */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <LocationOnIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
@@ -283,17 +274,17 @@ const JobCard = ({ job }) => {
           fullWidth
           endIcon={<ArrowForwardIcon />}
           sx={{ 
-            borderRadius: 2,
-            py: 1.3,
+            borderRadius: 1.5,
+            py: 1.2,
             textTransform: 'none',
             fontWeight: 600,
-            fontSize: '0.95rem',
+            fontSize: '0.9375rem',
             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            boxShadow: '0 4px 16px rgba(102, 126, 234, 0.3)',
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            boxShadow: '0 2px 8px rgba(102, 126, 234, 0.25)',
+            transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
             '&:hover': {
-              transform: 'translateY(-2px)',
-              boxShadow: '0 6px 20px rgba(102, 126, 234, 0.4)',
+              transform: 'translateY(-1px)',
+              boxShadow: '0 4px 12px rgba(102, 126, 234, 0.35)',
             }
           }}
         >

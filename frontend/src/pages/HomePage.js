@@ -56,7 +56,7 @@ const HomePage = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [showFilters, setShowFilters] = useState(true);
+  const [showFilters, setShowFilters] = useState(false);
   const [sortBy, setSortBy] = useState('recent');
   const [filters, setFilters] = useState({ 
     search: '', 
@@ -288,23 +288,23 @@ const HomePage = () => {
                     display: 'inline-flex', 
                     alignItems: 'center', 
                     gap: 1, 
-                    bgcolor: 'rgba(255,193,7,0.2)',
+                    bgcolor: 'rgba(255,255,255,0.15)',
                     backdropFilter: 'blur(10px)',
-                    px: 2.5,
-                    py: 1,
-                    borderRadius: 2.5,
+                    px: 2,
+                    py: 0.75,
+                    borderRadius: 2,
                     mb: 3,
-                    border: '1px solid rgba(255,193,7,0.3)'
+                    border: '1px solid rgba(255,255,255,0.25)'
                   }}>
-                    <TrendingUpIcon sx={{ color: '#ffd700', fontSize: 20 }} />
-                    <Typography variant="body2" sx={{ fontWeight: 700, color: 'white' }}>
+                    <TrendingUpIcon sx={{ color: 'rgba(255,255,255,0.9)', fontSize: 18 }} />
+                    <Typography variant="body2" sx={{ fontWeight: 600, color: 'rgba(255,255,255,0.95)', fontSize: '0.875rem' }}>
                       {jobs.filter(job => {
                         if (!job.createdAt) return false;
                         const jobDate = new Date(job.createdAt);
                         const now = new Date();
                         const daysDiff = (now - jobDate) / (1000 * 60 * 60 * 24);
                         return daysDiff <= 7;
-                      }).length} new jobs posted this week
+                      }).length} new jobs this week
                     </Typography>
                   </Box>
                   
