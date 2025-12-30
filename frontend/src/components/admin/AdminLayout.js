@@ -84,10 +84,10 @@ const AdminLayout = ({ children }) => {
           </Avatar>
           <Box sx={{ flex: 1, minWidth: 0 }}>
             <Typography variant="subtitle2" fontWeight={600} noWrap>
-              {admin?.username}
+              {admin?.role === 'Super Admin' ? 'Super Admin' : admin?.username}
             </Typography>
             <Typography variant="caption" color="text.secondary" noWrap>
-              Administrator
+              {admin?.role || 'Administrator'}
             </Typography>
           </Box>
           <IconButton size="small" sx={{ color: 'text.secondary' }}>
