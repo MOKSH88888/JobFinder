@@ -59,7 +59,7 @@ const Navbar = () => {
             JobFinder
           </Typography>
 
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1 } }}>
             {admin ? (
               // Admin Menu
               <>
@@ -70,13 +70,13 @@ const Navbar = () => {
                   startIcon={<DashboardIcon />}
                   sx={{ 
                     textTransform: 'none',
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     fontWeight: 500,
-                    px: 2,
+                    px: { xs: 1, sm: 2 },
                     '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
                   }}
                 >
-                  Dashboard
+                  <Box sx={{ display: { xs: 'none', md: 'block' } }}>Dashboard</Box>
                 </Button>
                 <Button 
                   color="inherit" 
@@ -84,9 +84,10 @@ const Navbar = () => {
                   to="/admin-jobs"
                   sx={{ 
                     textTransform: 'none',
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     fontWeight: 500,
-                    px: 2,
+                    px: { xs: 1, sm: 1.5, md: 2 },
+                    minWidth: 'auto',
                     '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
                   }}
                 >
@@ -98,9 +99,10 @@ const Navbar = () => {
                   to="/admin-users"
                   sx={{ 
                     textTransform: 'none',
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     fontWeight: 500,
-                    px: 2,
+                    px: { xs: 1, sm: 1.5, md: 2 },
+                    minWidth: 'auto',
                     '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
                   }}
                 >
@@ -113,9 +115,10 @@ const Navbar = () => {
                     to="/admin-admins"
                     sx={{ 
                       textTransform: 'none',
-                      fontSize: '1rem',
+                      fontSize: { xs: '0.875rem', sm: '1rem' },
                       fontWeight: 500,
-                      px: 2,
+                      px: { xs: 1, sm: 1.5, md: 2 },
+                      minWidth: 'auto',
                       '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
                     }}
                   >
@@ -129,13 +132,14 @@ const Navbar = () => {
                   startIcon={<ContactMailIcon />}
                   sx={{ 
                     textTransform: 'none',
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     fontWeight: 500,
-                    px: 2,
+                    px: { xs: 1, sm: 1.5, md: 2 },
+                    minWidth: 'auto',
                     '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
                   }}
                 >
-                  Contact
+                  <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>Contact</Box>
                 </Button>
                 <Button 
                   color="inherit" 
@@ -144,13 +148,14 @@ const Navbar = () => {
                   startIcon={<NewspaperIcon />}
                   sx={{ 
                     textTransform: 'none',
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     fontWeight: 500,
-                    px: 2,
+                    px: { xs: 1, sm: 1.5, md: 2 },
+                    minWidth: 'auto',
                     '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
                   }}
                 >
-                  News
+                  <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>News</Box>
                 </Button>
                 <Button 
                   color="inherit" 
@@ -158,13 +163,14 @@ const Navbar = () => {
                   startIcon={<LogoutIcon />}
                   sx={{ 
                     textTransform: 'none',
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     fontWeight: 500,
-                    px: 2,
+                    px: { xs: 1, sm: 1.5, md: 2 },
+                    minWidth: 'auto',
                     '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
                   }}
                 >
-                  Logout
+                  <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>Logout</Box>
                 </Button>
               </>
             ) : user ? (
@@ -177,13 +183,14 @@ const Navbar = () => {
                   startIcon={<BusinessCenterIcon />}
                   sx={{ 
                     textTransform: 'none',
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     fontWeight: 500,
-                    px: 2,
+                    px: { xs: 1, sm: 1.5, md: 2 },
+                    minWidth: 'auto',
                     '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
                   }}
                 >
-                  Browse Jobs
+                  <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>Browse Jobs</Box>
                 </Button>
                 <Button 
                   color="inherit" 
@@ -192,13 +199,14 @@ const Navbar = () => {
                   startIcon={<AssignmentIcon />}
                   sx={{ 
                     textTransform: 'none',
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     fontWeight: 500,
-                    px: 2,
+                    px: { xs: 1, sm: 1.5, md: 2 },
+                    minWidth: 'auto',
                     '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
                   }}
                 >
-                  My Applications
+                  <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>My Applications</Box>
                 </Button>
                 <Button 
                   color="inherit" 
@@ -207,13 +215,14 @@ const Navbar = () => {
                   startIcon={<BookmarkIcon />}
                   sx={{ 
                     textTransform: 'none',
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     fontWeight: 500,
-                    px: 2,
+                    px: { xs: 1, sm: 1.5, md: 2 },
+                    minWidth: 'auto',
                     '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
                   }}
                 >
-                  Bookmarks
+                  <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>Bookmarks</Box>
                 </Button>
                 <Button 
                   color="inherit" 
@@ -222,13 +231,14 @@ const Navbar = () => {
                   startIcon={<ContactMailIcon />}
                   sx={{ 
                     textTransform: 'none',
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     fontWeight: 500,
-                    px: 2,
+                    px: { xs: 1, sm: 1.5, md: 2 },
+                    minWidth: 'auto',
                     '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
                   }}
                 >
-                  Contact
+                  <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>Contact</Box>
                 </Button>
                 <Button 
                   color="inherit" 
@@ -237,13 +247,14 @@ const Navbar = () => {
                   startIcon={<NewspaperIcon />}
                   sx={{ 
                     textTransform: 'none',
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     fontWeight: 500,
-                    px: 2,
+                    px: { xs: 1, sm: 1.5, md: 2 },
+                    minWidth: 'auto',
                     '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
                   }}
                 >
-                  News
+                  <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>News</Box>
                 </Button>
                 
                 <IconButton
@@ -300,13 +311,14 @@ const Navbar = () => {
                   startIcon={<BusinessCenterIcon />}
                   sx={{ 
                     textTransform: 'none',
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     fontWeight: 500,
-                    px: 2,
+                    px: { xs: 1, sm: 1.5, md: 2 },
+                    minWidth: 'auto',
                     '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
                   }}
                 >
-                  Browse Jobs
+                  <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>Browse Jobs</Box>
                 </Button>
                 <Button 
                   color="inherit" 
@@ -315,13 +327,14 @@ const Navbar = () => {
                   startIcon={<ContactMailIcon />}
                   sx={{ 
                     textTransform: 'none',
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     fontWeight: 500,
-                    px: 2,
+                    px: { xs: 1, sm: 1.5, md: 2 },
+                    minWidth: 'auto',
                     '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
                   }}
                 >
-                  Contact
+                  <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>Contact</Box>
                 </Button>
                 <Button 
                   color="inherit" 
@@ -330,13 +343,14 @@ const Navbar = () => {
                   startIcon={<NewspaperIcon />}
                   sx={{ 
                     textTransform: 'none',
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     fontWeight: 500,
-                    px: 2,
+                    px: { xs: 1, sm: 1.5, md: 2 },
+                    minWidth: 'auto',
                     '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
                   }}
                 >
-                  News
+                  <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>News</Box>
                 </Button>
                 <Button 
                   color="inherit" 
@@ -345,13 +359,14 @@ const Navbar = () => {
                   startIcon={<PersonIcon />}
                   sx={{ 
                     textTransform: 'none',
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     fontWeight: 500,
-                    px: 2,
+                    px: { xs: 1, sm: 1.5, md: 2 },
+                    minWidth: 'auto',
                     '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
                   }}
                 >
-                  Login
+                  <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>Login</Box>
                 </Button>
                 <Button 
                   component={Link} 
@@ -359,9 +374,10 @@ const Navbar = () => {
                   variant="contained"
                   sx={{ 
                     textTransform: 'none',
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     fontWeight: 600,
-                    px: 3,
+                    px: { xs: 2, md: 3 },
+                    minWidth: 'auto',
                     bgcolor: 'white',
                     color: 'primary.main',
                     '&:hover': { bgcolor: 'rgba(255,255,255,0.9)' }

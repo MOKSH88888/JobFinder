@@ -22,6 +22,33 @@ import SpeedIcon from '@mui/icons-material/Speed';
 import GroupsIcon from '@mui/icons-material/Groups';
 import JobCard from '../components/JobCard';
 
+// Loading Skeleton Component
+const JobCardSkeleton = () => (
+  <Card 
+    sx={{ 
+      height: '100%', 
+      borderRadius: 3,
+      border: '1px solid',
+      borderColor: 'divider'
+    }}
+  >
+    <Box sx={{ p: 2.5, borderBottom: '1px solid', borderColor: 'divider' }}>
+      <Skeleton variant="text" width="40%" height={20} sx={{ mb: 1 }} />
+      <Skeleton variant="text" width="80%" height={32} />
+    </Box>
+    <CardContent>
+      <Stack spacing={1.5}>
+        <Skeleton variant="text" width="60%" />
+        <Skeleton variant="text" width="50%" />
+        <Skeleton variant="text" width="70%" />
+      </Stack>
+    </CardContent>
+    <Box sx={{ p: 2.5, pt: 0 }}>
+      <Skeleton variant="rectangular" height={42} sx={{ borderRadius: 2 }} />
+    </Box>
+  </Card>
+);
+
 const HomePage = () => {
   const { user } = useAuth();
   const { socket, addNotification } = useSocket();
@@ -272,6 +299,31 @@ const HomePage = () => {
                     }}
                   />
                   
+                  {/* Serial Position Effect - Urgency Indicator */}
+                  <Box sx={{ 
+                    display: 'inline-flex', 
+                    alignItems: 'center', 
+                    gap: 1, 
+                    bgcolor: 'rgba(255,193,7,0.2)',
+                    backdropFilter: 'blur(10px)',
+                    px: 2.5,
+                    py: 1,
+                    borderRadius: 2.5,
+                    mb: 3,
+                    border: '1px solid rgba(255,193,7,0.3)'
+                  }}>
+                    <TrendingUpIcon sx={{ color: '#ffd700', fontSize: 20 }} />
+                    <Typography variant="body2" sx={{ fontWeight: 700, color: 'white' }}>
+                      {jobs.filter(job => {
+                        if (!job.createdAt) return false;
+                        const jobDate = new Date(job.createdAt);
+                        const now = new Date();
+                        const daysDiff = (now - jobDate) / (1000 * 60 * 60 * 24);
+                        return daysDiff <= 7;
+                      }).length} new jobs posted this week
+                    </Typography>
+                  </Box>
+                  
                   {/* Primary Headline - Cognitive Load Reduction */}
                   <Typography 
                     variant="h1" 
@@ -494,7 +546,7 @@ const HomePage = () => {
       </Box>
 
       {/* Jobs Section */}
-      <Container sx={{ py: { xs: 6, sm: 8, md: 10 } }}>
+      <Container sx={{ py: { xs: 8, sm: 10, md: 12 } }}>
         {/* Section Header with Progressive Disclosure */}
         <Box sx={{ 
           display: 'flex', 
@@ -794,7 +846,7 @@ const HomePage = () => {
 
         {/* Jobs Grid/List with Loading States */}
         {loading ? (
-          <Grid container spacing={3}>
+          <Grid container spacing={4}>
             {[1, 2, 3, 4, 5, 6].map((item) => (
               <Grid item xs={12} sm={6} md={4} key={item}>
                 <JobCardSkeleton />
@@ -802,24 +854,42 @@ const HomePage = () => {
             ))}
           </Grid>
         ) : filteredJobs.length === 0 ? (
-          <Fade in timeout={500}>
+          <Fade in timeout={600}>
             <Paper 
               elevation={0} 
               sx={{ 
                 textAlign: 'center', 
-                py: 10,
+                py: 12,
+                px: 4,
                 borderRadius: 4,
                 border: '2px dashed',
-                borderColor: 'divider',
-                bgcolor: 'white'
+                borderColor: alpha('#667eea', 0.2),
+                bgcolor: alpha('#f8f9fa', 0.5),
+                backdropFilter: 'blur(10px)'
               }}
             >
-              <WorkOutlineIcon sx={{ fontSize: 100, color: 'text.disabled', mb: 3, opacity: 0.5 }} />
-              <Typography variant="h5" color="text.secondary" gutterBottom sx={{ fontWeight: 600 }}>
-                No jobs found matching your criteria
+              <Box
+                sx={{
+                  width: 120,
+                  height: 120,
+                  borderRadius: '50%',
+                  bgcolor: alpha('#667eea', 0.1),
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto',
+                  mb: 3
+                }}
+              >
+                <WorkOutlineIcon sx={{ fontSize: 64, color: 'primary.main', opacity: 0.6 }} />
+              </Box>
+              <Typography variant="h5" sx={{ fontWeight: 700, mb: 1.5, color: 'text.primary' }}>
+                No Jobs Found
               </Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-                Try adjusting your search filters or explore all available positions
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 4, maxWidth: 480, mx: 'auto' }}>
+                {hasActiveFilters 
+                  ? "We couldn't find any jobs matching your criteria. Try adjusting your filters or explore all positions."
+                  : "No job listings available at the moment. Check back soon for new opportunities!"}
               </Typography>
               {hasActiveFilters && (
                 <Button 
@@ -827,7 +897,18 @@ const HomePage = () => {
                   onClick={handleClearFilters}
                   startIcon={<ClearIcon />}
                   size="large"
-                  sx={{ borderRadius: 2, textTransform: 'none', px: 4 }}
+                  sx={{ 
+                    borderRadius: 2.5, 
+                    textTransform: 'none', 
+                    px: 4,
+                    py: 1.5,
+                    fontWeight: 600,
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    boxShadow: '0 4px 16px rgba(102, 126, 234, 0.3)',
+                    '&:hover': {
+                      boxShadow: '0 6px 20px rgba(102, 126, 234, 0.4)',
+                    }
+                  }}
                 >
                   Clear All Filters
                 </Button>
@@ -835,7 +916,7 @@ const HomePage = () => {
             </Paper>
           </Fade>
         ) : (
-          <Grid container spacing={3}>
+          <Grid container spacing={4}>
             {filteredJobs.map((job, index) => (
               <Grid 
                 item 

@@ -56,6 +56,15 @@ const JobCard = ({ job }) => {
     return `${job.experienceRequired}+ years experience`;
   }, [job.experienceRequired]);
 
+  // Check if job is new (posted in last 24 hours)
+  const isNewJob = useMemo(() => {
+    if (!job.createdAt) return false;
+    const jobDate = new Date(job.createdAt);
+    const now = new Date();
+    const hoursDiff = (now - jobDate) / (1000 * 60 * 60);
+    return hoursDiff <= 24;
+  }, [job.createdAt]);
+
   const handleBookmarkToggle = async (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -124,6 +133,34 @@ const JobCard = ({ job }) => {
           borderColor: 'divider'
         }}
       >
+        {/* New Badge */}
+        {isNewJob && (
+          <Chip 
+            label="NEW"
+            size="small"
+            sx={{ 
+              position: 'absolute',
+              top: 8,
+              left: 8,
+              bgcolor: '#ff9800',
+              color: 'white',
+              fontWeight: 700,
+              fontSize: '0.7rem',
+              height: 22,
+              px: 1,
+              animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              '@keyframes pulse': {
+                '0%, 100%': {
+                  opacity: 1,
+                },
+                '50%': {
+                  opacity: 0.8,
+                }
+              }
+            }}
+          />
+        )}
+        
         {/* Bookmark Button */}
         {user && (
           <Tooltip title={isBookmarked ? "Remove bookmark" : "Bookmark job"}>
@@ -137,9 +174,11 @@ const JobCard = ({ job }) => {
                 bgcolor: 'white',
                 color: isBookmarked ? 'primary.main' : 'action.active',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
                 '&:hover': {
                   bgcolor: 'white',
-                  transform: 'scale(1.1)',
+                  transform: 'scale(1.15)',
+                  boxShadow: isBookmarked ? '0 4px 12px rgba(102, 126, 234, 0.35)' : '0 4px 12px rgba(0,0,0,0.15)',
                 }
               }}
               size="small"
@@ -184,20 +223,24 @@ const JobCard = ({ job }) => {
         {/* Applied Badge */}
         {hasApplied && (
           <Chip 
-            icon={<CheckCircleIcon sx={{ fontSize: 16 }} />}
-            label="Applied" 
-            color="success" 
+            icon={<CheckCircleIcon sx={{ fontSize: 16, color: '#28a745' }} />}
+            label="✓ Applied" 
             size="small"
             sx={{ 
-              fontWeight: 600,
-              fontSize: '0.75rem',
-              height: 24
+              bgcolor: '#d4edda',
+              color: '#155724',
+              fontWeight: 700,
+              fontSize: '0.8rem',
+              height: 26,
+              border: '2px solid #c3e6cb',
+              px: 1.5,
+              '& .MuiChip-icon': { color: '#28a745' }
             }}
           />
         )}
       </Box>
 
-      <CardContent sx={{ flexGrow: 1, pt: 2.5, pb: 2 }}>
+      <CardContent sx={{ flexGrow: 1, pt: 3, pb: 2.5, px: 3 }}>
         {/* Key Info Chips */}
         <Stack spacing={1.5}>
           {/* Location */}
@@ -241,13 +284,16 @@ const JobCard = ({ job }) => {
           endIcon={<ArrowForwardIcon />}
           sx={{ 
             borderRadius: 2,
-            py: 1.2,
+            py: 1.3,
             textTransform: 'none',
             fontWeight: 600,
             fontSize: '0.95rem',
-            boxShadow: 2,
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            boxShadow: '0 4px 16px rgba(102, 126, 234, 0.3)',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
             '&:hover': {
-              boxShadow: 4,
+              transform: 'translateY(-2px)',
+              boxShadow: '0 6px 20px rgba(102, 126, 234, 0.4)',
             }
           }}
         >

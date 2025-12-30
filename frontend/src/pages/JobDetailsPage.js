@@ -13,7 +13,9 @@ import {
   Alert,
   Paper,
   Divider,
-  Grid
+  Grid,
+  Skeleton,
+  Stack
 } from '@mui/material';
 
 const JobDetailsPage = () => {
@@ -25,6 +27,11 @@ const JobDetailsPage = () => {
   const [error, setError] = useState('');
   const [hasApplied, setHasApplied] = useState(false);
   const [actionInProgress, setActionInProgress] = useState(false);
+
+  // Smooth scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   useEffect(() => {
     const loadJobDetails = async () => {
@@ -64,7 +71,43 @@ const JobDetailsPage = () => {
   
   const renderContent = () => {
     if (loading) {
-      return <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}><CircularProgress /></Box>;
+      return (
+        <Paper 
+          elevation={0}
+          sx={{ 
+            p: 5,
+            borderRadius: 3,
+            border: '1px solid #e2e8f0',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+          }}
+        >
+          <Stack spacing={3}>
+            <Box>
+              <Skeleton variant="text" width="60%" height={48} />
+              <Skeleton variant="text" width="40%" height={32} sx={{ mt: 1 }} />
+            </Box>
+            <Divider />
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={4}>
+                <Skeleton variant="text" width="50%" />
+                <Skeleton variant="text" width="80%" />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <Skeleton variant="text" width="50%" />
+                <Skeleton variant="text" width="80%" />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <Skeleton variant="text" width="50%" />
+                <Skeleton variant="text" width="80%" />
+              </Grid>
+            </Grid>
+            <Box>
+              <Skeleton variant="text" width="30%" height={32} />
+              <Skeleton variant="rectangular" height={120} sx={{ mt: 2, borderRadius: 1 }} />
+            </Box>
+          </Stack>
+        </Paper>
+      );
     }
     if (error) {
       return <Alert severity="error">{error}</Alert>;
@@ -94,14 +137,23 @@ const JobDetailsPage = () => {
                     disabled
                     sx={{ 
                       cursor: 'not-allowed',
+                      py: 1.5,
+                      px: 4,
+                      borderRadius: 2.5,
+                      fontWeight: 700,
+                      fontSize: '0.95rem',
+                      textTransform: 'none',
+                      bgcolor: '#d4edda',
+                      color: '#155724',
+                      border: '2px solid #c3e6cb',
                       '&.Mui-disabled': {
-                        backgroundColor: 'success.main',
-                        color: 'white',
-                        opacity: 0.8
+                        bgcolor: '#d4edda',
+                        color: '#155724',
+                        opacity: 1
                       }
                     }}
                   >
-                    Applied
+                    ✓ Applied
                   </Button>
                 ) : (
                   <Button 
@@ -109,17 +161,21 @@ const JobDetailsPage = () => {
                     onClick={handleApply} 
                     disabled={actionInProgress}
                     sx={{
-                      py: 1.5,
-                      px: 4,
-                      borderRadius: 2,
-                      fontWeight: 600,
+                      py: 1.8,
+                      px: 5,
+                      borderRadius: 2.5,
+                      fontWeight: 700,
+                      fontSize: '1rem',
                       textTransform: 'none',
                       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                      boxShadow: '0 4px 14px rgba(102,126,234,0.4)',
-                      transition: 'all 0.3s ease',
+                      boxShadow: '0 6px 20px rgba(102,126,234,0.4)',
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                       '&:hover': {
-                        transform: 'translateY(-2px)',
-                        boxShadow: '0 6px 20px rgba(102,126,234,0.5)'
+                        transform: 'translateY(-3px)',
+                        boxShadow: '0 8px 28px rgba(102,126,234,0.5)'
+                      },
+                      '&:active': {
+                        transform: 'translateY(-1px)',
                       }
                     }}
                   >
@@ -127,7 +183,20 @@ const JobDetailsPage = () => {
                   </Button>
                 )
               ) : (
-                <Button variant="contained" component={RouterLink} to="/login">Login to Apply</Button>
+                <Button 
+                  variant="contained" 
+                  component={RouterLink} 
+                  to="/login"
+                  sx={{
+                    py: 1.5,
+                    px: 4,
+                    borderRadius: 2.5,
+                    fontWeight: 600,
+                    textTransform: 'none'
+                  }}
+                >
+                  Login to Apply
+                </Button>
               )}
             </Box>
           </Box>
