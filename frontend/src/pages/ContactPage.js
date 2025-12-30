@@ -1,6 +1,8 @@
 // src/pages/ContactPage.js
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import {
   Container,
   Paper,
@@ -14,6 +16,8 @@ import {
 import API from '../api';
 
 const ContactPage = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -23,6 +27,27 @@ const ContactPage = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState({ show: false, type: '', message: '' });
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!user) {
+      setAlert({
+        show: true,
+        type: 'info',
+        message: 'Please sign in to contact us.',
+      });
+      setTimeout(() => {
+        navigate('/login', { state: { from: '/contact' } });
+      }, 2000);
+    } else {
+      // Pre-fill name and email from user profile
+      setFormData(prev => ({
+        ...prev,
+        name: user.name || '',
+        email: user.email || '',
+      }));
+    }
+  }, [user, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -150,7 +175,8 @@ const ContactPage = () => {
             </Alert>
           )}
 
-          <form onSubmit={handleSubmit}>
+          {user && (
+            <form onSubmit={handleSubmit}>
             <TextField
               fullWidth
               placeholder="Name"
@@ -159,7 +185,7 @@ const ContactPage = () => {
               onChange={handleChange}
               error={!!errors.name}
               helperText={errors.name}
-              disabled={loading}
+              disabled={true}
               required
               variant="standard"
               sx={{
@@ -185,7 +211,7 @@ const ContactPage = () => {
               onChange={handleChange}
               error={!!errors.email}
               helperText={errors.email}
-              disabled={loading}
+              disabled={true}
               required
               variant="standard"
               sx={{
@@ -278,6 +304,7 @@ const ContactPage = () => {
               {loading ? <CircularProgress size={24} color="inherit" /> : 'Send'}
             </Button>
           </form>
+          )}
         </Paper>
         </Box>
       </Container>
