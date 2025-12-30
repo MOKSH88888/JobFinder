@@ -2,11 +2,10 @@
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { 
-  Container, Typography, Box, Alert, Chip, Paper, Collapse, IconButton, 
+  Container, Typography, Box, Grid, Alert, Chip, Paper, Collapse, IconButton, 
   Skeleton, Fade, Badge, Stack, alpha, Card, CardContent, TextField, Select, 
   MenuItem, FormControl, InputLabel, InputAdornment, Button
 } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
 import { useNavigate } from 'react-router-dom';
 import { fetchJobs } from '../api';
 import { useAuth } from '../context/AuthContext';
@@ -657,7 +656,7 @@ const HomePage = () => {
             {/* Inline Search & Filters */}
             <Grid container spacing={2} alignItems="flex-end">
               {/* Main Search */}
-              <Grid xs={12} sm={4} md={4}>
+              <Grid item xs={12} sm={5} md={4}>
                 <TextField
                   fullWidth
                   name="search"
@@ -718,7 +717,7 @@ const HomePage = () => {
               </Grid>
 
               {/* Experience Filter */}
-              <Grid xs={6} sm={2.5} md={2.5}>
+              <Grid item xs={6} sm={2} md={3}>
                 <FormControl 
                   fullWidth 
                   size="medium"
@@ -757,7 +756,7 @@ const HomePage = () => {
                 </FormControl>
               </Grid>
 
-              <Grid xs={6} sm={1.5} md={1.5}>
+              <Grid item xs={6} sm={2} md={2}>
                 <TextField
                   fullWidth
                   label="Min Salary (LPA)"
@@ -792,7 +791,7 @@ const HomePage = () => {
                 />
               </Grid>
 
-              <Grid xs={6} sm={1.5} md={1.5}>
+              <Grid item xs={6} sm={2} md={2}>
                 <TextField
                   fullWidth
                   label="Max Salary (LPA)"
@@ -827,7 +826,7 @@ const HomePage = () => {
                 />
               </Grid>
 
-              <Grid xs={6} sm={2.5} md={2.5}>
+              <Grid item xs={12} sm={1} md={1}>
                 <TextField
                   fullWidth
                   label="Location"
