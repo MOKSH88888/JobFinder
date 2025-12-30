@@ -19,7 +19,7 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { bookmarkJob, removeBookmark } from '../api';
 
-const JobCard = ({ job }) => {
+const JobCard = ({ job, isNewJob = false }) => {
   const { user, refreshUser, setUser } = useAuth();
   const { showToast } = useSocket();
   const [loading, setLoading] = useState(false);
