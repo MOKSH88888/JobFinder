@@ -717,7 +717,7 @@ const HomePage = () => {
               </Grid>
 
               {/* Experience Filter */}
-              <Grid item xs={6} sm={2} md={3}>
+              <Grid item xs={6} sm={2} md={2}>
                 <FormControl 
                   fullWidth 
                   size="medium"
@@ -826,7 +826,7 @@ const HomePage = () => {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={1} md={1}>
+              <Grid item xs={12} sm={2} md={2}>
                 <TextField
                   fullWidth
                   label="Location"
