@@ -270,45 +270,55 @@ const HomePage = () => {
             <Grid size={{ xs: 12, md: 7 }}>
               <Fade in timeout={800}>
                 <Box>
-                  {/* Trust Badge */}
-                  <Chip
-                    icon={<VerifiedIcon sx={{ fontSize: 16 }} />}
-                    label="Trusted by 10,000+ Job Seekers"
-                    sx={{
-                      mb: 3,
-                      bgcolor: 'rgba(255,255,255,0.2)',
-                      color: 'white',
-                      fontWeight: 600,
-                      backdropFilter: 'blur(10px)',
-                      border: '1px solid rgba(255,255,255,0.3)',
-                      '& .MuiChip-icon': { color: 'white' }
-                    }}
-                  />
-                  
-                  {/* Serial Position Effect - Urgency Indicator */}
-                  <Box sx={{ 
-                    display: 'inline-flex', 
-                    alignItems: 'center', 
-                    gap: 1, 
-                    bgcolor: 'rgba(255,255,255,0.15)',
-                    backdropFilter: 'blur(10px)',
-                    px: 2,
-                    py: 0.75,
-                    borderRadius: 2,
-                    mb: 3,
-                    border: '1px solid rgba(255,255,255,0.25)'
-                  }}>
-                    <TrendingUpIcon sx={{ color: 'rgba(255,255,255,0.9)', fontSize: 18 }} />
-                    <Typography variant="body2" sx={{ fontWeight: 600, color: 'rgba(255,255,255,0.95)', fontSize: '0.875rem' }}>
-                      {jobs.filter(job => {
+                  {/* Stat Badges - Professional Horizontal Layout */}
+                  <Stack 
+                    direction={{ xs: 'column', sm: 'row' }} 
+                    spacing={2} 
+                    sx={{ mb: 4 }}
+                    flexWrap="wrap"
+                  >
+                    {/* Trust Badge */}
+                    <Chip
+                      icon={<VerifiedIcon sx={{ fontSize: 18 }} />}
+                      label="Trusted by 10,000+ Job Seekers"
+                      sx={{
+                        bgcolor: 'rgba(255,255,255,0.2)',
+                        color: 'white',
+                        fontWeight: 600,
+                        fontSize: '0.875rem',
+                        height: 36,
+                        backdropFilter: 'blur(10px)',
+                        border: '1px solid rgba(255,255,255,0.3)',
+                        px: 1,
+                        '& .MuiChip-icon': { color: 'white', ml: 0.5 },
+                        '& .MuiChip-label': { px: 1.5 }
+                      }}
+                    />
+                    
+                    {/* Serial Position Effect - Urgency Indicator */}
+                    <Chip
+                      icon={<TrendingUpIcon sx={{ fontSize: 18 }} />}
+                      label={`${jobs.filter(job => {
                         if (!job.createdAt) return false;
                         const jobDate = new Date(job.createdAt);
                         const now = new Date();
                         const daysDiff = (now - jobDate) / (1000 * 60 * 60 * 24);
                         return daysDiff <= 7;
-                      }).length} new jobs this week
-                    </Typography>
-                  </Box>
+                      }).length} new jobs this week`}
+                      sx={{
+                        bgcolor: 'rgba(255,255,255,0.15)',
+                        color: 'white',
+                        fontWeight: 600,
+                        fontSize: '0.875rem',
+                        height: 36,
+                        backdropFilter: 'blur(10px)',
+                        border: '1px solid rgba(255,255,255,0.25)',
+                        px: 1,
+                        '& .MuiChip-icon': { color: 'rgba(255,255,255,0.9)', ml: 0.5 },
+                        '& .MuiChip-label': { px: 1.5 }
+                      }}
+                    />
+                  </Stack>
                   
                   {/* Primary Headline - Cognitive Load Reduction */}
                   <Typography 
