@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import API from '../api';
+import { useAuth } from '../context/AuthContext';
 import {
   Box,
   Typography,
@@ -39,6 +40,7 @@ import {
 import AdminLayout from '../components/admin/AdminLayout';
 
 const AdminAdminsPage = () => {
+  const { admin: currentAdmin } = useAuth();
   const [admins, setAdmins] = useState([]);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
@@ -169,28 +171,30 @@ const AdminAdminsPage = () => {
                 Manage administrator accounts and permissions
               </Typography>
             </Box>
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              onClick={() => setOpenDialog(true)}
-              sx={{
-                background: 'linear-gradient(135deg, #5568d3 0%, #764ba2 100%)',
-                textTransform: 'none',
-                fontWeight: 600,
-                px: 3,
-                py: 1.5,
-                borderRadius: 2,
-                boxShadow: '0 4px 20px rgba(102, 126, 234, 0.4)',
-                whiteSpace: 'nowrap',
-                '&:hover': {
-                  boxShadow: '0 6px 28px rgba(102, 126, 234, 0.5)',
-                  transform: 'translateY(-2px)'
-                },
-                transition: 'all 0.3s ease'
-              }}
-            >
-              Create Admin
-            </Button>
+            {currentAdmin?.role === 'Super Admin' && (
+              <Button
+                variant="contained"
+                startIcon={<AddIcon />}
+                onClick={() => setOpenDialog(true)}
+                sx={{
+                  background: 'linear-gradient(135deg, #5568d3 0%, #764ba2 100%)',
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  px: 3,
+                  py: 1.5,
+                  borderRadius: 2,
+                  boxShadow: '0 4px 20px rgba(102, 126, 234, 0.4)',
+                  whiteSpace: 'nowrap',
+                  '&:hover': {
+                    boxShadow: '0 6px 28px rgba(102, 126, 234, 0.5)',
+                    transform: 'translateY(-2px)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Create Admin
+              </Button>
+            )}
           </Box>
         </Fade>
 
@@ -383,7 +387,7 @@ const AdminAdminsPage = () => {
                         )}
                       </TableCell>
                       <TableCell sx={{ py: 1 }}>
-                        {!admin.isDefault ? (
+                        {!admin.isDefault && currentAdmin?.role === 'Super Admin' ? (
                           <IconButton
                             size="small"
                             onClick={() => handleDelete(admin._id)}
@@ -397,13 +401,23 @@ const AdminAdminsPage = () => {
                           >
                             <DeleteIcon fontSize="small" />
                           </IconButton>
-                        ) : (
+                        ) : admin.isDefault ? (
                           <Chip
                             label="Protected"
                             size="small"
                             sx={{
                               bgcolor: alpha('#22c55e', 0.1),
                               color: '#22c55e',
+                              fontWeight: 600
+                            }}
+                          />
+                        ) : (
+                          <Chip
+                            label="No Access"
+                            size="small"
+                            sx={{
+                              bgcolor: alpha('#6b7280', 0.1),
+                              color: '#6b7280',
                               fontWeight: 600
                             }}
                           />
