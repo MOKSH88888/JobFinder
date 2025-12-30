@@ -106,25 +106,26 @@ const LoginPage = () => {
       >
         <Box sx={{ maxWidth: 460, width: '100%' }}>
           {/* Header with better hierarchy */}
-          <Box sx={{ mb: 6, textAlign: 'center' }}>
+          <Box sx={{ mb: 5, textAlign: 'center' }}>
             <Typography 
               variant="h3" 
               fontWeight="700" 
               gutterBottom 
               sx={{ 
-                fontSize: { xs: '2rem', md: '2.5rem' },
+                fontSize: { xs: '2rem', md: '2.75rem' },
                 background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                mb: 1.5,
-                letterSpacing: '-0.02em'
+                mb: 1,
+                letterSpacing: '-0.03em',
+                lineHeight: 1.2
               }}
             >
               Welcome Back
             </Typography>
-            <Typography variant="body1" color="#64748b" sx={{ fontSize: '1.05rem', fontWeight: 400 }}>
-              Sign in to your account
+            <Typography variant="body1" color="text.secondary" sx={{ fontSize: '1rem', fontWeight: 500, letterSpacing: '0.01em' }}>
+              Sign in to continue to your account
             </Typography>
           </Box>
 
@@ -135,8 +136,8 @@ const LoginPage = () => {
           )}
 
           <Box component="form" onSubmit={handleSubmit} noValidate>
-            <Typography variant="body2" fontWeight="600" sx={{ mb: 1, color: '#24292f' }}>
-              Email Address *
+            <Typography variant="body2" fontWeight="600" sx={{ mb: 1, color: '#1e293b', fontSize: '0.875rem' }}>
+              Email Address
             </Typography>
             <TextField
               required
@@ -145,31 +146,31 @@ const LoginPage = () => {
               name="email"
               autoComplete="email"
               autoFocus
-              placeholder="your.email@example.com"
+              placeholder="name@company.com"
               value={formData.email}
               onChange={handleChange}
               onBlur={handleBlur}
               error={touched.email && !!validationErrors.email}
               helperText={touched.email && validationErrors.email}
               sx={{
-                mb: 3,
+                mb: 2.5,
                 '& .MuiOutlinedInput-root': {
                   borderRadius: 2,
-                  bgcolor: '#f8fafc',
+                  bgcolor: '#fafafa',
                   transition: 'all 0.2s ease',
                   '& fieldset': {
-                    borderColor: '#e2e8f0',
+                    borderColor: '#e5e7eb',
                     borderWidth: '1.5px'
                   },
                   '&:hover': {
-                    bgcolor: '#f1f5f9',
+                    bgcolor: '#f5f5f5',
                     '& fieldset': {
-                      borderColor: '#cbd5e1'
+                      borderColor: '#d1d5db'
                     }
                   },
                   '&.Mui-focused': {
                     bgcolor: 'white',
-                    boxShadow: '0 0 0 3px rgba(102,126,234,0.1)',
+                    boxShadow: '0 0 0 4px rgba(102,126,234,0.1)',
                     '& fieldset': {
                       borderColor: '#667eea',
                       borderWidth: '2px'
@@ -177,14 +178,15 @@ const LoginPage = () => {
                   }
                 },
                 '& input': {
-                  fontSize: '0.95rem',
-                  py: 0.5
+                  fontSize: '0.9375rem',
+                  py: 1.25,
+                  color: '#1e293b'
                 }
               }}
             />
             
-            <Typography variant="body2" fontWeight="600" sx={{ mb: 1, color: '#24292f' }}>
-              Password *
+            <Typography variant="body2" fontWeight="600" sx={{ mb: 1, color: '#1e293b', fontSize: '0.875rem' }}>
+              Password
             </Typography>
             <TextField
               required
@@ -206,6 +208,7 @@ const LoginPage = () => {
                       onClick={() => setShowPassword(!showPassword)}
                       edge="end"
                       size="small"
+                      sx={{ color: 'text.secondary' }}
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
@@ -213,24 +216,24 @@ const LoginPage = () => {
                 ),
               }}
               sx={{
-                mb: 3,
+                mb: 3.5,
                 '& .MuiOutlinedInput-root': {
                   borderRadius: 2,
-                  bgcolor: '#f8fafc',
+                  bgcolor: '#fafafa',
                   transition: 'all 0.2s ease',
                   '& fieldset': {
-                    borderColor: '#e2e8f0',
+                    borderColor: '#e5e7eb',
                     borderWidth: '1.5px'
                   },
                   '&:hover': {
-                    bgcolor: '#f1f5f9',
+                    bgcolor: '#f5f5f5',
                     '& fieldset': {
-                      borderColor: '#cbd5e1'
+                      borderColor: '#d1d5db'
                     }
                   },
                   '&.Mui-focused': {
                     bgcolor: 'white',
-                    boxShadow: '0 0 0 3px rgba(102,126,234,0.1)',
+                    boxShadow: '0 0 0 4px rgba(102,126,234,0.1)',
                     '& fieldset': {
                       borderColor: '#667eea',
                       borderWidth: '2px'
@@ -238,8 +241,9 @@ const LoginPage = () => {
                   }
                 },
                 '& input': {
-                  fontSize: '0.95rem',
-                  py: 0.5
+                  fontSize: '0.9375rem',
+                  py: 1.25,
+                  color: '#1e293b'
                 }
               }}
             />

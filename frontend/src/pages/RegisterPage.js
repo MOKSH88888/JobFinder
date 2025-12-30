@@ -350,25 +350,26 @@ const RegisterPage = () => {
       >
         <Box sx={{ maxWidth: 460, width: '100%' }}>
           {/* Header with better hierarchy */}
-          <Box sx={{ mb: 5, textAlign: 'center' }}>
+          <Box sx={{ mb: 4.5, textAlign: 'center' }}>
             <Typography 
               variant="h3" 
               fontWeight="700" 
               gutterBottom 
               sx={{ 
-                fontSize: { xs: '2rem', md: '2.5rem' },
+                fontSize: { xs: '2rem', md: '2.75rem' },
                 background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                mb: 1.5,
-                letterSpacing: '-0.02em'
+                mb: 1,
+                letterSpacing: '-0.03em',
+                lineHeight: 1.2
               }}
             >
-              Create Account
+              Get Started
             </Typography>
-            <Typography variant="body1" color="#64748b" sx={{ fontSize: '1.05rem', fontWeight: 400 }}>
-              Start your journey to finding the perfect job
+            <Typography variant="body1" color="text.secondary" sx={{ fontSize: '1rem', fontWeight: 500, letterSpacing: '0.01em' }}>
+              Create your account in seconds
             </Typography>
           </Box>
 
