@@ -270,32 +270,47 @@ const HomePage = () => {
             <Grid size={{ xs: 12, md: 7 }}>
               <Fade in timeout={800}>
                 <Box>
-                  {/* Stat Badges - Professional Horizontal Layout */}
+                  {/* Stat Badges - Enhanced with UI Psychology */}
                   <Stack 
                     direction={{ xs: 'column', sm: 'row' }} 
                     spacing={2} 
                     sx={{ mb: 4 }}
                     flexWrap="wrap"
                   >
-                    {/* Trust Badge */}
+                    {/* Trust Badge - High Contrast & Depth */}
                     <Chip
                       icon={<VerifiedIcon sx={{ fontSize: 18 }} />}
                       label="Trusted by 10,000+ Job Seekers"
                       sx={{
-                        bgcolor: 'rgba(255,255,255,0.2)',
-                        color: 'white',
-                        fontWeight: 600,
+                        bgcolor: 'rgba(255,255,255,0.95)',
+                        color: '#667eea',
+                        fontWeight: 700,
                         fontSize: '0.875rem',
-                        height: 36,
-                        backdropFilter: 'blur(10px)',
-                        border: '1px solid rgba(255,255,255,0.3)',
-                        px: 1,
-                        '& .MuiChip-icon': { color: 'white', ml: 0.5 },
+                        height: 40,
+                        backdropFilter: 'blur(20px)',
+                        border: '2px solid rgba(255,255,255,0.8)',
+                        px: 1.5,
+                        boxShadow: '0 8px 32px rgba(0,0,0,0.15), 0 0 0 1px rgba(102,126,234,0.1)',
+                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                        animation: 'slideInLeft 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                        '@keyframes slideInLeft': {
+                          '0%': { opacity: 0, transform: 'translateX(-20px)' },
+                          '100%': { opacity: 1, transform: 'translateX(0)' }
+                        },
+                        '&:hover': {
+                          transform: 'translateY(-2px)',
+                          boxShadow: '0 12px 40px rgba(0,0,0,0.2), 0 0 20px rgba(102,126,234,0.3)'
+                        },
+                        '& .MuiChip-icon': { 
+                          color: '#4caf50', 
+                          ml: 0.5,
+                          filter: 'drop-shadow(0 2px 4px rgba(76,175,80,0.3))'
+                        },
                         '& .MuiChip-label': { px: 1.5 }
                       }}
                     />
                     
-                    {/* Serial Position Effect - Urgency Indicator */}
+                    {/* Urgency Badge - Attention Grabbing */}
                     <Chip
                       icon={<TrendingUpIcon sx={{ fontSize: 18 }} />}
                       label={`${jobs.filter(job => {
@@ -306,15 +321,30 @@ const HomePage = () => {
                         return daysDiff <= 7;
                       }).length} new jobs this week`}
                       sx={{
-                        bgcolor: 'rgba(255,255,255,0.15)',
-                        color: 'white',
-                        fontWeight: 600,
+                        bgcolor: 'rgba(255,215,0,0.95)',
+                        color: '#1a1a2e',
+                        fontWeight: 700,
                         fontSize: '0.875rem',
-                        height: 36,
-                        backdropFilter: 'blur(10px)',
-                        border: '1px solid rgba(255,255,255,0.25)',
-                        px: 1,
-                        '& .MuiChip-icon': { color: 'rgba(255,255,255,0.9)', ml: 0.5 },
+                        height: 40,
+                        backdropFilter: 'blur(20px)',
+                        border: '2px solid rgba(255,215,0,0.8)',
+                        px: 1.5,
+                        boxShadow: '0 8px 32px rgba(255,215,0,0.3), 0 0 0 1px rgba(255,215,0,0.2)',
+                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                        animation: 'slideInRight 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s backwards',
+                        '@keyframes slideInRight': {
+                          '0%': { opacity: 0, transform: 'translateX(20px)' },
+                          '100%': { opacity: 1, transform: 'translateX(0)' }
+                        },
+                        '&:hover': {
+                          transform: 'translateY(-2px)',
+                          boxShadow: '0 12px 40px rgba(255,215,0,0.4), 0 0 20px rgba(255,215,0,0.5)'
+                        },
+                        '& .MuiChip-icon': { 
+                          color: '#ff6b6b', 
+                          ml: 0.5,
+                          filter: 'drop-shadow(0 2px 4px rgba(255,107,107,0.3))'
+                        },
                         '& .MuiChip-label': { px: 1.5 }
                       }}
                     />
