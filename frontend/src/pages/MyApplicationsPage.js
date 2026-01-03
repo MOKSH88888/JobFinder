@@ -38,63 +38,6 @@ const getDaysSinceApplication = (appliedDate) => {
   return diffDays;
 };
 
-// Helper function to get status-based action message
-const getStatusActionMessage = (status, daysSince) => {
-  const statusLower = status?.toLowerCase();
-  
-  if (statusLower === 'shortlisted') {
-    return { 
-      message: 'Shortlisted - Prepare for interview', 
-      color: '#059669',
-      icon: '✓'
-    };
-  }
-  
-  if (statusLower === 'rejected') {
-    return { 
-      message: 'Application not selected', 
-      color: '#dc2626',
-      icon: '×'
-    };
-  }
-  
-  if (statusLower === 'under review' || statusLower === 'reviewed') {
-    if (daysSince > 7) {
-      return { 
-        message: 'Application under review - Awaiting decision', 
-        color: '#2563eb',
-        icon: '•'
-      };
-    }
-    return { 
-      message: 'Application under review', 
-      color: '#2563eb',
-      icon: '•'
-    };
-  }
-  
-  // Pending status
-  if (daysSince > 14) {
-    return { 
-      message: 'Pending employer review - Consider follow-up', 
-      color: '#ea580c',
-      icon: '!'
-    };
-  }
-  if (daysSince > 7) {
-    return { 
-      message: 'Application submitted - Awaiting response', 
-      color: '#78716c',
-      icon: '•'
-    };
-  }
-  return { 
-    message: 'Application submitted - Pending review', 
-    color: '#78716c',
-    icon: '•'
-  };
-};
-
 const getStatusBadge = (status) => {
   const statusLower = status?.toLowerCase();
   
