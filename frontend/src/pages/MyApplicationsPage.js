@@ -67,7 +67,7 @@ const getStatusBadge = (status) => {
   
   if (statusLower === 'rejected') {
     return {
-      label: 'APPLICATION NOT SELECTED',
+      label: 'NOT SELECTED',
       icon: <CancelIcon />,
       sx: {
         backgroundColor: '#ef4444',
