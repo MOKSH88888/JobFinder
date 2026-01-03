@@ -425,7 +425,7 @@ const MyApplicationsPage = () => {
           </Box>
         ) : appliedJobs.length > 0 ? (
           <>
-            <Grid container spacing={3}>
+            <Grid container spacing={2.5}>
               {sortedApplications.slice(0, displayLimit).map((job) => {
               const status = (job.applicationStatus || 'pending').toLowerCase();
               const isShortlisted = status === 'shortlisted';
@@ -476,7 +476,7 @@ const MyApplicationsPage = () => {
                     }}
                   >
                     <CardContent sx={{ flexGrow: 1 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.25 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                           <BusinessIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
                           <Typography variant="body2" color="text.secondary" fontWeight={500}>
@@ -489,26 +489,26 @@ const MyApplicationsPage = () => {
                         fontWeight: 800,
                         fontSize: '1.15rem',
                         lineHeight: 1.3,
-                        mb: 1.5,
+                        mb: 1,
                         color: 'text.primary'
                       }}>
                         {job.title || 'Untitled Job'}
                       </Typography>
                       
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.25, gap: 0.75 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 0.75, gap: 0.75 }}>
                         <LocationOnIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
                         <Typography variant="body2" color="text.secondary" fontWeight={500}>
                           {job.location || 'Location not specified'}
                         </Typography>
                       </Box>
                       
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, gap: 0.75 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 0.75 }}>
                         <Typography variant="body2" fontWeight={600} color="success.main">
                           {job.salary && !isNaN(job.salary) ? `₹${Number(job.salary).toLocaleString('en-IN')} LPA` : 'Not disclosed'}
                         </Typography>
                       </Box>
                       
-                      <Box sx={{ display: 'flex', gap: 1.25, flexWrap: 'wrap', mb: 2.5 }}>
+                      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 1.5 }}>
                         <Chip 
                           label={`${job.experienceRequired ?? 0} years`} 
                           size="small" 
@@ -554,35 +554,26 @@ const MyApplicationsPage = () => {
                           </Box>
                           
                           {/* Action-oriented status message */}
-                          <Tooltip title={actionMessage.message} arrow>
-                            <Box sx={{ 
-                              display: 'flex', 
-                              alignItems: 'center', 
-                              gap: 0.75,
-                              backgroundColor: `${actionMessage.color}08`,
-                              border: `1px solid ${actionMessage.color}20`,
-                              borderRadius: 1,
-                              py: 0.75,
-                              px: 1.25,
-                              cursor: 'default'
-                            }}>
-                              <Typography component="span" sx={{ fontSize: '0.875rem' }}>
-                                {actionMessage.icon}
-                              </Typography>
-                              <Typography 
-                                variant="caption" 
-                                sx={{ 
-                                  color: actionMessage.color,
-                                  fontWeight: 600,
-                                  fontSize: '0.688rem',
-                                  lineHeight: 1.3,
-                                  flex: 1
-                                }}
-                              >
-                                {actionMessage.message}
-                              </Typography>
-                            </Box>
-                          </Tooltip>
+                          <Box sx={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: 0.5
+                          }}>
+                            <Typography component="span" sx={{ fontSize: '0.75rem' }}>
+                              {actionMessage.icon}
+                            </Typography>
+                            <Typography 
+                              variant="caption" 
+                              sx={{ 
+                                color: actionMessage.color,
+                                fontWeight: 600,
+                                fontSize: '0.75rem',
+                                lineHeight: 1.3
+                              }}
+                            >
+                              {actionMessage.message}
+                            </Typography>
+                          </Box>
                         </Box>
                       )}
                     </CardContent>
