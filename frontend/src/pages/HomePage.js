@@ -4,8 +4,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { 
   Container, Typography, Box, Grid, Alert, Chip, Paper, Collapse, 
-  Skeleton, Fade, Badge, Stack, alpha, Card, CardContent, TextField, Select, 
-  MenuItem, FormControl, InputLabel, InputAdornment, Button
+  Skeleton, Fade, Badge, Stack, alpha, Card, CardContent, TextField, 
+  MenuItem, InputAdornment, Button
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { fetchJobs } from '../api';
@@ -677,22 +677,21 @@ const HomePage = () => {
               {/* Row 2: Filters */}
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={3}>
-                  <FormControl fullWidth>
-                    <InputLabel>Experience Level</InputLabel>
-                    <Select
-                      name="experience"
-                      value={filters.experience}
-                      label="Experience Level"
-                      onChange={handleFilterChange}
-                    >
-                      <MenuItem value=""><em>All Levels</em></MenuItem>
-                      <MenuItem value={0}>Fresher</MenuItem>
-                      <MenuItem value={1}>1-2 years</MenuItem>
-                      <MenuItem value={3}>3-4 years</MenuItem>
-                      <MenuItem value={5}>5-6 years</MenuItem>
-                      <MenuItem value={7}>7+ years</MenuItem>
-                    </Select>
-                  </FormControl>
+                  <TextField
+                    fullWidth
+                    select
+                    label="Experience"
+                    name="experience"
+                    value={filters.experience}
+                    onChange={handleFilterChange}
+                  >
+                    <MenuItem value="">All Levels</MenuItem>
+                    <MenuItem value={0}>Fresher</MenuItem>
+                    <MenuItem value={1}>1-2 years</MenuItem>
+                    <MenuItem value={3}>3-4 years</MenuItem>
+                    <MenuItem value={5}>5-6 years</MenuItem>
+                    <MenuItem value={7}>7+ years</MenuItem>
+                  </TextField>
                 </Grid>
                 <Grid item xs={6} sm={3}>
                   <TextField
