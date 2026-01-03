@@ -685,6 +685,14 @@ const HomePage = () => {
                     name="experience"
                     value={filters.experience}
                     onChange={handleFilterChange}
+                    sx={{
+                      '& .MuiSelect-select': {
+                        display: 'flex',
+                        alignItems: 'center',
+                        pr: 4
+                      },
+                      bgcolor: filters.experience !== '' ? alpha('#1976d2', 0.04) : 'transparent'
+                    }}
                     InputLabelProps={{
                       shrink: true
                     }}
@@ -717,6 +725,9 @@ const HomePage = () => {
                     value={filters.location}
                     onChange={handleFilterChange}
                     placeholder="e.g., Mumbai, Remote"
+                    sx={{
+                      bgcolor: filters.location ? alpha('#1976d2', 0.04) : 'transparent'
+                    }}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -735,9 +746,11 @@ const HomePage = () => {
                     label="Min Salary (LPA)"
                     name="minSalary"
                     type="number"
-                    placeholder="5"
                     value={filters.minSalary}
                     onChange={handleFilterChange}
+                    sx={{
+                      bgcolor: filters.minSalary ? alpha('#1976d2', 0.04) : 'transparent'
+                    }}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -756,9 +769,11 @@ const HomePage = () => {
                     label="Max Salary (LPA)"
                     name="maxSalary"
                     type="number"
-                    placeholder="25"
                     value={filters.maxSalary}
                     onChange={handleFilterChange}
+                    sx={{
+                      bgcolor: filters.maxSalary ? alpha('#1976d2', 0.04) : 'transparent'
+                    }}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
