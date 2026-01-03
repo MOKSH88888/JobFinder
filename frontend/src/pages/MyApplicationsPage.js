@@ -296,17 +296,16 @@ const MyApplicationsPage = () => {
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 4 }}>
       <Container>
-        <Box sx={{ mb: 2 }}>
+        <Box>
           <Box sx={{ 
             display: 'flex', 
             justifyContent: 'space-between', 
             alignItems: { xs: 'flex-start', md: 'flex-start' }, 
             flexDirection: { xs: 'column', md: 'row' },
-            gap: { xs: 2, md: 0 },
-            mb: 1 
+            gap: { xs: 2, md: 0 }
           }}>
             <Box>
-              <Typography variant="h4" gutterBottom fontWeight="bold" sx={{ fontSize: { xs: '1.75rem', md: '2.125rem' } }}>
+              <Typography variant="h4" fontWeight="bold" sx={{ fontSize: { xs: '1.75rem', md: '2.125rem' }, mb: 0.5 }}>
                 My Applications
               </Typography>
               <Typography variant="body1" color="text.secondary" sx={{ fontSize: { xs: '0.875rem', md: '1rem' } }}>
