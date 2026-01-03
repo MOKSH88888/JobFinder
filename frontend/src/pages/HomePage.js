@@ -1,5 +1,5 @@
 // src/pages/HomePage.js
-// Updated Grid Layout - Jan 3, 2026
+// Last Updated: 2026-01-03 v2.0 - 2-Row Filter Layout
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { 
