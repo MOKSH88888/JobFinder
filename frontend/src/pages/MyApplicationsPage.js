@@ -126,7 +126,7 @@ const getStatusBadge = (status) => {
   
   if (statusLower === 'rejected') {
     return {
-      label: 'NOT SELECTED',
+      label: 'APPLICATION NOT SELECTED',
       icon: <CancelIcon />,
       sx: {
         backgroundColor: '#ef4444',
@@ -321,7 +321,7 @@ const MyApplicationsPage = () => {
                 </Typography>
               </Box>
               <Chip 
-                label="All"
+                label={`All (${appliedJobs.length})`}
                 onClick={() => setStatusFilter('all')}
                 sx={{ 
                   fontWeight: 600,
@@ -336,7 +336,7 @@ const MyApplicationsPage = () => {
                 }}
               />
               <Chip 
-                label="Shortlisted"
+                label={`Shortlisted (${appliedJobs.filter(j => (j.applicationStatus || 'pending').toLowerCase() === 'shortlisted').length})`}
                 onClick={() => setStatusFilter('shortlisted')}
                 sx={{ 
                   fontWeight: 600,
@@ -351,7 +351,7 @@ const MyApplicationsPage = () => {
                 }}
               />
               <Chip 
-                label="Rejected"
+                label={`Rejected (${appliedJobs.filter(j => (j.applicationStatus || 'pending').toLowerCase() === 'rejected').length})`}
                 onClick={() => setStatusFilter('rejected')}
                 sx={{ 
                   fontWeight: 600,
@@ -366,7 +366,10 @@ const MyApplicationsPage = () => {
                 }}
               />
               <Chip 
-                label="Under Review"
+                label={`Under Review (${appliedJobs.filter(j => {
+                  const status = (j.applicationStatus || 'pending').toLowerCase();
+                  return status === 'under review' || status === 'reviewed';
+                }).length})`}
                 onClick={() => setStatusFilter('under review')}
                 sx={{ 
                   fontWeight: 600,
@@ -381,7 +384,7 @@ const MyApplicationsPage = () => {
                 }}
               />
               <Chip 
-                label="Pending"
+                label={`Pending (${appliedJobs.filter(j => (j.applicationStatus || 'pending').toLowerCase() === 'pending').length})`}
                 onClick={() => setStatusFilter('pending')}
                 sx={{ 
                   fontWeight: 600,
@@ -430,9 +433,6 @@ const MyApplicationsPage = () => {
               const isRejected = status === 'rejected';
               const isUnderReview = status === 'under review' || status === 'reviewed';
               const isPending = status === 'pending';
-              
-              // "Updated" badge shows for any non-Pending status (Shortlisted, Rejected, Under Review)
-              const isUpdated = !isPending;
               
               // Determine border and styling based on status
               const getBorderStyle = () => {
@@ -485,24 +485,9 @@ const MyApplicationsPage = () => {
                             {job.companyName || 'Company not specified'}
                           </Typography>
                         </Box>
-                        {isUpdated && (
-                          <Chip 
-                            label="Updated" 
-                            size="small" 
-                            sx={{ 
-                              backgroundColor: isShortlisted ? '#d1fae5' : isRejected ? '#fee2e2' : '#dbeafe',
-                              color: isShortlisted ? '#065f46' : isRejected ? '#991b1b' : '#1e40af',
-                              fontWeight: 700,
-                              fontSize: '0.688rem',
-                              height: '22px',
-                              letterSpacing: '0.3px',
-                              border: isShortlisted ? '1.5px solid #10b981' : isRejected ? '1.5px solid #ef4444' : '1.5px solid #3b82f6'
-                            }}
-                          />
-                        )}
                       </Box>
-                      
-                      <Typography variant="h6" gutterBottom sx={{ 
+
+                      <Typography variant="h6" sx={{
                         fontWeight: 800,
                         fontSize: '1.15rem',
                         lineHeight: 1.3,
@@ -520,7 +505,6 @@ const MyApplicationsPage = () => {
                       </Box>
                       
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, gap: 0.75 }}>
-                        <CurrencyRupeeIcon sx={{ fontSize: 18, color: 'success.main' }} />
                         <Typography variant="body2" fontWeight={600} color="success.main">
                           {job.salary && !isNaN(job.salary) ? `₹${Number(job.salary).toLocaleString('en-IN')} LPA` : 'Not disclosed'}
                         </Typography>
@@ -619,7 +603,7 @@ const MyApplicationsPage = () => {
                           fontSize: '0.875rem'
                         }}
                       >
-                        View Details
+                        View Application
                       </Button>
                     </CardActions>
                   </Card>
@@ -653,18 +637,18 @@ const MyApplicationsPage = () => {
           )}
           </>
         ) : (
-          <Paper sx={{ p: 6, textAlign: 'center' }}>
-            <WorkIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
-            <Typography variant="h6" gutterBottom>
+          <Paper sx={{ p: 6, textAlign: 'center', maxWidth: 500, mx: 'auto' }}>
+            <WorkIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2, opacity: 0.5 }} />
+            <Typography variant="h6" gutterBottom fontWeight={600}>
               {statusFilter !== 'all' 
                 ? `No ${statusFilter.charAt(0).toUpperCase() + statusFilter.slice(1)} Applications` 
                 : 'No Applications Yet'
               }
             </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3, lineHeight: 1.6 }}>
               {statusFilter !== 'all'
-                ? `You don't have any ${statusFilter} applications. Try changing the filter.`
-                : "You haven't applied for any jobs yet. Start exploring opportunities!"
+                ? `You currently have no ${statusFilter} applications. Clear the filter to view all applications or browse available positions.`
+                : "Start your job search journey by exploring available opportunities and submitting applications."
               }
             </Typography>
             <Button 
