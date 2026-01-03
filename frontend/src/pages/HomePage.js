@@ -1,4 +1,5 @@
 // src/pages/HomePage.js
+// Updated Grid Layout - Jan 3, 2026
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { 
