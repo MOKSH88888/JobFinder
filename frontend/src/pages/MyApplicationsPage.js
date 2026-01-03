@@ -20,7 +20,6 @@ import {
 } from '@mui/material';
 import WorkIcon from '@mui/icons-material/Work';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import BusinessIcon from '@mui/icons-material/Business';
 import CancelIcon from '@mui/icons-material/Cancel';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -432,7 +431,6 @@ const MyApplicationsPage = () => {
               const isShortlisted = status === 'shortlisted';
               const isRejected = status === 'rejected';
               const isUnderReview = status === 'under review' || status === 'reviewed';
-              const isPending = status === 'pending';
               
               // Determine border and styling based on status
               const getBorderStyle = () => {
