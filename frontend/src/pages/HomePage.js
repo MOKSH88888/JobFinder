@@ -826,7 +826,7 @@ const HomePage = () => {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={2} md={2}>
+              <Grid item xs={6} sm={2} md={2}>
                 <TextField
                   fullWidth
                   label="Location"
