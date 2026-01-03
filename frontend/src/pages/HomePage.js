@@ -3,15 +3,18 @@
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { 
-  Container, Typography, Box, Grid, Alert, Chip, Paper, Collapse, 
-  Skeleton, Fade, Badge, Stack, alpha, Card, CardContent, Select, 
-  MenuItem, FormControl, Button
+  Container, Typography, Box, Grid, Alert, Chip, Paper, Collapse, IconButton, 
+  Skeleton, Fade, Badge, Stack, alpha, Card, CardContent, TextField, Select, 
+  MenuItem, FormControl, InputLabel, InputAdornment, Button
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { fetchJobs } from '../api';
 import { useAuth } from '../context/AuthContext';
 import { useSocket } from '../context/SocketContext';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
+import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import TuneIcon from '@mui/icons-material/Tune';
 import VerifiedIcon from '@mui/icons-material/Verified';
@@ -201,12 +204,12 @@ const HomePage = () => {
     });
   }, [jobs, filters, sortBy]);
 
-  // const handleFilterChange = useCallback((e) => {
-  //   setFilters(prev => ({
-  //     ...prev,
-  //     [e.target.name]: e.target.value,
-  //   }));
-  // }, []);
+  const handleFilterChange = useCallback((e) => {
+    setFilters(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  }, []);
 
   const handleClearFilters = useCallback(() => {
     setFilters({ search: '', experience: '', minSalary: '', maxSalary: '', location: '' });
@@ -654,7 +657,96 @@ const HomePage = () => {
               boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
             }}
           >
-            {/* FILTERS REMOVED FOR DEBUGGING */}
+            <Grid container spacing={2}>
+              {/* Row 1: Search + Location */}
+              <Grid item xs={12} sm={8}>
+                <TextField
+                  fullWidth
+                  name="search"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  placeholder="Search by job title, company, or keywords..."
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  fullWidth
+                  label="Location"
+                  name="location"
+                  value={filters.location}
+                  onChange={handleFilterChange}
+                  placeholder="City or Remote"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <LocationOnIcon />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+
+              {/* Row 2: Experience + Salary Range */}
+              <Grid item xs={12} sm={4}>
+                <FormControl fullWidth>
+                  <InputLabel>Experience Level</InputLabel>
+                  <Select
+                    name="experience"
+                    value={filters.experience}
+                    label="Experience Level"
+                    onChange={handleFilterChange}
+                  >
+                    <MenuItem value=""><em>All Levels</em></MenuItem>
+                    <MenuItem value={0}>Fresher</MenuItem>
+                    <MenuItem value={1}>1-2 years</MenuItem>
+                    <MenuItem value={3}>3-4 years</MenuItem>
+                    <MenuItem value={5}>5-6 years</MenuItem>
+                    <MenuItem value={7}>7+ years</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={6} sm={4}>
+                <TextField
+                  fullWidth
+                  label="Min Salary (LPA)"
+                  name="minSalary"
+                  type="number"
+                  value={filters.minSalary}
+                  onChange={handleFilterChange}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <CurrencyRupeeIcon />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={4}>
+                <TextField
+                  fullWidth
+                  label="Max Salary (LPA)"
+                  name="maxSalary"
+                  type="number"
+                  value={filters.maxSalary}
+                  onChange={handleFilterChange}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <CurrencyRupeeIcon />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+            </Grid>
 
             {/* Compact Action Bar */}
             {(hasActiveFilters || filteredJobs.length > 0) && (
