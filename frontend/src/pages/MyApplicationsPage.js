@@ -15,8 +15,7 @@ import {
   CardContent,
   CardActions,
   Button,
-  Grid,
-  Tooltip
+  Grid
 } from '@mui/material';
 import WorkIcon from '@mui/icons-material/Work';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
