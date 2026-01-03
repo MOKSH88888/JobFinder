@@ -819,19 +819,19 @@ const HomePage = () => {
                 
                 {/* Sort & Clear Actions */}
                 <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                  <FormControl size="small" sx={{ minWidth: 140 }}>
-                    <Select
-                      value={sortBy}
-                      onChange={(e) => setSortBy(e.target.value)}
-                      displayEmpty
-                    >
-                      <MenuItem value="recent">Recent</MenuItem>
-                      <MenuItem value="salary-high">High Salary</MenuItem>
-                      <MenuItem value="salary-low">Low Salary</MenuItem>
-                      <MenuItem value="experience">Experience</MenuItem>
-                      <MenuItem value="company">Company</MenuItem>
-                    </Select>
-                  </FormControl>
+                  <TextField
+                    select
+                    size="small"
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    sx={{ minWidth: 140 }}
+                  >
+                    <MenuItem value="recent">Recent</MenuItem>
+                    <MenuItem value="salary-high">High Salary</MenuItem>
+                    <MenuItem value="salary-low">Low Salary</MenuItem>
+                    <MenuItem value="experience">Experience</MenuItem>
+                    <MenuItem value="company">Company</MenuItem>
+                  </TextField>
 
                   {hasActiveFilters && (
                     <Button 
