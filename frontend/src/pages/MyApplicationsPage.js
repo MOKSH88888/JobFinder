@@ -296,7 +296,7 @@ const MyApplicationsPage = () => {
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 4 }}>
       <Container>
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ mb: 2 }}>
           <Box sx={{ 
             display: 'flex', 
             justifyContent: 'space-between', 
