@@ -676,23 +676,6 @@ const HomePage = () => {
 
               {/* Row 2: Filters */}
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={3}>
-                  <TextField
-                    fullWidth
-                    select
-                    label="Experience"
-                    name="experience"
-                    value={filters.experience}
-                    onChange={handleFilterChange}
-                  >
-                    <MenuItem value="">All Levels</MenuItem>
-                    <MenuItem value={0}>Fresher</MenuItem>
-                    <MenuItem value={1}>1-2 years</MenuItem>
-                    <MenuItem value={3}>3-4 years</MenuItem>
-                    <MenuItem value={5}>5-6 years</MenuItem>
-                    <MenuItem value={7}>7+ years</MenuItem>
-                  </TextField>
-                </Grid>
                 <Grid item xs={6} sm={3}>
                   <TextField
                     fullWidth
@@ -743,6 +726,35 @@ const HomePage = () => {
                       )
                     }}
                   />
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                  <TextField
+                    fullWidth
+                    select
+                    label="Experience Level"
+                    name="experience"
+                    value={filters.experience}
+                    onChange={handleFilterChange}
+                    SelectProps={{
+                      displayEmpty: true,
+                      renderValue: (value) => {
+                        if (value === '') return 'All Levels';
+                        if (value === 0) return 'Fresher';
+                        if (value === 1) return '1-2 years';
+                        if (value === 3) return '3-4 years';
+                        if (value === 5) return '5-6 years';
+                        if (value === 7) return '7+ years';
+                        return 'All Levels';
+                      }
+                    }}
+                  >
+                    <MenuItem value="">All Levels</MenuItem>
+                    <MenuItem value={0}>Fresher</MenuItem>
+                    <MenuItem value={1}>1-2 years</MenuItem>
+                    <MenuItem value={3}>3-4 years</MenuItem>
+                    <MenuItem value={5}>5-6 years</MenuItem>
+                    <MenuItem value={7}>7+ years</MenuItem>
+                  </TextField>
                 </Grid>
               </Grid>
             </Box>
