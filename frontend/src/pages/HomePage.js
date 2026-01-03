@@ -664,11 +664,12 @@ const HomePage = () => {
                 name="search"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                placeholder="Search by job title, company, or keywords..."
+                placeholder="Search jobs by title, company, or keywords"
+                variant="outlined"
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <SearchIcon />
+                      <SearchIcon sx={{ color: 'action.active' }} />
                     </InputAdornment>
                   )
                 }}
@@ -679,34 +680,42 @@ const HomePage = () => {
                 <Grid item xs={6} sm={3}>
                   <TextField
                     fullWidth
-                    label="Min Salary (LPA)"
+                    label="Min Salary"
                     name="minSalary"
                     type="number"
+                    placeholder="0"
                     value={filters.minSalary}
                     onChange={handleFilterChange}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <CurrencyRupeeIcon />
+                          <CurrencyRupeeIcon sx={{ color: 'action.active', fontSize: 20 }} />
                         </InputAdornment>
                       )
+                    }}
+                    InputLabelProps={{
+                      shrink: true
                     }}
                   />
                 </Grid>
                 <Grid item xs={6} sm={3}>
                   <TextField
                     fullWidth
-                    label="Max Salary (LPA)"
+                    label="Max Salary"
                     name="maxSalary"
                     type="number"
+                    placeholder="50"
                     value={filters.maxSalary}
                     onChange={handleFilterChange}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <CurrencyRupeeIcon />
+                          <CurrencyRupeeIcon sx={{ color: 'action.active', fontSize: 20 }} />
                         </InputAdornment>
                       )
+                    }}
+                    InputLabelProps={{
+                      shrink: true
                     }}
                   />
                 </Grid>
@@ -717,13 +726,16 @@ const HomePage = () => {
                     name="location"
                     value={filters.location}
                     onChange={handleFilterChange}
-                    placeholder="City or Remote"
+                    placeholder="e.g., Mumbai, Bangalore, Remote"
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <LocationOnIcon />
+                          <LocationOnIcon sx={{ color: 'action.active' }} />
                         </InputAdornment>
                       )
+                    }}
+                    InputLabelProps={{
+                      shrink: true
                     }}
                   />
                 </Grid>
