@@ -28,6 +28,7 @@ import StarIcon from '@mui/icons-material/Star';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import NotificationToast from '../components/NotificationToast';
 
 // Helper function to calculate days since application
@@ -92,7 +93,7 @@ const getStatusActionMessage = (status, daysSince) => {
   }
   return { 
     message: 'Recently applied - good luck!', 
-    color: '#16a34a',
+    color: '#78716c',
     icon: '🚀'
   };
 };
@@ -188,6 +189,13 @@ const MyApplicationsPage = () => {
   const [loading, setLoading] = useState(true);
   const [currentNotification, setCurrentNotification] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
+  const [statusFilter, setStatusFilter] = useState('all'); // Filter state
+  const [displayLimit, setDisplayLimit] = useState(12); // Show 12 applications initially
+
+  // Reset display limit when filter changes
+  useEffect(() => {
+    setDisplayLimit(12);
+  }, [statusFilter]);
 
   useEffect(() => {
     const fetchAppliedJobs = async () => {
@@ -237,14 +245,28 @@ const MyApplicationsPage = () => {
     };
   }, [socket, user, addNotification]);
 
-  // Sort applications: Shortlisted/Rejected at top, then Under Review, then Pending
+  // Sort and filter applications
   const sortedApplications = useMemo(() => {
     // Defensive check - ensure appliedJobs is always an array
     if (!Array.isArray(appliedJobs)) {
       return [];
     }
     
-    return [...appliedJobs].sort((a, b) => {
+    // Apply status filter
+    let filtered = [...appliedJobs];
+    if (statusFilter !== 'all') {
+      filtered = filtered.filter(job => {
+        const status = (job.applicationStatus || 'pending').toLowerCase();
+        if (statusFilter === 'shortlisted') return status === 'shortlisted';
+        if (statusFilter === 'rejected') return status === 'rejected';
+        if (statusFilter === 'under review') return status === 'under review' || status === 'reviewed';
+        if (statusFilter === 'pending') return status === 'pending';
+        return true;
+      });
+    }
+    
+    // Sort filtered results
+    return filtered.sort((a, b) => {
       const statusA = (a.applicationStatus || 'pending').toLowerCase();
       const statusB = (b.applicationStatus || 'pending').toLowerCase();
       
@@ -261,7 +283,7 @@ const MyApplicationsPage = () => {
       // Within same priority, sort by applied date (newest first)
       return new Date(b.appliedAt) - new Date(a.appliedAt);
     });
-  }, [appliedJobs]);
+  }, [appliedJobs, statusFilter]);
 
   if (!user) {
     return (
@@ -275,12 +297,19 @@ const MyApplicationsPage = () => {
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 4 }}>
       <Container>
         <Box sx={{ mb: 4 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: { xs: 'flex-start', md: 'flex-start' }, 
+            flexDirection: { xs: 'column', md: 'row' },
+            gap: { xs: 2, md: 0 },
+            mb: 1 
+          }}>
             <Box>
-              <Typography variant="h4" gutterBottom fontWeight="bold">
+              <Typography variant="h4" gutterBottom fontWeight="bold" sx={{ fontSize: { xs: '1.75rem', md: '2.125rem' } }}>
                 My Applications
               </Typography>
-              <Typography variant="body1" color="text.secondary">
+              <Typography variant="body1" color="text.secondary" sx={{ fontSize: { xs: '0.875rem', md: '1rem' } }}>
                 Track all your job applications in one place
               </Typography>
             </Box>
@@ -290,18 +319,19 @@ const MyApplicationsPage = () => {
               <Paper 
                 elevation={2}
                 sx={{ 
-                  px: 3, 
-                  py: 2, 
+                  px: { xs: 2.5, md: 3 },
+                  py: { xs: 1.75, md: 2 }, 
                   background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                   color: 'white',
                   borderRadius: 2,
-                  minWidth: 180
+                  minWidth: { xs: '100%', sm: 180 },
+                  width: { xs: '100%', sm: 'auto' }
                 }}
               >
-                <Typography variant="h3" fontWeight="bold" sx={{ mb: 0.5 }}>
+                <Typography variant="h3" fontWeight="bold" sx={{ mb: 0.5, fontSize: { xs: '2rem', md: '3rem' } }}>
                   {appliedJobs.length}
                 </Typography>
-                <Typography variant="caption" sx={{ opacity: 0.95, fontSize: '0.75rem' }}>
+                <Typography variant="caption" sx={{ opacity: 0.95, fontSize: { xs: '0.688rem', md: '0.75rem' } }}>
                   Total Applications
                 </Typography>
                 <Box sx={{ mt: 1.5, display: 'flex', gap: 1.5, fontSize: '0.75rem' }}>
@@ -320,10 +350,104 @@ const MyApplicationsPage = () => {
             )}
           </Box>
           
-          {/* Status Summary */}
+          {/* Filter Bar */}
           {Array.isArray(appliedJobs) && appliedJobs.length > 0 && (
             <Box sx={{ 
               mt: 3, 
+              mb: 2,
+              display: 'flex', 
+              gap: 1.5, 
+              alignItems: 'center',
+              flexWrap: 'wrap'
+            }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mr: 0.5 }}>
+                <FilterListIcon sx={{ fontSize: 20, color: 'text.secondary' }} />
+                <Typography variant="body2" fontWeight={600} color="text.secondary">
+                  Show:
+                </Typography>
+              </Box>
+              <Chip 
+                label="All"
+                onClick={() => setStatusFilter('all')}
+                sx={{ 
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  cursor: 'pointer',
+                  backgroundColor: statusFilter === 'all' ? '#667eea' : '#f5f5f5',
+                  color: statusFilter === 'all' ? 'white' : '#424242',
+                  border: statusFilter === 'all' ? '2px solid #667eea' : '1px solid #e0e0e0',
+                  '&:hover': {
+                    backgroundColor: statusFilter === 'all' ? '#5568d3' : '#eeeeee'
+                  }
+                }}
+              />
+              <Chip 
+                label="Shortlisted"
+                onClick={() => setStatusFilter('shortlisted')}
+                sx={{ 
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  cursor: 'pointer',
+                  backgroundColor: statusFilter === 'shortlisted' ? '#10b981' : '#e8f5e9',
+                  color: statusFilter === 'shortlisted' ? 'white' : '#2e7d32',
+                  border: statusFilter === 'shortlisted' ? '2px solid #10b981' : '1px solid #c8e6c9',
+                  '&:hover': {
+                    backgroundColor: statusFilter === 'shortlisted' ? '#059669' : '#c8e6c9'
+                  }
+                }}
+              />
+              <Chip 
+                label="Rejected"
+                onClick={() => setStatusFilter('rejected')}
+                sx={{ 
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  cursor: 'pointer',
+                  backgroundColor: statusFilter === 'rejected' ? '#ef4444' : '#ffebee',
+                  color: statusFilter === 'rejected' ? 'white' : '#c62828',
+                  border: statusFilter === 'rejected' ? '2px solid #ef4444' : '1px solid #ffcdd2',
+                  '&:hover': {
+                    backgroundColor: statusFilter === 'rejected' ? '#dc2626' : '#ffcdd2'
+                  }
+                }}
+              />
+              <Chip 
+                label="Under Review"
+                onClick={() => setStatusFilter('under review')}
+                sx={{ 
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  cursor: 'pointer',
+                  backgroundColor: statusFilter === 'under review' ? '#3b82f6' : '#e3f2fd',
+                  color: statusFilter === 'under review' ? 'white' : '#1565c0',
+                  border: statusFilter === 'under review' ? '2px solid #3b82f6' : '1px solid #bbdefb',
+                  '&:hover': {
+                    backgroundColor: statusFilter === 'under review' ? '#2563eb' : '#bbdefb'
+                  }
+                }}
+              />
+              <Chip 
+                label="Pending"
+                onClick={() => setStatusFilter('pending')}
+                sx={{ 
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  cursor: 'pointer',
+                  backgroundColor: statusFilter === 'pending' ? '#78716c' : '#fafafa',
+                  color: statusFilter === 'pending' ? 'white' : '#616161',
+                  border: statusFilter === 'pending' ? '2px solid #78716c' : '1px solid #e0e0e0',
+                  '&:hover': {
+                    backgroundColor: statusFilter === 'pending' ? '#57534e' : '#e0e0e0'
+                  }
+                }}
+              />
+            </Box>
+          )}
+          
+          {/* Status Summary */}
+          {Array.isArray(appliedJobs) && appliedJobs.length > 0 && (
+            <Box sx={{ 
+              mt: 2, 
               display: 'flex', 
               gap: 1.5, 
               flexWrap: 'wrap',
@@ -391,13 +515,32 @@ const MyApplicationsPage = () => {
           )}
         </Box>
 
+        {/* Results Counter */}
+        {!loading && appliedJobs.length > 0 && sortedApplications.length > 0 && (
+          <Box sx={{ 
+            mb: 3, 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between',
+            px: 1
+          }}>
+            <Typography variant="body2" color="text.secondary" fontWeight={500}>
+              {statusFilter !== 'all' 
+                ? `Showing ${sortedApplications.length} of ${appliedJobs.length} applications`
+                : `Showing ${Math.min(displayLimit, sortedApplications.length)} of ${sortedApplications.length} applications`
+              }
+            </Typography>
+          </Box>
+        )}
+
         {loading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
             <CircularProgress />
           </Box>
         ) : appliedJobs.length > 0 ? (
-          <Grid container spacing={3}>
-            {sortedApplications.map((job) => {
+          <>
+            <Grid container spacing={3}>
+              {sortedApplications.slice(0, displayLimit).map((job) => {
               const status = (job.applicationStatus || 'pending').toLowerCase();
               const isShortlisted = status === 'shortlisted';
               const isRejected = status === 'rejected';
@@ -475,10 +618,12 @@ const MyApplicationsPage = () => {
                         )}
                       </Box>
                       
-                      <Typography variant="h6" gutterBottom fontWeight="bold" sx={{ 
-                        fontSize: '1.125rem',
+                      <Typography variant="h6" gutterBottom sx={{ 
+                        fontWeight: 800,
+                        fontSize: '1.15rem',
                         lineHeight: 1.3,
-                        mb: 1.5
+                        mb: 1.5,
+                        color: 'text.primary'
                       }}>
                         {job.title || 'Untitled Job'}
                       </Typography>
@@ -598,22 +743,59 @@ const MyApplicationsPage = () => {
               );
             })}
           </Grid>
+          
+          {/* Load More Button */}
+          {sortedApplications.length > displayLimit && (
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+              <Button
+                variant="outlined"
+                size="large"
+                onClick={() => setDisplayLimit(prev => prev + 12)}
+                sx={{
+                  borderRadius: 2,
+                  px: 4,
+                  py: 1.25,
+                  fontWeight: 600,
+                  textTransform: 'none',
+                  borderWidth: 2,
+                  '&:hover': {
+                    borderWidth: 2
+                  }
+                }}
+              >
+                Load More Applications ({sortedApplications.length - displayLimit} remaining)
+              </Button>
+            </Box>
+          )}
+          </>
         ) : (
           <Paper sx={{ p: 6, textAlign: 'center' }}>
             <WorkIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
             <Typography variant="h6" gutterBottom>
-              No Applications Yet
+              {statusFilter !== 'all' 
+                ? `No ${statusFilter.charAt(0).toUpperCase() + statusFilter.slice(1)} Applications` 
+                : 'No Applications Yet'
+              }
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-              You haven't applied for any jobs yet. Start exploring opportunities!
+              {statusFilter !== 'all'
+                ? `You don't have any ${statusFilter} applications. Try changing the filter.`
+                : "You haven't applied for any jobs yet. Start exploring opportunities!"
+              }
             </Typography>
             <Button 
               component={RouterLink} 
-              to="/browse" 
+              to={statusFilter !== 'all' ? '#' : '/browse'}
               variant="contained"
               size="large"
+              onClick={statusFilter !== 'all' ? () => setStatusFilter('all') : undefined}
+              sx={{
+                background: statusFilter !== 'all' 
+                  ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                  : undefined
+              }}
             >
-              Browse Jobs
+              {statusFilter !== 'all' ? 'Clear Filter' : 'Browse Jobs'}
             </Button>
           </Paper>
         )}
