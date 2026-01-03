@@ -343,24 +343,6 @@ const MyApplicationsPage = () => {
           )}
         </Box>
 
-        {/* Results Counter */}
-        {!loading && appliedJobs.length > 0 && sortedApplications.length > 0 && (
-          <Box sx={{ 
-            mb: 3, 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'space-between',
-            px: 1
-          }}>
-            <Typography variant="body2" color="text.secondary" fontWeight={500}>
-              {statusFilter !== 'all' 
-                ? `Showing ${sortedApplications.length} of ${appliedJobs.length} applications`
-                : `Showing ${Math.min(displayLimit, sortedApplications.length)} of ${sortedApplications.length} applications`
-              }
-            </Typography>
-          </Box>
-        )}
-
         {loading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
             <CircularProgress />
