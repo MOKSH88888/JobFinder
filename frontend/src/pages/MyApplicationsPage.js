@@ -15,7 +15,8 @@ import {
   CardContent,
   CardActions,
   Button,
-  Grid
+  Grid,
+  Tooltip
 } from '@mui/material';
 import WorkIcon from '@mui/icons-material/Work';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -25,7 +26,76 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import StarIcon from '@mui/icons-material/Star';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import NotificationToast from '../components/NotificationToast';
+
+// Helper function to calculate days since application
+const getDaysSinceApplication = (appliedDate) => {
+  if (!appliedDate) return null;
+  const now = new Date();
+  const applied = new Date(appliedDate);
+  const diffTime = Math.abs(now - applied);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays;
+};
+
+// Helper function to get status-based action message
+const getStatusActionMessage = (status, daysSince) => {
+  const statusLower = status?.toLowerCase();
+  
+  if (statusLower === 'shortlisted') {
+    return { 
+      message: 'Congratulations! Prepare for the next round', 
+      color: '#059669',
+      icon: '🎉'
+    };
+  }
+  
+  if (statusLower === 'rejected') {
+    return { 
+      message: 'Keep applying - the right opportunity awaits', 
+      color: '#dc2626',
+      icon: '💪'
+    };
+  }
+  
+  if (statusLower === 'under review' || statusLower === 'reviewed') {
+    if (daysSince > 7) {
+      return { 
+        message: 'Under review for over a week - stay patient', 
+        color: '#2563eb',
+        icon: '⏳'
+      };
+    }
+    return { 
+      message: 'Your application is being reviewed', 
+      color: '#2563eb',
+      icon: '👀'
+    };
+  }
+  
+  // Pending status
+  if (daysSince > 14) {
+    return { 
+      message: 'No update in 2+ weeks - consider following up', 
+      color: '#ea580c',
+      icon: '📧'
+    };
+  }
+  if (daysSince > 7) {
+    return { 
+      message: 'Application submitted - awaiting response', 
+      color: '#78716c',
+      icon: '⌛'
+    };
+  }
+  return { 
+    message: 'Recently applied - good luck!', 
+    color: '#16a34a',
+    icon: '🚀'
+  };
+};
 
 const getStatusBadge = (status) => {
   const statusLower = status?.toLowerCase();
@@ -205,12 +275,50 @@ const MyApplicationsPage = () => {
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 4 }}>
       <Container>
         <Box sx={{ mb: 4 }}>
-          <Typography variant="h4" gutterBottom fontWeight="bold">
-            My Applications
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            Track all your job applications in one place
-          </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
+            <Box>
+              <Typography variant="h4" gutterBottom fontWeight="bold">
+                My Applications
+              </Typography>
+              <Typography variant="body1" color="text.secondary">
+                Track all your job applications in one place
+              </Typography>
+            </Box>
+            
+            {/* Application Stats Card */}
+            {Array.isArray(appliedJobs) && appliedJobs.length > 0 && (
+              <Paper 
+                elevation={2}
+                sx={{ 
+                  px: 3, 
+                  py: 2, 
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  color: 'white',
+                  borderRadius: 2,
+                  minWidth: 180
+                }}
+              >
+                <Typography variant="h3" fontWeight="bold" sx={{ mb: 0.5 }}>
+                  {appliedJobs.length}
+                </Typography>
+                <Typography variant="caption" sx={{ opacity: 0.95, fontSize: '0.75rem' }}>
+                  Total Applications
+                </Typography>
+                <Box sx={{ mt: 1.5, display: 'flex', gap: 1.5, fontSize: '0.75rem' }}>
+                  <Tooltip title="Success Rate">
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      <TrendingUpIcon sx={{ fontSize: 16 }} />
+                      <Typography variant="caption" fontWeight={600}>
+                        {appliedJobs.length > 0 
+                          ? Math.round((appliedJobs.filter(j => (j.applicationStatus || '').toLowerCase() === 'shortlisted').length / appliedJobs.length) * 100)
+                          : 0}%
+                      </Typography>
+                    </Box>
+                  </Tooltip>
+                </Box>
+              </Paper>
+            )}
+          </Box>
           
           {/* Status Summary */}
           {Array.isArray(appliedJobs) && appliedJobs.length > 0 && (
@@ -291,9 +399,32 @@ const MyApplicationsPage = () => {
           <Grid container spacing={3}>
             {sortedApplications.map((job) => {
               const status = (job.applicationStatus || 'pending').toLowerCase();
-              const isAccepted = status === 'accepted';
+              const isShortlisted = status === 'shortlisted';
               const isRejected = status === 'rejected';
-              const isUpdated = isAccepted || isRejected;
+              const isUnderReview = status === 'under review' || status === 'reviewed';
+              const isPending = status === 'pending';
+              
+              // "Updated" badge shows for any non-Pending status (Shortlisted, Rejected, Under Review)
+              const isUpdated = !isPending;
+              
+              // Determine border and styling based on status
+              const getBorderStyle = () => {
+                if (isShortlisted) return '3px solid #10b981'; // Green for Shortlisted
+                if (isRejected) return '3px solid #ef4444'; // Red for Rejected
+                if (isUnderReview) return '2px solid #3b82f6'; // Blue for Under Review
+                return '1px solid #e0e0e0'; // Default for Pending
+              };
+              
+              const getBoxShadow = () => {
+                if (isShortlisted) return '0 8px 24px rgba(16, 185, 129, 0.2)';
+                if (isRejected) return '0 8px 24px rgba(239, 68, 68, 0.15)';
+                if (isUnderReview) return '0 6px 20px rgba(59, 130, 246, 0.15)';
+                return '0 2px 8px rgba(0, 0, 0, 0.08)';
+              };
+              
+              // Calculate application timeline
+              const daysSince = getDaysSinceApplication(job.appliedAt);
+              const actionMessage = getStatusActionMessage(status, daysSince);
               
               return (
                 <Grid item xs={12} md={6} lg={4} key={job._id}>
@@ -302,20 +433,28 @@ const MyApplicationsPage = () => {
                       height: '100%',
                       display: 'flex',
                       flexDirection: 'column',
-                      transition: 'transform 0.2s, box-shadow 0.2s',
-                      border: isAccepted ? '2px solid #4caf50' : isRejected ? '2px solid #f44336' : '1px solid #e0e0e0',
-                      boxShadow: isUpdated ? 3 : 1,
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                      border: getBorderStyle(),
+                      boxShadow: getBoxShadow(),
+                      position: 'relative',
+                      overflow: 'visible',
                       '&:hover': {
-                        transform: 'translateY(-4px)',
-                        boxShadow: isUpdated ? 6 : 4
+                        transform: 'translateY(-8px)',
+                        boxShadow: isShortlisted 
+                          ? '0 12px 32px rgba(16, 185, 129, 0.3)' 
+                          : isRejected 
+                          ? '0 12px 32px rgba(239, 68, 68, 0.2)'
+                          : isUnderReview
+                          ? '0 10px 28px rgba(59, 130, 246, 0.2)'
+                          : '0 6px 16px rgba(0, 0, 0, 0.12)'
                       }
                     }}
                   >
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <BusinessIcon sx={{ mr: 1, color: 'primary.main' }} />
-                          <Typography variant="body2" color="text.secondary">
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                          <BusinessIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
+                          <Typography variant="body2" color="text.secondary" fontWeight={500}>
                             {job.companyName || 'Company not specified'}
                           </Typography>
                         </Box>
@@ -324,39 +463,51 @@ const MyApplicationsPage = () => {
                             label="Updated" 
                             size="small" 
                             sx={{ 
-                              backgroundColor: '#e3f2fd',
-                              color: '#1976d2',
-                              fontWeight: 600,
-                              fontSize: '0.7rem',
-                              height: '20px'
+                              backgroundColor: isShortlisted ? '#d1fae5' : isRejected ? '#fee2e2' : '#dbeafe',
+                              color: isShortlisted ? '#065f46' : isRejected ? '#991b1b' : '#1e40af',
+                              fontWeight: 700,
+                              fontSize: '0.688rem',
+                              height: '22px',
+                              letterSpacing: '0.3px',
+                              border: isShortlisted ? '1.5px solid #10b981' : isRejected ? '1.5px solid #ef4444' : '1.5px solid #3b82f6'
                             }}
                           />
                         )}
                       </Box>
                       
-                      <Typography variant="h6" gutterBottom fontWeight="bold">
+                      <Typography variant="h6" gutterBottom fontWeight="bold" sx={{ 
+                        fontSize: '1.125rem',
+                        lineHeight: 1.3,
+                        mb: 1.5
+                      }}>
                         {job.title || 'Untitled Job'}
                       </Typography>
                       
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                        <LocationOnIcon sx={{ fontSize: 18, mr: 0.5, color: 'text.secondary' }} />
-                        <Typography variant="body2" color="text.secondary">
+                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.25, gap: 0.75 }}>
+                        <LocationOnIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
+                        <Typography variant="body2" color="text.secondary" fontWeight={500}>
                           {job.location || 'Location not specified'}
                         </Typography>
                       </Box>
                       
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                        <CurrencyRupeeIcon sx={{ fontSize: 18, mr: 0.5, color: 'text.secondary' }} />
-                        <Typography variant="body2" color="text.secondary">
+                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, gap: 0.75 }}>
+                        <CurrencyRupeeIcon sx={{ fontSize: 18, color: 'success.main' }} />
+                        <Typography variant="body2" fontWeight={600} color="success.main">
                           {job.salary && !isNaN(job.salary) ? `₹${Number(job.salary).toLocaleString('en-IN')} LPA` : 'Not disclosed'}
                         </Typography>
                       </Box>
                       
-                      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 2 }}>
+                      <Box sx={{ display: 'flex', gap: 1.25, flexWrap: 'wrap', mb: 2.5 }}>
                         <Chip 
                           label={`${job.experienceRequired ?? 0} years`} 
                           size="small" 
                           icon={<WorkIcon />}
+                          sx={{
+                            fontWeight: 600,
+                            fontSize: '0.75rem',
+                            backgroundColor: '#f5f5f5',
+                            border: '1px solid #e0e0e0'
+                          }}
                         />
                         
                         {/* Professional Status Badge */}
@@ -369,13 +520,59 @@ const MyApplicationsPage = () => {
                       </Box>
                       
                       {job.appliedAt && (
-                        <Typography variant="caption" color="text.secondary">
-                          Applied: {new Date(job.appliedAt).toLocaleDateString('en-IN', {
-                            day: 'numeric',
-                            month: 'short',
-                            year: 'numeric'
-                          })}
-                        </Typography>
+                        <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '1px solid #f0f0f0' }}>
+                          <Box sx={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: 0.75,
+                            mb: 1
+                          }}>
+                            <CalendarTodayIcon sx={{ fontSize: 14, color: 'text.disabled' }} />
+                            <Typography variant="caption" color="text.secondary" fontWeight={500}>
+                              Applied {new Date(job.appliedAt).toLocaleDateString('en-IN', {
+                                day: 'numeric',
+                                month: 'short',
+                                year: 'numeric'
+                              })}
+                              {daysSince && (
+                                <Typography component="span" variant="caption" sx={{ ml: 0.5, color: 'text.disabled' }}>
+                                  ({daysSince} {daysSince === 1 ? 'day' : 'days'} ago)
+                                </Typography>
+                              )}
+                            </Typography>
+                          </Box>
+                          
+                          {/* Action-oriented status message */}
+                          <Tooltip title={actionMessage.message} arrow>
+                            <Box sx={{ 
+                              display: 'flex', 
+                              alignItems: 'center', 
+                              gap: 0.75,
+                              backgroundColor: `${actionMessage.color}08`,
+                              border: `1px solid ${actionMessage.color}20`,
+                              borderRadius: 1,
+                              py: 0.75,
+                              px: 1.25,
+                              cursor: 'default'
+                            }}>
+                              <Typography component="span" sx={{ fontSize: '0.875rem' }}>
+                                {actionMessage.icon}
+                              </Typography>
+                              <Typography 
+                                variant="caption" 
+                                sx={{ 
+                                  color: actionMessage.color,
+                                  fontWeight: 600,
+                                  fontSize: '0.688rem',
+                                  lineHeight: 1.3,
+                                  flex: 1
+                                }}
+                              >
+                                {actionMessage.message}
+                              </Typography>
+                            </Box>
+                          </Tooltip>
+                        </Box>
                       )}
                     </CardContent>
                     
@@ -385,6 +582,13 @@ const MyApplicationsPage = () => {
                         to={`/jobs/${job._id}`}
                         variant="outlined"
                         fullWidth
+                        sx={{
+                          borderRadius: 1.5,
+                          py: 1,
+                          fontWeight: 600,
+                          textTransform: 'none',
+                          fontSize: '0.875rem'
+                        }}
                       >
                         View Details
                       </Button>
