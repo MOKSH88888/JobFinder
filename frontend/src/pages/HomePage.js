@@ -735,6 +735,9 @@ const HomePage = () => {
                     name="experience"
                     value={filters.experience}
                     onChange={handleFilterChange}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
                     SelectProps={{
                       displayEmpty: true,
                       renderValue: (value) => {
