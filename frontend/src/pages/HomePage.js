@@ -3,18 +3,15 @@
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { 
-  Container, Typography, Box, Grid, Alert, Chip, Paper, Collapse, IconButton, 
-  Skeleton, Fade, Badge, Stack, alpha, Card, CardContent, TextField, Select, 
-  MenuItem, FormControl, InputLabel, InputAdornment, Button
+  Container, Typography, Box, Grid, Alert, Chip, Paper, Collapse, 
+  Skeleton, Fade, Badge, Stack, alpha, Card, CardContent, Select, 
+  MenuItem, FormControl, Button
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { fetchJobs } from '../api';
 import { useAuth } from '../context/AuthContext';
 import { useSocket } from '../context/SocketContext';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
-import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import TuneIcon from '@mui/icons-material/Tune';
 import VerifiedIcon from '@mui/icons-material/Verified';
@@ -204,12 +201,12 @@ const HomePage = () => {
     });
   }, [jobs, filters, sortBy]);
 
-  const handleFilterChange = useCallback((e) => {
-    setFilters(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  }, []);
+  // const handleFilterChange = useCallback((e) => {
+  //   setFilters(prev => ({
+  //     ...prev,
+  //     [e.target.name]: e.target.value,
+  //   }));
+  // }, []);
 
   const handleClearFilters = useCallback(() => {
     setFilters({ search: '', experience: '', minSalary: '', maxSalary: '', location: '' });
