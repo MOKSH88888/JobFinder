@@ -570,7 +570,7 @@ const HomePage = () => {
       </Box>
 
       {/* Jobs Section */}
-      <Container sx={{ py: { xs: 8, sm: 10, md: 12 } }}>
+      <Container maxWidth={false} sx={{ py: { xs: 8, sm: 10, md: 12 }, px: { xs: 2, sm: 3, md: 4 } }}>
         {/* Section Header with Progressive Disclosure */}
         <Box sx={{ 
           display: 'flex', 
