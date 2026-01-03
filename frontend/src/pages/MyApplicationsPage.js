@@ -297,57 +297,45 @@ const MyApplicationsPage = () => {
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 4 }}>
       <Container>
         <Box>
-          <Box sx={{ 
-            display: 'flex', 
-            justifyContent: 'space-between', 
-            alignItems: { xs: 'flex-start', md: 'flex-start' }, 
-            flexDirection: { xs: 'column', md: 'row' },
-            gap: { xs: 2, md: 0 }
-          }}>
-            <Box>
-              <Typography variant="h4" fontWeight="bold" sx={{ fontSize: { xs: '1.75rem', md: '2.125rem' }, mb: 0.5 }}>
-                My Applications
-              </Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ fontSize: { xs: '0.875rem', md: '1rem' } }}>
-                Track all your job applications in one place
-              </Typography>
-            </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap', mb: 0.5 }}>
+            <Typography variant="h4" fontWeight="bold" sx={{ fontSize: { xs: '1.75rem', md: '2.125rem' } }}>
+              My Applications
+            </Typography>
             
-            {/* Application Stats Card */}
+            {/* Compact Stats Badge */}
             {Array.isArray(appliedJobs) && appliedJobs.length > 0 && (
-              <Paper 
-                elevation={2}
-                sx={{ 
-                  px: { xs: 2.5, md: 3 },
-                  py: { xs: 1.75, md: 2 }, 
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  color: 'white',
-                  borderRadius: 2,
-                  minWidth: { xs: '100%', sm: 180 },
-                  width: { xs: '100%', sm: 'auto' }
-                }}
-              >
-                <Typography variant="h3" fontWeight="bold" sx={{ mb: 0.5, fontSize: { xs: '2rem', md: '3rem' } }}>
-                  {appliedJobs.length}
-                </Typography>
-                <Typography variant="caption" sx={{ opacity: 0.95, fontSize: { xs: '0.688rem', md: '0.75rem' } }}>
-                  Total Applications
-                </Typography>
-                <Box sx={{ mt: 1.5, display: 'flex', gap: 1.5, fontSize: '0.75rem' }}>
-                  <Tooltip title="Success Rate">
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                      <TrendingUpIcon sx={{ fontSize: 16 }} />
+              <Chip 
+                label={
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+                    <Typography variant="body2" fontWeight={700}>
+                      {appliedJobs.length}
+                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.25 }}>
+                      <TrendingUpIcon sx={{ fontSize: 14 }} />
                       <Typography variant="caption" fontWeight={600}>
                         {appliedJobs.length > 0 
                           ? Math.round((appliedJobs.filter(j => (j.applicationStatus || '').toLowerCase() === 'shortlisted').length / appliedJobs.length) * 100)
                           : 0}%
                       </Typography>
                     </Box>
-                  </Tooltip>
-                </Box>
-              </Paper>
+                  </Box>
+                }
+                sx={{ 
+                  height: 32,
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  color: 'white',
+                  fontWeight: 600,
+                  '& .MuiChip-label': {
+                    px: 1.5
+                  }
+                }}
+              />
             )}
           </Box>
+          
+          <Typography variant="body1" color="text.secondary" sx={{ fontSize: { xs: '0.875rem', md: '1rem' }, mb: 1 }}>
+            Track all your job applications in one place
+          </Typography>
           
           {/* Filter Bar */}
           {Array.isArray(appliedJobs) && appliedJobs.length > 0 && (
