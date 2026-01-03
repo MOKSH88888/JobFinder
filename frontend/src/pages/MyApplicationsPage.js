@@ -46,54 +46,54 @@ const getStatusActionMessage = (status, daysSince) => {
   
   if (statusLower === 'shortlisted') {
     return { 
-      message: 'Congratulations! Prepare for the next round', 
+      message: 'Shortlisted - Prepare for interview', 
       color: '#059669',
-      icon: '🎉'
+      icon: '✓'
     };
   }
   
   if (statusLower === 'rejected') {
     return { 
-      message: 'Keep applying - the right opportunity awaits', 
+      message: 'Application not selected', 
       color: '#dc2626',
-      icon: '💪'
+      icon: '×'
     };
   }
   
   if (statusLower === 'under review' || statusLower === 'reviewed') {
     if (daysSince > 7) {
       return { 
-        message: 'Under review for over a week - stay patient', 
+        message: 'Application under review - Awaiting decision', 
         color: '#2563eb',
-        icon: '⏳'
+        icon: '•'
       };
     }
     return { 
-      message: 'Your application is being reviewed', 
+      message: 'Application under review', 
       color: '#2563eb',
-      icon: '👀'
+      icon: '•'
     };
   }
   
   // Pending status
   if (daysSince > 14) {
     return { 
-      message: 'No update in 2+ weeks - consider following up', 
+      message: 'Pending employer review - Consider follow-up', 
       color: '#ea580c',
-      icon: '📧'
+      icon: '!'
     };
   }
   if (daysSince > 7) {
     return { 
-      message: 'Application submitted - awaiting response', 
+      message: 'Application submitted - Awaiting response', 
       color: '#78716c',
-      icon: '⌛'
+      icon: '•'
     };
   }
   return { 
-    message: 'Recently applied - good luck!', 
+    message: 'Application submitted - Pending review', 
     color: '#78716c',
-    icon: '🚀'
+    icon: '•'
   };
 };
 
