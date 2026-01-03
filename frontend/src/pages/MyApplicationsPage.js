@@ -448,7 +448,6 @@ const MyApplicationsPage = () => {
               
               // Calculate application timeline
               const daysSince = getDaysSinceApplication(job.appliedAt);
-              const actionMessage = getStatusActionMessage(status, daysSince);
               
               return (
                 <Grid item xs={12} md={6} lg={4} key={job._id}>
