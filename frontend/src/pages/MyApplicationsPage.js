@@ -302,34 +302,37 @@ const MyApplicationsPage = () => {
               My Applications
             </Typography>
             
-            {/* Compact Stats Badge */}
+            {/* Professional Stats Badge */}
             {Array.isArray(appliedJobs) && appliedJobs.length > 0 && (
-              <Chip 
-                label={
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-                    <Typography variant="body2" fontWeight={700}>
-                      {appliedJobs.length}
-                    </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.25 }}>
-                      <TrendingUpIcon sx={{ fontSize: 14 }} />
-                      <Typography variant="caption" fontWeight={600}>
-                        {appliedJobs.length > 0 
-                          ? Math.round((appliedJobs.filter(j => (j.applicationStatus || '').toLowerCase() === 'shortlisted').length / appliedJobs.length) * 100)
-                          : 0}%
-                      </Typography>
-                    </Box>
-                  </Box>
-                }
-                sx={{ 
-                  height: 32,
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  color: 'white',
-                  fontWeight: 600,
-                  '& .MuiChip-label': {
-                    px: 1.5
-                  }
-                }}
-              />
+              <Box sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: 0.5,
+                px: 1.5,
+                py: 0.5,
+                borderRadius: 1.5,
+                bgcolor: 'rgba(99, 102, 241, 0.08)',
+                border: '1.5px solid rgba(99, 102, 241, 0.2)'
+              }}>
+                <Typography variant="body2" fontWeight={700} sx={{ color: '#4F46E5', fontSize: '0.875rem' }}>
+                  {appliedJobs.length}
+                </Typography>
+                <Typography variant="body2" sx={{ color: '#6B7280', fontSize: '0.75rem', fontWeight: 500 }}>
+                  Active
+                </Typography>
+                <Box sx={{ 
+                  width: 1, 
+                  height: 14, 
+                  bgcolor: 'rgba(99, 102, 241, 0.2)',
+                  mx: 0.5
+                }} />
+                <TrendingUpIcon sx={{ fontSize: 14, color: '#10B981' }} />
+                <Typography variant="body2" fontWeight={600} sx={{ color: '#10B981', fontSize: '0.75rem' }}>
+                  {appliedJobs.length > 0 
+                    ? Math.round((appliedJobs.filter(j => (j.applicationStatus || '').toLowerCase() === 'shortlisted').length / appliedJobs.length) * 100)
+                    : 0}%
+                </Typography>
+              </Box>
             )}
           </Box>
           
