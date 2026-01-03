@@ -657,96 +657,96 @@ const HomePage = () => {
               boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
             }}
           >
-            <Grid container spacing={2}>
-              {/* Row 1: Search + Location */}
-              <Grid item xs={12} sm={12}>
-                <TextField
-                  fullWidth
-                  name="search"
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                  placeholder="Search by job title, company, or keywords..."
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchIcon />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              {/* Row 1: Search */}
+              <TextField
+                fullWidth
+                name="search"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                placeholder="Search by job title, company, or keywords..."
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  )
+                }}
+              />
 
-              {/* Row 2: Experience + Salary Range + Location */}
-              <Grid item xs={12} sm={4}>
-                <FormControl fullWidth>
-                  <InputLabel>Experience Level</InputLabel>
-                  <Select
-                    name="experience"
-                    value={filters.experience}
-                    label="Experience Level"
+              {/* Row 2: Filters */}
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={4}>
+                  <FormControl fullWidth>
+                    <InputLabel>Experience Level</InputLabel>
+                    <Select
+                      name="experience"
+                      value={filters.experience}
+                      label="Experience Level"
+                      onChange={handleFilterChange}
+                    >
+                      <MenuItem value=""><em>All Levels</em></MenuItem>
+                      <MenuItem value={0}>Fresher</MenuItem>
+                      <MenuItem value={1}>1-2 years</MenuItem>
+                      <MenuItem value={3}>3-4 years</MenuItem>
+                      <MenuItem value={5}>5-6 years</MenuItem>
+                      <MenuItem value={7}>7+ years</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={6} sm={3}>
+                  <TextField
+                    fullWidth
+                    label="Min Salary (LPA)"
+                    name="minSalary"
+                    type="number"
+                    value={filters.minSalary}
                     onChange={handleFilterChange}
-                  >
-                    <MenuItem value=""><em>All Levels</em></MenuItem>
-                    <MenuItem value={0}>Fresher</MenuItem>
-                    <MenuItem value={1}>1-2 years</MenuItem>
-                    <MenuItem value={3}>3-4 years</MenuItem>
-                    <MenuItem value={5}>5-6 years</MenuItem>
-                    <MenuItem value={7}>7+ years</MenuItem>
-                  </Select>
-                </FormControl>
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <CurrencyRupeeIcon />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6} sm={3}>
+                  <TextField
+                    fullWidth
+                    label="Max Salary (LPA)"
+                    name="maxSalary"
+                    type="number"
+                    value={filters.maxSalary}
+                    onChange={handleFilterChange}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <CurrencyRupeeIcon />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={2}>
+                  <TextField
+                    fullWidth
+                    label="Location"
+                    name="location"
+                    value={filters.location}
+                    onChange={handleFilterChange}
+                    placeholder="City or Remote"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <LocationOnIcon />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={6} sm={3}>
-                <TextField
-                  fullWidth
-                  label="Min Salary (LPA)"
-                  name="minSalary"
-                  type="number"
-                  value={filters.minSalary}
-                  onChange={handleFilterChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <CurrencyRupeeIcon />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <TextField
-                  fullWidth
-                  label="Max Salary (LPA)"
-                  name="maxSalary"
-                  type="number"
-                  value={filters.maxSalary}
-                  onChange={handleFilterChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <CurrencyRupeeIcon />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={2}>
-                <TextField
-                  fullWidth
-                  label="Location"
-                  name="location"
-                  value={filters.location}
-                  onChange={handleFilterChange}
-                  placeholder="City or Remote"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <LocationOnIcon />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-            </Grid>
+            </Box>
 
             {/* Compact Action Bar */}
             {(hasActiveFilters || filteredJobs.length > 0) && (
