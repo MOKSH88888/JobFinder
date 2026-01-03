@@ -1,7 +1,11 @@
 // src/pages/HomePage.js
 // Updated Grid Layout - Jan 3, 2026
+// DEPLOYMENT TEST: If you see "Ex." the deployment hasn't updated yet
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
+
+// LOG TO VERIFY DEPLOYMENT
+console.log('HomePage loaded - Grid config: Search=4, Exp=2, Min=2, Max=2, Loc=2');
 import { 
   Container, Typography, Box, Grid, Alert, Chip, Paper, Collapse, IconButton, 
   Skeleton, Fade, Badge, Stack, alpha, Card, CardContent, TextField, Select, 
