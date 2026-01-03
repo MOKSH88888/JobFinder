@@ -676,7 +676,7 @@ const HomePage = () => {
 
               {/* Row 2: Filters */}
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <FormControl fullWidth>
                     <InputLabel>Experience Level</InputLabel>
                     <Select
@@ -728,7 +728,7 @@ const HomePage = () => {
                     }}
                   />
                 </Grid>
-                <Grid item xs={12} sm={2}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
                     label="Location"
