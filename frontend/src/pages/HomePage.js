@@ -659,7 +659,7 @@ const HomePage = () => {
           >
             <Grid container spacing={2}>
               {/* Row 1: Search + Location */}
-              <Grid item xs={12} sm={8}>
+              <Grid item xs={12} sm={12}>
                 <TextField
                   fullWidth
                   name="search"
@@ -675,25 +675,8 @@ const HomePage = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField
-                  fullWidth
-                  label="Location"
-                  name="location"
-                  value={filters.location}
-                  onChange={handleFilterChange}
-                  placeholder="City or Remote"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <LocationOnIcon />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
 
-              {/* Row 2: Experience + Salary Range */}
+              {/* Row 2: Experience + Salary Range + Location */}
               <Grid item xs={12} sm={4}>
                 <FormControl fullWidth>
                   <InputLabel>Experience Level</InputLabel>
@@ -712,7 +695,7 @@ const HomePage = () => {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={6} sm={4}>
+              <Grid item xs={6} sm={3}>
                 <TextField
                   fullWidth
                   label="Min Salary (LPA)"
@@ -729,7 +712,7 @@ const HomePage = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={6} sm={4}>
+              <Grid item xs={6} sm={3}>
                 <TextField
                   fullWidth
                   label="Max Salary (LPA)"
@@ -741,6 +724,23 @@ const HomePage = () => {
                     startAdornment: (
                       <InputAdornment position="start">
                         <CurrencyRupeeIcon />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={2}>
+                <TextField
+                  fullWidth
+                  label="Location"
+                  name="location"
+                  value={filters.location}
+                  onChange={handleFilterChange}
+                  placeholder="City or Remote"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <LocationOnIcon />
                       </InputAdornment>
                     )
                   }}
