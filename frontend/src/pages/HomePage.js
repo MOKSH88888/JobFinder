@@ -660,7 +660,7 @@ const HomePage = () => {
             {/* Inline Search & Filters */}
             <Grid container spacing={1} alignItems="flex-end">
               {/* Main Search */}
-              <Grid item xs={12} sm={4} md={4}>
+              <Grid item xs={12} sm={5} md={5}>
                 <TextField
                   fullWidth
                   name="search"
@@ -721,7 +721,7 @@ const HomePage = () => {
               </Grid>
 
               {/* Experience Filter */}
-              <Grid item xs={6} sm={3} md={3}>
+              <Grid item xs={6} sm={2} md={2}>
                 <FormControl 
                   fullWidth 
                   size="medium"
@@ -742,12 +742,12 @@ const HomePage = () => {
                     }
                   }}
                 >
-                  <InputLabel id="experience-label">Experience</InputLabel>
+                  <InputLabel id="experience-label">Exp.</InputLabel>
                   <Select
                     labelId="experience-label"
                     name="experience"
                     value={filters.experience}
-                    label="Experience"
+                    label="Exp."
                     onChange={handleFilterChange}
                   >
                     <MenuItem value=""><em>All Levels</em></MenuItem>
