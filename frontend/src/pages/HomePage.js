@@ -721,7 +721,7 @@ const HomePage = () => {
               </Grid>
 
               {/* Experience Filter */}
-              <Grid item xs={6} sm={2} md={2}>
+              <Grid item xs={6} sm={3} md={3}>
                 <FormControl 
                   fullWidth 
                   size="medium"
@@ -742,12 +742,12 @@ const HomePage = () => {
                     }
                   }}
                 >
-                  <InputLabel id="experience-label">Exp. (Years)</InputLabel>
+                  <InputLabel id="experience-label">Experience</InputLabel>
                   <Select
                     labelId="experience-label"
                     name="experience"
                     value={filters.experience}
-                    label="Exp. (Years)"
+                    label="Experience"
                     onChange={handleFilterChange}
                   >
                     <MenuItem value=""><em>All Levels</em></MenuItem>
@@ -830,7 +830,7 @@ const HomePage = () => {
                 />
               </Grid>
 
-              <Grid item xs={6} sm={2} md={2}>
+              <Grid item xs={6} sm={1} md={1}>
                 <TextField
                   fullWidth
                   label="Location"
