@@ -658,7 +658,7 @@ const HomePage = () => {
             }}
           >
             {/* Inline Search & Filters */}
-            <Grid container spacing={2} alignItems="flex-end">
+            <Grid container spacing={1} alignItems="flex-end">
               {/* Main Search */}
               <Grid item xs={12} sm={4} md={4}>
                 <TextField
