@@ -731,7 +731,7 @@ const HomePage = () => {
                   <TextField
                     fullWidth
                     select
-                    label="Experience Level"
+                    label="Experience"
                     name="experience"
                     value={filters.experience}
                     onChange={handleFilterChange}
