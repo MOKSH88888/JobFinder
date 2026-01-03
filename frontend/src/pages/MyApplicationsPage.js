@@ -26,7 +26,6 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import StarIcon from '@mui/icons-material/Star';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import NotificationToast from '../components/NotificationToast';
