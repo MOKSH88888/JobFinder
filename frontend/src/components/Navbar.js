@@ -15,7 +15,7 @@ import ContactMailIcon from '@mui/icons-material/ContactMail';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 
 const Navbar = () => {
-  const { user, admin, logout } = useAuth(); 
+  const { user, logout } = useAuth(); 
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -60,120 +60,7 @@ const Navbar = () => {
           </Typography>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1 } }}>
-            {admin ? (
-              // Admin Menu
-              <>
-                <Button 
-                  color="inherit" 
-                  component={Link}
-                  to="/admin-dashboard"
-                  startIcon={<DashboardIcon />}
-                  sx={{ 
-                    textTransform: 'none',
-                    fontSize: { xs: '0.875rem', sm: '1rem' },
-                    fontWeight: 500,
-                    px: { xs: 1, sm: 2 },
-                    '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
-                  }}
-                >
-                  <Box sx={{ display: { xs: 'none', md: 'block' } }}>Dashboard</Box>
-                </Button>
-                <Button 
-                  color="inherit" 
-                  component={Link}
-                  to="/admin-jobs"
-                  sx={{ 
-                    textTransform: 'none',
-                    fontSize: { xs: '0.875rem', sm: '1rem' },
-                    fontWeight: 500,
-                    px: { xs: 1, sm: 1.5, md: 2 },
-                    minWidth: 'auto',
-                    '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
-                  }}
-                >
-                  Jobs
-                </Button>
-                <Button 
-                  color="inherit" 
-                  component={Link}
-                  to="/admin-users"
-                  sx={{ 
-                    textTransform: 'none',
-                    fontSize: { xs: '0.875rem', sm: '1rem' },
-                    fontWeight: 500,
-                    px: { xs: 1, sm: 1.5, md: 2 },
-                    minWidth: 'auto',
-                    '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
-                  }}
-                >
-                  Users
-                </Button>
-                {admin.isDefault && (
-                  <Button 
-                    color="inherit" 
-                    component={Link}
-                    to="/admin-admins"
-                    sx={{ 
-                      textTransform: 'none',
-                      fontSize: { xs: '0.875rem', sm: '1rem' },
-                      fontWeight: 500,
-                      px: { xs: 1, sm: 1.5, md: 2 },
-                      minWidth: 'auto',
-                      '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
-                    }}
-                  >
-                    Admins
-                  </Button>
-                )}
-                <Button 
-                  color="inherit" 
-                  component={Link}
-                  to="/contact"
-                  startIcon={<ContactMailIcon />}
-                  sx={{ 
-                    textTransform: 'none',
-                    fontSize: { xs: '0.875rem', sm: '1rem' },
-                    fontWeight: 500,
-                    px: { xs: 1, sm: 1.5, md: 2 },
-                    minWidth: 'auto',
-                    '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
-                  }}
-                >
-                  <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>Contact</Box>
-                </Button>
-                <Button 
-                  color="inherit" 
-                  component={Link}
-                  to="/news"
-                  startIcon={<NewspaperIcon />}
-                  sx={{ 
-                    textTransform: 'none',
-                    fontSize: { xs: '0.875rem', sm: '1rem' },
-                    fontWeight: 500,
-                    px: { xs: 1, sm: 1.5, md: 2 },
-                    minWidth: 'auto',
-                    '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
-                  }}
-                >
-                  <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>News</Box>
-                </Button>
-                <Button 
-                  color="inherit" 
-                  onClick={handleLogout}
-                  startIcon={<LogoutIcon />}
-                  sx={{ 
-                    textTransform: 'none',
-                    fontSize: { xs: '0.875rem', sm: '1rem' },
-                    fontWeight: 500,
-                    px: { xs: 1, sm: 1.5, md: 2 },
-                    minWidth: 'auto',
-                    '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
-                  }}
-                >
-                  <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>Logout</Box>
-                </Button>
-              </>
-            ) : user ? (
+            {user ? (
               // User Menu
               <>
                 <Button 
