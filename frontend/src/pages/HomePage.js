@@ -657,10 +657,10 @@ const HomePage = () => {
               boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
             }}
           >
-            {/* Inline Search & Filters */}
-            <Grid container spacing={1} alignItems="flex-end">
-              {/* Main Search */}
-              <Grid item xs={12} sm={5} md={5}>
+            {/* Professional 2-Row Filter Layout */}
+            <Grid container spacing={2}>
+              {/* Row 1: Primary Search Fields */}
+              <Grid item xs={12} sm={8} md={8}>
                 <TextField
                   fullWidth
                   name="search"
@@ -673,15 +673,12 @@ const HomePage = () => {
                       bgcolor: '#fafafa',
                       borderRadius: 1.5,
                       fontSize: '0.9375rem',
-                      transition: 'all 0.2s',
                       '& fieldset': {
                         borderColor: '#e0e0e0',
                       },
-                      '&:hover': {
+                      '&:hover fieldset': {
                         bgcolor: 'white',
-                        '& fieldset': {
-                          borderColor: '#bdbdbd',
-                        }
+                        borderColor: '#bdbdbd',
                       },
                       '&.Mui-focused': {
                         bgcolor: 'white',
@@ -720,11 +717,14 @@ const HomePage = () => {
                 />
               </Grid>
 
-              {/* Experience Filter */}
-              <Grid item xs={6} sm={2} md={2}>
-                <FormControl 
-                  fullWidth 
-                  size="medium"
+              <Grid item xs={12} sm={4} md={4}>
+                <TextField
+                  fullWidth
+                  label="Location"
+                  name="location"
+                  value={filters.location}
+                  onChange={handleFilterChange}
+                  placeholder="City or Remote"
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       bgcolor: '#fafafa',
@@ -733,22 +733,54 @@ const HomePage = () => {
                         borderColor: '#e0e0e0',
                       },
                       '&:hover fieldset': {
+                        bgcolor: 'white',
                         borderColor: '#bdbdbd',
                       },
-                      '&.Mui-focused fieldset': {
-                        borderColor: 'primary.main',
-                        borderWidth: '1.5px'
+                      '&.Mui-focused': {
+                        bgcolor: 'white',
+                        boxShadow: `0 0 0 3px ${alpha('#667eea', 0.08)}`,
+                        '& fieldset': {
+                          borderColor: 'primary.main',
+                          borderWidth: '1.5px'
+                        }
                       }
                     }
                   }}
-                >
-                  <InputLabel id="experience-label">Exp.</InputLabel>
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <LocationOnIcon sx={{ color: '#757575', fontSize: 20 }} />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+
+              {/* Row 2: Additional Filters */}
+              <Grid item xs={12} sm={4} md={4}>
+                <FormControl fullWidth>
+                  <InputLabel>Experience Level</InputLabel>
                   <Select
-                    labelId="experience-label"
                     name="experience"
                     value={filters.experience}
-                    label="Exp."
+                    label="Experience Level"
                     onChange={handleFilterChange}
+                    sx={{
+                      bgcolor: '#fafafa',
+                      borderRadius: 1.5,
+                      '& fieldset': {
+                        borderColor: '#e0e0e0',
+                      },
+                      '&:hover fieldset': {
+                        bgcolor: 'white',
+                        borderColor: '#bdbdbd',
+                      },
+                      '&.Mui-focused fieldset': {
+                        bgcolor: 'white',
+                        borderColor: 'primary.main',
+                        borderWidth: '1.5px'
+                      }
+                    }}
                   >
                     <MenuItem value=""><em>All Levels</em></MenuItem>
                     <MenuItem value={0}>Fresher</MenuItem>
@@ -760,7 +792,7 @@ const HomePage = () => {
                 </FormControl>
               </Grid>
 
-              <Grid item xs={6} sm={2} md={2}>
+              <Grid item xs={6} sm={4} md={4}>
                 <TextField
                   fullWidth
                   label="Min Salary (LPA)"
@@ -777,11 +809,16 @@ const HomePage = () => {
                         borderColor: '#e0e0e0',
                       },
                       '&:hover fieldset': {
+                        bgcolor: 'white',
                         borderColor: '#bdbdbd',
                       },
-                      '&.Mui-focused fieldset': {
-                        borderColor: 'primary.main',
-                        borderWidth: '1.5px'
+                      '&.Mui-focused': {
+                        bgcolor: 'white',
+                        boxShadow: `0 0 0 3px ${alpha('#667eea', 0.08)}`,
+                        '& fieldset': {
+                          borderColor: 'primary.main',
+                          borderWidth: '1.5px'
+                        }
                       }
                     }
                   }}
@@ -795,7 +832,7 @@ const HomePage = () => {
                 />
               </Grid>
 
-              <Grid item xs={6} sm={2} md={2}>
+              <Grid item xs={6} sm={4} md={4}>
                 <TextField
                   fullWidth
                   label="Max Salary (LPA)"
@@ -812,11 +849,16 @@ const HomePage = () => {
                         borderColor: '#e0e0e0',
                       },
                       '&:hover fieldset': {
+                        bgcolor: 'white',
                         borderColor: '#bdbdbd',
                       },
-                      '&.Mui-focused fieldset': {
-                        borderColor: 'primary.main',
-                        borderWidth: '1.5px'
+                      '&.Mui-focused': {
+                        bgcolor: 'white',
+                        boxShadow: `0 0 0 3px ${alpha('#667eea', 0.08)}`,
+                        '& fieldset': {
+                          borderColor: 'primary.main',
+                          borderWidth: '1.5px'
+                        }
                       }
                     }
                   }}
@@ -824,41 +866,6 @@ const HomePage = () => {
                     startAdornment: (
                       <InputAdornment position="start">
                         <CurrencyRupeeIcon sx={{ fontSize: 18, color: '#757575' }} />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-
-              <Grid item xs={6} sm={1} md={1}>
-                <TextField
-                  fullWidth
-                  label="Location"
-                  name="location"
-                  value={filters.location}
-                  onChange={handleFilterChange}
-                  placeholder="City or Remote"
-                  sx={{
-                    '& .MuiOutlinedInput-root': {
-                      bgcolor: '#fafafa',
-                      borderRadius: 1.5,
-                      fontSize: '0.9375rem',
-                      '& fieldset': {
-                        borderColor: '#e0e0e0',
-                      },
-                      '&:hover fieldset': {
-                        borderColor: '#bdbdbd',
-                      },
-                      '&.Mui-focused fieldset': {
-                        borderColor: 'primary.main',
-                        borderWidth: '1.5px'
-                      }
-                    }
-                  }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <LocationOnIcon sx={{ color: '#757575', fontSize: 20 }} />
                       </InputAdornment>
                     )
                   }}
