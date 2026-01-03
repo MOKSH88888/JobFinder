@@ -534,43 +534,19 @@ const MyApplicationsPage = () => {
                           <Box sx={{ 
                             display: 'flex', 
                             alignItems: 'center', 
-                            gap: 0.75,
-                            mb: 1
+                            gap: 0.75
                           }}>
                             <CalendarTodayIcon sx={{ fontSize: 14, color: 'text.disabled' }} />
                             <Typography variant="caption" color="text.secondary" fontWeight={500}>
-                              Applied {new Date(job.appliedAt).toLocaleDateString('en-IN', {
-                                day: 'numeric',
-                                month: 'short',
-                                year: 'numeric'
-                              })}
-                              {daysSince && (
-                                <Typography component="span" variant="caption" sx={{ ml: 0.5, color: 'text.disabled' }}>
-                                  ({daysSince} {daysSince === 1 ? 'day' : 'days'} ago)
-                                </Typography>
+                              {daysSince && daysSince < 7 ? (
+                                `Applied ${daysSince} ${daysSince === 1 ? 'day' : 'days'} ago`
+                              ) : (
+                                `Applied ${new Date(job.appliedAt).toLocaleDateString('en-IN', {
+                                  day: 'numeric',
+                                  month: 'short',
+                                  year: 'numeric'
+                                })}`
                               )}
-                            </Typography>
-                          </Box>
-                          
-                          {/* Action-oriented status message */}
-                          <Box sx={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            gap: 0.5
-                          }}>
-                            <Typography component="span" sx={{ fontSize: '0.75rem' }}>
-                              {actionMessage.icon}
-                            </Typography>
-                            <Typography 
-                              variant="caption" 
-                              sx={{ 
-                                color: actionMessage.color,
-                                fontWeight: 600,
-                                fontSize: '0.75rem',
-                                lineHeight: 1.3
-                              }}
-                            >
-                              {actionMessage.message}
                             </Typography>
                           </Box>
                         </Box>
