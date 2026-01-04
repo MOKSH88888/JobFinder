@@ -31,7 +31,10 @@ import {
   Assignment as ApplicationIcon,
   Search as SearchIcon,
   ArrowUpward as ArrowUpwardIcon,
-  ArrowDownward as ArrowDownwardIcon
+  ArrowDownward as ArrowDownwardIcon,
+  CheckCircle as CheckCircleIcon,
+  RemoveCircle as RemoveCircleIcon,
+  FiberManualRecord as FiberManualRecordIcon
 } from '@mui/icons-material';
 import AdminLayout from '../components/admin/AdminLayout';
 
@@ -492,25 +495,25 @@ const AdminApplicantsPage = () => {
                             >
                               <MenuItem value="Pending" sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                  <span style={{ fontSize: '1.2rem' }}>📋</span>
+                                  <FiberManualRecordIcon sx={{ fontSize: 12, color: '#6b7280' }} />
                                   <span>Pending</span>
                                 </Box>
                               </MenuItem>
                               <MenuItem value="Under Review" sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                  <span style={{ fontSize: '1.2rem' }}>👁️</span>
+                                  <FiberManualRecordIcon sx={{ fontSize: 12, color: '#3b82f6' }} />
                                   <span>Under Review</span>
                                 </Box>
                               </MenuItem>
                               <MenuItem value="Shortlisted" sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                  <span style={{ fontSize: '1.2rem' }}>⭐</span>
+                                  <CheckCircleIcon sx={{ fontSize: 16, color: '#16a34a' }} />
                                   <span>Shortlisted</span>
                                 </Box>
                               </MenuItem>
                               <MenuItem value="Rejected" sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                  <span style={{ fontSize: '1.2rem' }}>❌</span>
+                                  <RemoveCircleIcon sx={{ fontSize: 16, color: '#dc2626' }} />
                                   <span>Rejected</span>
                                 </Box>
                               </MenuItem>

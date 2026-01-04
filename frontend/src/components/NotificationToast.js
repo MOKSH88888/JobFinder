@@ -13,10 +13,8 @@ import {
 } from '@mui/material';
 import {
   CheckCircle as CheckCircleIcon,
-  Cancel as CancelIcon,
-  HourglassEmpty as HourglassEmptyIcon,
-  Visibility as VisibilityIcon,
-  Star as StarIcon,
+  RemoveCircle as RemoveCircleIcon,
+  FiberManualRecord as FiberManualRecordIcon,
   Person as PersonIcon,
   Close as CloseIcon
 } from '@mui/icons-material';
@@ -38,35 +36,35 @@ const NotificationToast = ({ notification, open, onClose }) => {
         gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
       },
       'rejected': {
-        icon: <CancelIcon />,
+        icon: <RemoveCircleIcon />,
         severity: 'error',
         color: '#ef4444',
         title: 'Application Update',
         gradient: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
       },
       'reviewed': {
-        icon: <VisibilityIcon />,
+        icon: <FiberManualRecordIcon sx={{ fontSize: 12 }} />,
         severity: 'info',
         color: '#3b82f6',
         title: 'Application Reviewed',
         gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)'
       },
       'under review': {
-        icon: <VisibilityIcon />,
+        icon: <FiberManualRecordIcon sx={{ fontSize: 12 }} />,
         severity: 'info',
         color: '#3b82f6',
         title: 'Application Under Review',
         gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)'
       },
       'shortlisted': {
-        icon: <StarIcon />,
+        icon: <CheckCircleIcon />,
         severity: 'success',
         color: '#10b981',
         title: 'Application Shortlisted',
         gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
       },
       'pending': {
-        icon: <HourglassEmptyIcon />,
+        icon: <FiberManualRecordIcon sx={{ fontSize: 12 }} />,
         severity: 'info',
         color: '#6b7280',
         title: 'Application Pending',
