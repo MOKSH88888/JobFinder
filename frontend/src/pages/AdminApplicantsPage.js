@@ -514,7 +514,7 @@ const AdminApplicantsPage = () => {
                               <MenuItem value="Rejected" sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                   <RemoveCircleIcon sx={{ fontSize: 16, color: '#dc2626' }} />
-                                  <span>Rejected</span>
+                                  <span>Not Selected</span>
                                 </Box>
                               </MenuItem>
                             </Select>

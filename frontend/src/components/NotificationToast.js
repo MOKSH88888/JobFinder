@@ -43,14 +43,14 @@ const NotificationToast = ({ notification, open, onClose }) => {
         gradient: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
       },
       'reviewed': {
-        icon: <FiberManualRecordIcon sx={{ fontSize: 12 }} />,
+        icon: <FiberManualRecordIcon />,
         severity: 'info',
         color: '#3b82f6',
         title: 'Application Reviewed',
         gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)'
       },
       'under review': {
-        icon: <FiberManualRecordIcon sx={{ fontSize: 12 }} />,
+        icon: <FiberManualRecordIcon />,
         severity: 'info',
         color: '#3b82f6',
         title: 'Application Under Review',
@@ -64,7 +64,7 @@ const NotificationToast = ({ notification, open, onClose }) => {
         gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
       },
       'pending': {
-        icon: <FiberManualRecordIcon sx={{ fontSize: 12 }} />,
+        icon: <FiberManualRecordIcon />,
         severity: 'info',
         color: '#6b7280',
         title: 'Application Pending',
@@ -110,7 +110,12 @@ const NotificationToast = ({ notification, open, onClose }) => {
           background: 'white',
           '& .MuiAlert-icon': {
             fontSize: 28,
-            color: config.color
+            color: config.color,
+            display: 'flex',
+            alignItems: 'center',
+            '& svg': {
+              fontSize: 'inherit'
+            }
           },
           '& .MuiAlert-message': {
             width: '100%'
