@@ -20,10 +20,9 @@ import {
 import WorkIcon from '@mui/icons-material/Work';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import BusinessIcon from '@mui/icons-material/Business';
-import CancelIcon from '@mui/icons-material/Cancel';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import StarIcon from '@mui/icons-material/Star';
-import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import NotificationToast from '../components/NotificationToast';
@@ -43,81 +42,80 @@ const getStatusBadge = (status) => {
   
   if (statusLower === 'shortlisted') {
     return {
-      label: 'SHORTLISTED',
-      icon: <StarIcon />,
+      label: 'Shortlisted',
+      icon: <CheckCircleIcon />,
       sx: {
         backgroundColor: '#10b981',
         color: 'white',
-        fontWeight: 700,
-        fontSize: '0.813rem',
-        px: 2,
-        py: 0.5,
-        letterSpacing: '0.5px',
-        '& .MuiChip-icon': { color: 'white', fontSize: 20 },
-        boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)',
-        border: '2px solid #059669',
-        animation: 'gentle-pulse 3s ease-in-out infinite',
-        '@keyframes gentle-pulse': {
-          '0%, 100%': { transform: 'scale(1)', boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)' },
-          '50%': { transform: 'scale(1.02)', boxShadow: '0 6px 16px rgba(16, 185, 129, 0.4)' }
-        }
+        fontWeight: 600,
+        fontSize: '0.75rem',
+        px: 1.5,
+        py: 0.25,
+        letterSpacing: '0.3px',
+        borderRadius: '6px',
+        '& .MuiChip-icon': { color: 'white', fontSize: 16 },
+        boxShadow: 'none',
+        border: 'none'
       }
     };
   }
   
   if (statusLower === 'rejected') {
     return {
-      label: 'NOT SELECTED',
-      icon: <CancelIcon />,
+      label: 'Not Selected',
+      icon: <RemoveCircleIcon />,
       sx: {
         backgroundColor: '#ef4444',
         color: 'white',
         fontWeight: 600,
-        fontSize: '0.813rem',
-        px: 2,
-        py: 0.5,
-        letterSpacing: '0.5px',
-        '& .MuiChip-icon': { color: 'white', fontSize: 20 },
-        boxShadow: '0 4px 12px rgba(239, 68, 68, 0.25)',
-        border: '2px solid #dc2626'
+        fontSize: '0.75rem',
+        px: 1.5,
+        py: 0.25,
+        letterSpacing: '0.3px',
+        borderRadius: '6px',
+        '& .MuiChip-icon': { color: 'white', fontSize: 16 },
+        boxShadow: 'none',
+        border: 'none'
       }
     };
   }
   
   if (statusLower === 'under review' || statusLower === 'reviewed') {
     return {
-      label: 'UNDER REVIEW',
-      icon: <VisibilityIcon />,
+      label: 'Under Review',
+      icon: <FiberManualRecordIcon />,
       sx: {
         backgroundColor: '#3b82f6',
         color: 'white',
         fontWeight: 600,
-        fontSize: '0.813rem',
-        px: 2,
-        py: 0.5,
-        letterSpacing: '0.5px',
-        '& .MuiChip-icon': { color: 'white', fontSize: 20 },
-        boxShadow: '0 4px 12px rgba(59, 130, 246, 0.25)',
-        border: '2px solid #2563eb'
+        fontSize: '0.75rem',
+        px: 1.5,
+        py: 0.25,
+        letterSpacing: '0.3px',
+        borderRadius: '6px',
+        '& .MuiChip-icon': { color: 'white', fontSize: 12 },
+        boxShadow: 'none',
+        border: 'none'
       }
     };
   }
   
   // Default status for "Pending" or any unrecognized status
   return {
-    label: 'PENDING',
-    icon: <HourglassEmptyIcon />,
+    label: 'Pending',
+    icon: <FiberManualRecordIcon />,
     sx: {
       backgroundColor: '#6b7280',
       color: 'white',
       fontWeight: 600,
-      fontSize: '0.813rem',
-      px: 2,
-      py: 0.5,
-      letterSpacing: '0.5px',
-      '& .MuiChip-icon': { color: 'white', fontSize: 20 },
-      boxShadow: '0 4px 12px rgba(107, 114, 128, 0.25)',
-      border: '2px solid #4b5563'
+      fontSize: '0.75rem',
+      px: 1.5,
+      py: 0.25,
+      letterSpacing: '0.3px',
+      borderRadius: '6px',
+      '& .MuiChip-icon': { color: 'white', fontSize: 12 },
+      boxShadow: 'none',
+      border: 'none'
     }
   };
 };
@@ -399,7 +397,7 @@ const MyApplicationsPage = () => {
                     }}
                   >
                     <CardContent sx={{ flexGrow: 1 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.25 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.5 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                           <BusinessIcon sx={{ fontSize: 18, color: 'primary.main', opacity: 0.8 }} />
                           <Typography variant="body2" color="primary.main" fontWeight={600} sx={{ opacity: 0.9 }}>
