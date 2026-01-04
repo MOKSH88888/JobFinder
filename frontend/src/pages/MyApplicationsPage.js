@@ -397,39 +397,53 @@ const MyApplicationsPage = () => {
                     }}
                   >
                     <CardContent sx={{ flexGrow: 1 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.5 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                          <BusinessIcon sx={{ fontSize: 18, color: 'primary.main', opacity: 0.8 }} />
-                          <Typography variant="body2" color="primary.main" fontWeight={600} sx={{ opacity: 0.9 }}>
-                            {job.companyName || 'Company not specified'}
-                          </Typography>
-                        </Box>
+                      {/* Status badge in top-right corner */}
+                      <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
+                        <Chip 
+                          label={getStatusBadge(status).label}
+                          size="medium"
+                          icon={getStatusBadge(status).icon}
+                          sx={getStatusBadge(status).sx}
+                        />
                       </Box>
 
+                      {/* Company name */}
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5, pr: 14 }}>
+                        <BusinessIcon sx={{ fontSize: 18, color: 'primary.main', opacity: 0.8 }} />
+                        <Typography variant="body2" color="primary.main" fontWeight={600} sx={{ opacity: 0.9 }}>
+                          {job.companyName || 'Company not specified'}
+                        </Typography>
+                      </Box>
+
+                      {/* Job title */}
                       <Typography variant="h6" sx={{
                         fontWeight: 800,
                         fontSize: '1.15rem',
                         lineHeight: 1.3,
-                        mb: 1,
-                        color: 'text.primary'
+                        mb: 1.5,
+                        color: 'text.primary',
+                        pr: 14
                       }}>
                         {job.title || 'Untitled Job'}
                       </Typography>
                       
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 0.75, gap: 0.75 }}>
+                      {/* Location */}
+                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 0.75 }}>
                         <LocationOnIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
                         <Typography variant="body2" color="text.secondary" fontWeight={500}>
                           {job.location || 'Location not specified'}
                         </Typography>
                       </Box>
                       
+                      {/* Salary */}
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 0.75 }}>
                         <Typography variant="body2" fontWeight={600} color="success.main">
                           {job.salary && !isNaN(job.salary) ? `₹${Number(job.salary).toLocaleString('en-IN')} / year` : 'Salary not disclosed'}
                         </Typography>
                       </Box>
                       
-                      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 1.5 }}>
+                      {/* Experience */}
+                      <Box sx={{ mb: 1.5 }}>
                         <Chip 
                           label={`${job.experienceRequired ?? 0} years`} 
                           size="small" 
@@ -440,14 +454,6 @@ const MyApplicationsPage = () => {
                             backgroundColor: '#f5f5f5',
                             border: '1px solid #e0e0e0'
                           }}
-                        />
-                        
-                        {/* Professional Status Badge */}
-                        <Chip 
-                          label={getStatusBadge(status).label}
-                          size="medium"
-                          icon={getStatusBadge(status).icon}
-                          sx={getStatusBadge(status).sx}
                         />
                       </Box>
                       
