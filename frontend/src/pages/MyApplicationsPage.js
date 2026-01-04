@@ -401,8 +401,8 @@ const MyApplicationsPage = () => {
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.25 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                          <BusinessIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
-                          <Typography variant="body2" color="text.secondary" fontWeight={500}>
+                          <BusinessIcon sx={{ fontSize: 18, color: 'primary.main', opacity: 0.8 }} />
+                          <Typography variant="body2" color="primary.main" fontWeight={600} sx={{ opacity: 0.9 }}>
                             {job.companyName || 'Company not specified'}
                           </Typography>
                         </Box>
@@ -427,7 +427,7 @@ const MyApplicationsPage = () => {
                       
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 0.75 }}>
                         <Typography variant="body2" fontWeight={600} color="success.main">
-                          {job.salary && !isNaN(job.salary) ? `₹${Number(job.salary).toLocaleString('en-IN')} LPA` : 'Not disclosed'}
+                          {job.salary && !isNaN(job.salary) ? `₹${Number(job.salary).toLocaleString('en-IN')} / year` : 'Salary not disclosed'}
                         </Typography>
                       </Box>
                       
@@ -491,7 +491,7 @@ const MyApplicationsPage = () => {
                           fontSize: '0.875rem'
                         }}
                       >
-                        View Application
+                        View Details
                       </Button>
                     </CardActions>
                   </Card>
