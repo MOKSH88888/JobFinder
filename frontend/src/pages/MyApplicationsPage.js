@@ -408,7 +408,7 @@ const MyApplicationsPage = () => {
                       </Box>
 
                       {/* Company name */}
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5, pr: 14 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5, pr: 18 }}>
                         <BusinessIcon sx={{ fontSize: 18, color: 'primary.main', opacity: 0.8 }} />
                         <Typography variant="body2" color="primary.main" fontWeight={600} sx={{ opacity: 0.9 }}>
                           {job.companyName || 'Company not specified'}
@@ -420,15 +420,15 @@ const MyApplicationsPage = () => {
                         fontWeight: 800,
                         fontSize: '1.15rem',
                         lineHeight: 1.3,
-                        mb: 1.5,
+                        mb: 1.75,
                         color: 'text.primary',
-                        pr: 14
+                        pr: 18
                       }}>
                         {job.title || 'Untitled Job'}
                       </Typography>
                       
                       {/* Location */}
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 0.75 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.25, gap: 0.75 }}>
                         <LocationOnIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
                         <Typography variant="body2" color="text.secondary" fontWeight={500}>
                           {job.location || 'Location not specified'}
@@ -436,14 +436,32 @@ const MyApplicationsPage = () => {
                       </Box>
                       
                       {/* Salary */}
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 0.75 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.75, gap: 0.75 }}>
                         <Typography variant="body2" fontWeight={600} color="success.main">
                           {job.salary && !isNaN(job.salary) ? `₹${Number(job.salary).toLocaleString('en-IN')} / year` : 'Salary not disclosed'}
                         </Typography>
                       </Box>
                       
-                      {/* Experience */}
-                      <Box sx={{ mb: 1.5 }}>
+                      {/* Applied date - moved up for prominence */}
+                      {job.appliedAt && (
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mb: 1.25 }}>
+                          <CalendarTodayIcon sx={{ fontSize: 16, color: 'text.secondary', opacity: 0.7 }} />
+                          <Typography variant="body2" color="text.secondary" fontWeight={500} sx={{ fontSize: '0.8125rem' }}>
+                            {daysSince && daysSince < 7 ? (
+                              `Applied ${daysSince} ${daysSince === 1 ? 'day' : 'days'} ago`
+                            ) : (
+                              `Applied ${new Date(job.appliedAt).toLocaleDateString('en-IN', {
+                                day: 'numeric',
+                                month: 'short',
+                                year: 'numeric'
+                              })}`
+                            )}
+                          </Typography>
+                        </Box>
+                      )}
+                      
+                      {/* Experience chip */}
+                      <Box>
                         <Chip 
                           label={`${job.experienceRequired ?? 0} years`} 
                           size="small" 
@@ -456,29 +474,6 @@ const MyApplicationsPage = () => {
                           }}
                         />
                       </Box>
-                      
-                      {job.appliedAt && (
-                        <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '1px solid #f0f0f0' }}>
-                          <Box sx={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            gap: 0.75
-                          }}>
-                            <CalendarTodayIcon sx={{ fontSize: 14, color: 'text.disabled' }} />
-                            <Typography variant="caption" color="text.secondary" fontWeight={500}>
-                              {daysSince && daysSince < 7 ? (
-                                `Applied ${daysSince} ${daysSince === 1 ? 'day' : 'days'} ago`
-                              ) : (
-                                `Applied ${new Date(job.appliedAt).toLocaleDateString('en-IN', {
-                                  day: 'numeric',
-                                  month: 'short',
-                                  year: 'numeric'
-                                })}`
-                              )}
-                            </Typography>
-                          </Box>
-                        </Box>
-                      )}
                     </CardContent>
                     
                     <CardActions sx={{ p: 2, pt: 0 }}>
