@@ -452,9 +452,9 @@ const MyApplicationsPage = () => {
                         borderColor: 'divider'
                       }}>
                         {job.appliedAt && (
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                            <CalendarTodayIcon sx={{ fontSize: 14, color: 'text.secondary', opacity: 0.6 }} />
-                            <Typography variant="caption" color="text.secondary" fontWeight={500}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.6 }}>
+                            <CalendarTodayIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+                            <Typography variant="body2" color="text.secondary" fontWeight={600} sx={{ fontSize: '0.8125rem' }}>
                               {daysSince && daysSince < 7 ? (
                                 `Applied ${daysSince} ${daysSince === 1 ? 'day' : 'days'} ago`
                               ) : (
@@ -468,9 +468,9 @@ const MyApplicationsPage = () => {
                           </Box>
                         )}
                         
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                          <WorkIcon sx={{ fontSize: 14, color: 'text.secondary', opacity: 0.6 }} />
-                          <Typography variant="caption" color="text.secondary" fontWeight={500}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.6 }}>
+                          <WorkIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+                          <Typography variant="body2" color="text.secondary" fontWeight={600} sx={{ fontSize: '0.8125rem' }}>
                             {job.experienceRequired ?? 0} years
                           </Typography>
                         </Box>
