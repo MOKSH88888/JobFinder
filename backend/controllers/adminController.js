@@ -358,13 +358,27 @@ exports.updateApplicationStatus = asyncHandler(async (req, res) => {
     await session.commitTransaction();
     logger.info(`Application status updated to ${status} for user ${user.email} on job ${job.title}`);
 
+    // Generate polite status message
+    let statusMessage;
+    const statusLower = status.toLowerCase();
+    
+    if (statusLower === 'rejected') {
+      statusMessage = `Thank you for your interest in ${job.title} at ${job.companyName}. After careful consideration, we have decided not to move forward with your application at this time.`;
+    } else if (statusLower === 'shortlisted') {
+      statusMessage = `Congratulations! Your application for ${job.title} at ${job.companyName} has been shortlisted. We will contact you soon with next steps.`;
+    } else if (statusLower === 'under review') {
+      statusMessage = `Your application for ${job.title} at ${job.companyName} is currently under review. We will update you soon.`;
+    } else {
+      statusMessage = `Your application for ${job.title} at ${job.companyName} has been ${status.toLowerCase()}.`;
+    }
+
     // Always send WebSocket notification for real-time UI updates
     notifyUser(applicantId, 'application-status-updated', {
       jobId: job._id,
       jobTitle: job.title,
       companyName: job.companyName,
       status: status,
-      message: `Your application for ${job.title} at ${job.companyName} has been ${status.toLowerCase()}`
+      message: statusMessage
     });
 
     res.json({ success: true, message: 'Application status updated', status });
