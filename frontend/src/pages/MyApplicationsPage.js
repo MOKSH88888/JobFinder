@@ -19,7 +19,7 @@ import {
 } from '@mui/material';
 import WorkIcon from '@mui/icons-material/Work';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import BusinessIcon from '@mui/icons-material/Business';
+import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
@@ -410,7 +410,7 @@ const MyApplicationsPage = () => {
 
                       {/* Company name */}
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5, pr: 18 }}>
-                        <BusinessIcon sx={{ fontSize: 18, color: 'primary.main', opacity: 0.8 }} />
+                        <BusinessCenterIcon sx={{ fontSize: 18, color: 'primary.main', opacity: 0.8 }} />
                         <Typography variant="body2" color="primary.main" fontWeight={600} sx={{ opacity: 0.9 }}>
                           {job.companyName || 'Company not specified'}
                         </Typography>
