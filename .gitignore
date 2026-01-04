@@ -148,7 +148,10 @@ mongo-data/
 # Optional npm cache
 .npm
 
-# Extra deployemnt guide files
-DEPLOYMENT_GUIDE.md
-ENV_VARIABLES.md
+# TypeScript
+*.tsbuildinfo
+
+# extra
+MANUAL_TESTING_GUIDE.md 
+
 # ============================================================================

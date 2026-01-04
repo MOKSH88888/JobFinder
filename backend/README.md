@@ -1,122 +1,86 @@
-# Backend - Job Portal REST API
+# Backend API Documentation
 
-Express.js REST API with MongoDB Atlas, JWT authentication, and Socket.io WebSocket notifications. Designed for deployment on Render.
+Enterprise-grade Node.js/Express API server for JobFinder job portal.
 
-## Quick Start
+## 🚀 Quick Start
 
 ```bash
 npm install
-npm start       # Production mode
-npm run dev     # Development mode
+cp .env.example .env  # Configure environment
+node config/seedDatabase.js  # Populate demo data
+npm start  # http://localhost:5000
 ```
 
-**Local Server:** http://localhost:5000  
-**Health Check:** http://localhost:5000/api/health  
-**Complete API Docs:** See [main README](../README.md)
+## 🛠️ Tech Stack
 
-## Technology Stack
+**Runtime:** Node.js v16+ • Express.js 4.21.2 • MongoDB 5.0+ (Mongoose 8.18.2)  
+**Real-time:** Socket.io 4.6.1 • WebSocket rooms for users/admins  
+**Security:** JWT 9.0.2 • bcryptjs 3.0.2 • helmet • rate-limit • xss-clean  
+**Storage:** GridFS (resumes/photos) • Winston logging
 
-| Category | Technology | Version |
-|----------|------------|--------|
-| Runtime | Node.js | v16+ |
-| Framework | Express.js | 4.21.2 |
-| Database | MongoDB + Mongoose | 8.18.2 |
-| Authentication | JWT + bcryptjs | 9.0.2 / 3.0.2 |
-| WebSocket | Socket.io | 4.6.1 |
-| File Storage | MongoDB GridFS | Built-in |
-| Logging | Winston | 3.11.0 |
-| Security | Helmet, rate-limit, xss-clean, mongo-sanitize | Latest |
-
-## Environment Variables
-
-**Development** (`.env.local`):
-```env
-NODE_ENV=development
-PORT=5000
-MONGO_URI=mongodb://127.0.0.1:27017/job_portal_db
-JWT_SECRET=dev-secret-replace-in-production
-DEFAULT_ADMIN_USERNAME=admin
-DEFAULT_ADMIN_PASSWORD=Admin@123
-FRONTEND_URL=http://localhost:3000
-```
-
-**Production** (`.env` - for Render):
-```env
-NODE_ENV=production
-PORT=5000
-MONGO_URI=mongodb+srv://user:pass@cluster.mongodb.net/job_portal_db
-JWT_SECRET=<generate-with-crypto.randomBytes>
-DEFAULT_ADMIN_USERNAME=admin
-DEFAULT_ADMIN_PASSWORD=<secure-password>
-FRONTEND_URL=https://your-app.vercel.app
-```
-
-**Generate Secure JWT Secret:**
-```bash
-node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
-```
-
-## Core Features
-
-| Feature | Implementation |
-|---------|----------------|
-| Authentication | Dual JWT system (User + Admin), 5-hour expiration |
-| File Uploads | GridFS with 5MB limit, MIME validation, virus scan |
-| WebSocket | Socket.io with room-based messaging |
-| Rate Limiting | 100/15min (API), 5/15min (auth), 10/15min (uploads) |
-| Database | Soft deletes, Mongoose transactions |
-| Logging | Winston with file rotation |
-| Error Handling | Centralized asyncHandler wrapper |
-| Security | Helmet, XSS, NoSQL injection, input validation |
-
-## Database Seeding
-
-```bash
-node config/seedDatabase.js
-```
-
-**Creates:**
-- 1 default admin (username from .env)
-- 8 test users with complete profiles
-- 10 job postings across industries
-- 6 sample applications
-
-## Deployment (Render)
-
-**Automatic Deployment via `render.yaml`:**
-
-1. Push to GitHub
-2. Connect repo to Render
-3. Render auto-detects `render.yaml`
-4. Set encrypted environment variables in dashboard
-5. Deploy
-
-**Manual Configuration:**
-- Build Command: `npm install`
-- Start Command: `npm run prod`
-- Health Check: `/api/health`
-- Region: Choose closest to users
-
-## Project Structure
+## 📂 Architecture
 
 ```
 backend/
-├── config/          # DB, logger, socket, GridFS, constants
-├── controllers/     # Business logic with asyncHandler
-├── middleware/      # Auth, validation, error handling, uploads
-├── models/          # Mongoose schemas (User, Job, Admin)
-├── routes/          # API endpoints
-└── server.js        # Application entry point
+├── config/       # DB, Socket.io, GridFS, logger, constants
+├── controllers/  # authController, userController, jobController, adminController
+├── middleware/   # auth, validation, upload, error handling
+├── models/       # User, Job, Admin (Mongoose schemas)
+├── routes/api/   # auth, users, jobs, admin endpoints
+└── server.js     # Express app entry point
 ```
 
-## Development Guidelines
+## 🔌 Key API Endpoints
 
-- Use `asyncHandler` for all async routes
-- Log with Winston (`logger.info/error`), not `console.log`
-- Validate inputs with express-validator
-- Use Mongoose transactions for multi-document operations
-- Follow consistent response format: `{ success, message, data }`
+**Public:** `POST /api/auth/register|login|admin/login`, `GET /api/jobs?page=1&limit=20`  
+**User:** `GET|PUT /api/users/profile`, `POST /api/users/jobs/:id/apply|bookmark`  
+**Admin:** `GET /api/admin/stats`, `POST|PUT|DELETE /api/admin/jobs/:id`
+
+📖 **Complete API Docs:** `GET /api/docs`
+
+## ⚙️ Environment Variables
+
+```env
+NODE_ENV=production
+MONGO_URI=mongodb+srv://user:pass@cluster.mongodb.net/job_portal_db
+JWT_SECRET=<64-char-hex-string>
+DEFAULT_ADMIN_USERNAME=admin
+DEFAULT_ADMIN_PASSWORD=<secure-password>
+FRONTEND_URL=https://your-frontend.vercel.app
+```
+
+## 🔐 Security
+
+- **Auth:** JWT (5h expiration), bcrypt (10 rounds)
+- **Rate Limits:** 100 req/15min (API), 5 req/15min (auth), 10 uploads/15min
+- **Validation:** express-validator, xss-clean, mongo-sanitize
+- **File Upload:** MIME + extension + magic number checks, 2MB photos / 5MB resumes
+
+## ⚡ Real-time Events
+
+| Event | Trigger | Recipients |
+|-------|---------|-----------|
+| `new-application` | User applies | All admins |
+| `application-status-updated` | Admin updates status | Specific user |
+| `new-job-posted` | Admin creates job | All users |
+| `job-deleted` | Admin deletes job | All users |
+
+## 🧪 Testing
+
+```bash
+npm test  # Runs authentication test suite
+```
+
+## 🗄️ Database
+
+**15+ Indexes:** createdAt, salary, experience, location, text search (title/company/location)  
+**Transactions:** Multi-document operations (job application flow)  
+**Soft Deletes:** Audit trail with isDeleted + deletedAt
+
+## 📝 Logging
+
+Winston logger → Console + `logs/error.log` + `logs/combined.log`
 
 ---
 
-**See [main README](../README.md) for complete documentation and API endpoints**
+See [Main README](../README.md) for full project documentation.
