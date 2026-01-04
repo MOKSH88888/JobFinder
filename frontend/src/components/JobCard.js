@@ -104,10 +104,11 @@ const JobCard = ({ job, isNewJob = false }) => {
         borderRadius: 3,
         border: '1px solid',
         borderColor: 'divider',
-        transition: 'all 0.25s ease',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         '&:hover': {
-          transform: 'translateY(-6px)',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
+          transform: 'translateY(-8px)',
+          boxShadow: '0 6px 16px rgba(0, 0, 0, 0.12)',
           borderColor: 'primary.light',
         }
       }}
@@ -177,15 +178,15 @@ const JobCard = ({ job, isNewJob = false }) => {
         )}
         
         {/* Company Name */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5, mt: isNewJob ? 3 : 0 }}>
-          <BusinessCenterIcon sx={{ color: 'primary.main', fontSize: 18 }} />
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5, mt: isNewJob ? 3 : 0 }}>
+          <BusinessCenterIcon sx={{ color: 'primary.main', fontSize: 18, opacity: 0.8 }} />
           <Typography 
             variant="body2" 
             sx={{ 
               fontWeight: 600, 
-              color: 'text.secondary',
-              fontSize: '0.8125rem',
-              letterSpacing: '0.2px'
+              color: 'primary.main',
+              opacity: 0.9,
+              fontSize: '0.8125rem'
             }}
           >
             {job.companyName}
@@ -196,12 +197,12 @@ const JobCard = ({ job, isNewJob = false }) => {
         <Typography 
           variant="h6" 
           sx={{ 
-            fontWeight: 700,
+            fontWeight: 800,
             color: 'text.primary',
-            mb: hasApplied ? 1.5 : 0.5,
+            mb: hasApplied ? 1.5 : 1.75,
             pr: user ? 5 : 0,
             lineHeight: 1.3,
-            fontSize: { xs: '1.1rem', md: '1.15rem' }
+            fontSize: '1.15rem'
           }}
         >
           {job.title}
@@ -228,7 +229,7 @@ const JobCard = ({ job, isNewJob = false }) => {
         )}
       </Box>
 
-      <CardContent sx={{ flexGrow: 1, pt: 2.5, pb: 2, px: 2.5 }}>
+      <CardContent sx={{ flexGrow: 1 }}>
         {/* Location */}
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 0.75 }}>
           <LocationOnIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
@@ -260,7 +261,7 @@ const JobCard = ({ job, isNewJob = false }) => {
         </Box>
       </CardContent>
 
-      <CardActions sx={{ p: 2.5, pt: 0 }}>
+      <CardActions sx={{ p: 2, pt: 0 }}>
         <Button
           component={RouterLink}
           to={`/jobs/${job._id}`}
