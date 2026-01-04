@@ -20,6 +20,7 @@ import {
 import WorkIcon from '@mui/icons-material/Work';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
@@ -470,9 +471,9 @@ const MyApplicationsPage = () => {
                         )}
                         
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.6 }}>
-                          <WorkIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+                          <TrendingUpIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
                           <Typography variant="body2" color="text.secondary" fontWeight={600} sx={{ fontSize: '0.8125rem' }}>
-                            {job.experienceRequired ?? 0} years
+                            {job.experienceRequired === 0 ? 'Fresher / Entry Level' : job.experienceRequired === 1 ? '1 year experience' : `${job.experienceRequired}+ years experience`}
                           </Typography>
                         </Box>
                       </Box>
