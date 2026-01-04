@@ -99,7 +99,7 @@ const NotificationToast = ({ notification, open, onClose }) => {
       sx={{ mt: 8 }}
     >
       <Alert
-        icon={config.icon}
+        icon={false}
         severity={config.severity}
         onClose={onClose}
         sx={{
@@ -108,15 +108,6 @@ const NotificationToast = ({ notification, open, onClose }) => {
           borderRadius: 2,
           border: `1px solid ${config.color}30`,
           background: 'white',
-          '& .MuiAlert-icon': {
-            fontSize: 28,
-            color: config.color,
-            display: 'flex',
-            alignItems: 'center',
-            '& svg': {
-              fontSize: 'inherit'
-            }
-          },
           '& .MuiAlert-message': {
             width: '100%'
           }
@@ -134,14 +125,24 @@ const NotificationToast = ({ notification, open, onClose }) => {
           </IconButton>
         }
       >
-        <AlertTitle sx={{
-          fontWeight: 700,
-          fontSize: '1rem',
-          mb: 1,
-          color: config.color
-        }}>
-          {config.title}
-        </AlertTitle>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+          <Box sx={{ 
+            color: config.color,
+            display: 'flex',
+            alignItems: 'center',
+            fontSize: 20
+          }}>
+            {config.icon}
+          </Box>
+          <AlertTitle sx={{
+            fontWeight: 700,
+            fontSize: '1rem',
+            mb: 0,
+            color: config.color
+          }}>
+            {config.title}
+          </AlertTitle>
+        </Box>
 
         <Box>
           {notification.jobTitle && (
