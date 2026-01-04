@@ -92,7 +92,7 @@ const sampleJobs = [
     salary: 2000000,
     experienceRequired: 5,
     jobType: 'Full-time',
-    description: 'Infosys is seeking an experienced Full Stack Developer to join our digital transformation team. You will work on enterprise-grade applications serving millions of users globally. This role offers excellent growth opportunities and exposure to cutting-edge technologies in a collaborative environment.',
+    description: 'Infosys is seeking an experienced Full Stack Developer to join our digital transformation team. You will work on large-scale applications serving millions of users globally. This role offers excellent growth opportunities and exposure to cutting-edge technologies in a collaborative environment.',
     requirements: [
       '5+ years of hands-on experience in MERN stack development',
       'Strong proficiency in React.js, Node.js, Express.js, and MongoDB',
@@ -187,7 +187,7 @@ const sampleJobs = [
     salary: 450000,
     experienceRequired: 0,
     jobType: 'Internship',
-    description: 'Accenture invites fresh graduates to join our comprehensive training program. Gain hands-on experience in software development, work on real projects, and build your career with one of the world\'s leading professional services companies. Excellent conversion opportunities for high performers.',
+    description: 'Accenture invites fresh graduates to join our comprehensive training program. Gain hands-on experience in software development, work on real projects, and build your career with one of the world\'s leading consulting companies. Excellent conversion opportunities for high performers.',
     requirements: [
       'B.Tech/B.E. in Computer Science or related field (2025/2026 batch)',
       'Strong programming fundamentals in any language (C++/Java/Python)',
@@ -225,7 +225,7 @@ const sampleJobs = [
     salary: 3500000,
     experienceRequired: 8,
     jobType: 'Full-time',
-    description: 'Deloitte USI is seeking experienced Cloud Solutions Architects to design and implement enterprise cloud strategies for Fortune 500 clients. Lead cloud migration projects, architect multi-cloud solutions, and mentor technical teams. Work on high-impact consulting engagements with international exposure.',
+    description: 'Deloitte USI is seeking experienced Cloud Solutions Architects to design and implement cloud strategies for Fortune 500 clients. Lead cloud migration projects, architect multi-cloud solutions, and mentor technical teams. Work on high-impact consulting engagements with international exposure.',
     requirements: [
       '8+ years of experience in software architecture and cloud technologies',
       'Expert-level knowledge of AWS, Azure, or Google Cloud Platform',
@@ -233,7 +233,7 @@ const sampleJobs = [
       'Hands-on experience with IaC tools (Terraform, CloudFormation)',
       'Deep understanding of networking, security, and compliance in cloud',
       'Experience leading technical teams and client presentations',
-      'Certifications: AWS Solutions Architect Professional or Azure Architect Expert',
+      'Certifications: AWS Solutions Architect or Azure Architect Expert',
       'Excellent stakeholder management and communication skills'
     ]
   },

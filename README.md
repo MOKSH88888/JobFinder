@@ -4,7 +4,7 @@
 **Tech Stack:** MongoDB · Express.js · React · Node.js  
 **Deployment:** Render (Backend) + Vercel (Frontend)
 
-> **Professional MERN stack application demonstrating enterprise-level architecture, real-time features, and production-grade security implementations.**
+> **Full-stack MERN job portal demonstrating core concepts: MVC architecture, real-time WebSocket communication, JWT authentication, and comprehensive security practices.**
 
 ---
 
@@ -83,7 +83,7 @@
 | Technology | Version | Purpose |
 |------------|---------|---------|
 | **React** | 19.1.1 | UI library with Hooks |
-| **Material-UI** | 7.3.2 | Enterprise design system |
+| **Material-UI** | 7.3.2 | Component library and design system |
 | **React Router** | 7.9.2 | Client-side routing |
 | **Axios** | 1.12.2 | HTTP client with retry logic |
 | **Socket.io-client** | 4.6.1 | Real-time client |

@@ -1,6 +1,6 @@
 # Backend API Documentation
 
-Enterprise-grade Node.js/Express API server for JobFinder job portal.
+Node.js/Express REST API server for JobFinder job portal.
 
 ## 🚀 Quick Start
 
