@@ -428,7 +428,7 @@ const MyApplicationsPage = () => {
                       </Typography>
                       
                       {/* Location */}
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.25, gap: 0.75 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 0.75 }}>
                         <LocationOnIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
                         <Typography variant="body2" color="text.secondary" fontWeight={500}>
                           {job.location || 'Location not specified'}
@@ -436,43 +436,44 @@ const MyApplicationsPage = () => {
                       </Box>
                       
                       {/* Salary */}
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.75, gap: 0.75 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, gap: 0.75 }}>
                         <Typography variant="body2" fontWeight={600} color="success.main">
                           {job.salary && !isNaN(job.salary) ? `₹${Number(job.salary).toLocaleString('en-IN')} / year` : 'Salary not disclosed'}
                         </Typography>
                       </Box>
                       
-                      {/* Applied date - moved up for prominence */}
-                      {job.appliedAt && (
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mb: 1.25 }}>
-                          <CalendarTodayIcon sx={{ fontSize: 16, color: 'text.secondary', opacity: 0.7 }} />
-                          <Typography variant="body2" color="text.secondary" fontWeight={500} sx={{ fontSize: '0.8125rem' }}>
-                            {daysSince && daysSince < 7 ? (
-                              `Applied ${daysSince} ${daysSince === 1 ? 'day' : 'days'} ago`
-                            ) : (
-                              `Applied ${new Date(job.appliedAt).toLocaleDateString('en-IN', {
-                                day: 'numeric',
-                                month: 'short',
-                                year: 'numeric'
-                              })}`
-                            )}
+                      {/* Metadata footer: Applied date + Experience */}
+                      <Box sx={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: 2,
+                        pt: 1.5,
+                        borderTop: '1px solid',
+                        borderColor: 'divider'
+                      }}>
+                        {job.appliedAt && (
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                            <CalendarTodayIcon sx={{ fontSize: 14, color: 'text.secondary', opacity: 0.6 }} />
+                            <Typography variant="caption" color="text.secondary" fontWeight={500}>
+                              {daysSince && daysSince < 7 ? (
+                                `Applied ${daysSince} ${daysSince === 1 ? 'day' : 'days'} ago`
+                              ) : (
+                                `Applied ${new Date(job.appliedAt).toLocaleDateString('en-IN', {
+                                  day: 'numeric',
+                                  month: 'short',
+                                  year: 'numeric'
+                                })}`
+                              )}
+                            </Typography>
+                          </Box>
+                        )}
+                        
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                          <WorkIcon sx={{ fontSize: 14, color: 'text.secondary', opacity: 0.6 }} />
+                          <Typography variant="caption" color="text.secondary" fontWeight={500}>
+                            {job.experienceRequired ?? 0} years
                           </Typography>
                         </Box>
-                      )}
-                      
-                      {/* Experience chip */}
-                      <Box>
-                        <Chip 
-                          label={`${job.experienceRequired ?? 0} years`} 
-                          size="small" 
-                          icon={<WorkIcon />}
-                          sx={{
-                            fontWeight: 600,
-                            fontSize: '0.75rem',
-                            backgroundColor: '#f5f5f5',
-                            border: '1px solid #e0e0e0'
-                          }}
-                        />
                       </Box>
                     </CardContent>
                     
