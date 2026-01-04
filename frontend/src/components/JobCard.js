@@ -4,7 +4,7 @@
 import React, { useState, useMemo } from 'react';
 import { 
   Card, CardContent, CardActions, Typography, Button, Chip, 
-  IconButton, Tooltip, Box, Stack, alpha 
+  IconButton, Tooltip, Box, alpha 
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -14,9 +14,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
-import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { bookmarkJob, removeBookmark } from '../api';
 
 const JobCard = ({ job, isNewJob = false }) => {
@@ -231,61 +229,49 @@ const JobCard = ({ job, isNewJob = false }) => {
       </Box>
 
       <CardContent sx={{ flexGrow: 1, pt: 2.5, pb: 2, px: 2.5 }}>
-        {/* Key Info - Better Alignment */}
-        <Stack spacing={1.5}>
-          {/* Location */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
-            <LocationOnIcon sx={{ fontSize: 19, color: 'text.secondary' }} />
-            <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.875rem' }}>
-              {job.location}
-            </Typography>
-          </Box>
-          
-          {/* Experience */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
-            <TrendingUpIcon sx={{ fontSize: 19, color: 'text.secondary' }} />
-            <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.875rem' }}>
-              {experienceText}
-            </Typography>
-          </Box>
-          
-          {/* Salary */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
-            <CurrencyRupeeIcon sx={{ fontSize: 19, color: 'success.main' }} />
-            <Typography 
-              variant="body2" 
-              sx={{ 
-                fontWeight: 600, 
-                color: 'success.main',
-                fontSize: '0.875rem'
-              }}
-            >
-              {formattedSalary} / year
-            </Typography>
-          </Box>
-        </Stack>
+        {/* Location */}
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 0.75 }}>
+          <LocationOnIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
+          <Typography variant="body2" color="text.secondary" fontWeight={500}>
+            {job.location}
+          </Typography>
+        </Box>
+        
+        {/* Salary */}
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, gap: 0.75 }}>
+          <Typography variant="body2" fontWeight={600} color="success.main">
+            {formattedSalary} / year
+          </Typography>
+        </Box>
+        
+        {/* Metadata footer: Experience */}
+        <Box sx={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: 0.6,
+          pt: 1.5,
+          borderTop: '1px solid',
+          borderColor: 'divider'
+        }}>
+          <TrendingUpIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+          <Typography variant="body2" color="text.secondary" fontWeight={600} sx={{ fontSize: '0.8125rem' }}>
+            {experienceText}
+          </Typography>
+        </Box>
       </CardContent>
 
       <CardActions sx={{ p: 2.5, pt: 0 }}>
         <Button
           component={RouterLink}
           to={`/jobs/${job._id}`}
-          variant="contained"
+          variant="outlined"
           fullWidth
-          endIcon={<ArrowForwardIcon />}
           sx={{ 
             borderRadius: 1.5,
-            py: 1.2,
-            textTransform: 'none',
+            py: 1,
             fontWeight: 600,
-            fontSize: '0.9375rem',
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            boxShadow: '0 2px 8px rgba(102, 126, 234, 0.25)',
-            transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-            '&:hover': {
-              transform: 'translateY(-1px)',
-              boxShadow: '0 4px 12px rgba(102, 126, 234, 0.35)',
-            }
+            textTransform: 'none',
+            fontSize: '0.875rem'
           }}
         >
           View Details
