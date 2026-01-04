@@ -45,7 +45,8 @@ module.exports = {
   // Status Values
   APPLICATION_STATUS: {
     PENDING: 'Pending',
-    ACCEPTED: 'Accepted',
+    UNDER_REVIEW: 'Under Review',
+    SHORTLISTED: 'Shortlisted',
     REJECTED: 'Rejected'
   },
 
@@ -78,5 +79,17 @@ module.exports = {
     CANNOT_DELETE_DEFAULT_ADMIN: 'Cannot delete default admin',
     ACCOUNT_DEACTIVATED: 'Account has been deactivated',
     INVALID_STATUS: 'Invalid status'
+  },
+
+  // API Documentation
+  API_ROUTES: {
+    AUTH: '/api/auth',
+    ADMIN: '/api/admin',
+    USERS: '/api/users',
+    JOBS: '/api/jobs',
+    CONTACT: '/api/contact',
+    NEWS: '/api/news',
+    RESUME: '/api/resume',
+    FILES: '/api/files'
   }
 };

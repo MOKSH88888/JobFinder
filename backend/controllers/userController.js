@@ -94,12 +94,12 @@ exports.applyForJob = asyncHandler(async (req, res) => {
     job.applicants.push({ 
       userId: user._id, 
       appliedAt: new Date(),
-      status: 'Pending'
+      status: constants.APPLICATION_STATUS.PENDING
     });
     user.appliedJobs.push({ 
       jobId: job._id, 
       appliedAt: new Date(),
-      status: 'Pending'
+      status: constants.APPLICATION_STATUS.PENDING
     });
 
     await job.save({ session });
@@ -119,7 +119,7 @@ exports.applyForJob = asyncHandler(async (req, res) => {
       message: `${user.name} applied for ${job.title} at ${job.companyName}`,
     });
 
-    res.json({ success: true, message: 'Application successful', status: 'Pending' });
+    res.json({ success: true, message: 'Application successful', status: constants.APPLICATION_STATUS.PENDING });
   } catch (error) {
     await session.abortTransaction();
     throw error;

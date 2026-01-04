@@ -1,3 +1,16 @@
+// ============================================================================
+// Database Seeding Script - JobFinder Platform
+// ============================================================================
+// This script populates the database with realistic sample data including:
+// - 6 diverse user profiles (varying experience levels and tech stacks)
+// - 10 professional job listings covering all major filters
+// - Sample applications with realistic status progression
+// - Bookmark data to demonstrate user engagement features
+// 
+// Usage: node backend/config/seedDatabase.js
+// Note: This clears existing data except the default admin account
+// ============================================================================
+
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
@@ -8,14 +21,24 @@ const Admin = require('../models/Admin');
 // Sample users with complete data
 const sampleUsers = [
   {
-    name: 'Arjun Mehta',
-    email: 'arjun.mehta@techmail.com',
+    name: 'Daksh Varshneya',
+    email: 'daksh.varshneya@gmail.com',
     password: 'User@1234',
-    phone: '+91-9823456710',
+    phone: '+91-9506095060',
     gender: 'Male',
-    experience: 5,
-    description: 'Full-stack developer with 5 years of experience building scalable web applications. Passionate about clean code and modern architecture patterns.',
-    skills: ['JavaScript', 'TypeScript', 'React.js', 'Node.js', 'MongoDB', 'Express.js', 'REST API', 'Git', 'Docker', 'AWS', 'Redux', 'Jest']
+    experience: 7,
+    description: 'Software Developer at ION Trading with 7+ years of experience building scalable web applications. Currently developing features using TypeScript, AngularJS and Java 8 for ION Treasury Anywhere. Previously worked on ARC Reporting Component with global team of 22 people, developed TypeScript and AngularJS features, and led migration from Silverlight to HTML5.',
+    skills: ['TypeScript', 'AngularJS', 'Angular', 'Java 8', 'JavaScript', 'React', 'HTML5', 'CSS3', 'Bootstrap', 'LESS', 'Node.js', 'Express', 'MongoDB', 'SQL', 'AWS', 'Jenkins', 'Git', 'JIRA', 'Agile/Scrum', 'REST API', 'Unit Testing', 'Selenium', 'Robot Framework', 'Galen Framework', 'Data Structures', 'Algorithms', 'OOP', 'CI/CD']
+  },
+  {
+    name: 'Dhanush Kumar',
+    email: 'dhanush.kumar@gmail.com',
+    password: 'User@1234',
+    phone: '+91-9988776644',
+    gender: 'Male',
+    experience: 0,
+    description: 'Recent B.Tech CSE graduate specializing in Artificial Intelligence and Machine Learning from Sri Ramachandra Faculty of Engineering. Team Lead at BigBasket Intern where enhanced team performance in on-time delivery and worked with diverse coworkers. Digital Marketing Freelancer conducting reviews and executing successful campaigns. React Developer Intern creating full-stack web applications with MongoDB, Node.js, Express.js and React. Strong foundation in front-end frameworks, digital marketing, SEO analysis, and client support.',
+    skills: ['React', 'Node.js', 'Express.js', 'MongoDB', 'HTML', 'CSS', 'JavaScript', 'Front-end Frameworks', 'Digital Marketing', 'SEO Analysis', 'API Implementation', 'Mobile-friendly Design', 'Campaign Planning', 'Relationship Building', 'Proposal Management', 'Branding Strategy', 'Client Support', 'Excel', 'Email Marketing']
   },
   {
     name: 'Priya Krishnan',
@@ -24,18 +47,8 @@ const sampleUsers = [
     phone: '+91-9823456711',
     gender: 'Female',
     experience: 4,
-    description: 'Data Engineer specializing in Python and cloud technologies. Experienced in building ETL pipelines and data analytics solutions.',
-    skills: ['Python', 'Django', 'Flask', 'PostgreSQL', 'AWS', 'Data Analysis', 'Machine Learning', 'Pandas', 'NumPy', 'Apache Spark', 'SQL', 'ETL']
-  },
-  {
-    name: 'Rahul Verma',
-    email: 'rahul.verma@codemail.com',
-    password: 'User@1234',
-    phone: '+91-9823456712',
-    gender: 'Male',
-    experience: 7,
-    description: 'Senior Backend Engineer with expertise in microservices architecture and cloud-native applications. Led multiple teams in Agile environments.',
-    skills: ['Java', 'Spring Boot', 'Microservices', 'Kubernetes', 'Docker', 'Jenkins', 'MySQL', 'Redis', 'Kafka', 'AWS', 'CI/CD', 'Design Patterns']
+    description: 'Backend Developer with DevOps expertise. 4+ years building scalable microservices and managing cloud infrastructure on AWS. Experienced in Python, Node.js, and containerization technologies.',
+    skills: ['Python', 'Django', 'Node.js', 'PostgreSQL', 'AWS', 'Docker', 'Kubernetes', 'CI/CD', 'Jenkins', 'Terraform', 'REST API', 'Microservices', 'Redis', 'Linux']
   },
   {
     name: 'Sneha Iyer',
@@ -44,72 +57,33 @@ const sampleUsers = [
     phone: '+91-9823456713',
     gender: 'Female',
     experience: 3,
-    description: 'Frontend Developer and UI/UX enthusiast with a strong eye for design. Creating beautiful, accessible, and performant user interfaces.',
-    skills: ['HTML5', 'CSS3', 'JavaScript', 'React.js', 'UI/UX Design', 'Figma', 'Adobe XD', 'Responsive Design', 'Accessibility', 'Tailwind CSS', 'SASS']
+    description: 'Mobile Developer specializing in React Native and iOS. 3+ years building cross-platform mobile applications with seamless UX. Published multiple apps on App Store and Play Store.',
+    skills: ['React Native', 'JavaScript', 'TypeScript', 'iOS', 'Swift', 'Android', 'Redux', 'REST API', 'Firebase', 'Git', 'App Store', 'Play Store', 'Mobile UI/UX']
   },
   {
-    name: 'Aditya Sharma',
-    email: 'aditya.sharma@webmail.com',
+    name: 'Manav Nigam',
+    email: 'manav.nigam@outlook.com',
     password: 'User@1234',
-    phone: '+91-9823456714',
+    phone: '+91-9356567878',
     gender: 'Male',
-    experience: 4,
-    description: 'Backend Developer proficient in PHP and modern web frameworks. Strong understanding of MVC architecture and database optimization.',
-    skills: ['PHP', 'Laravel', 'MySQL', 'Vue.js', 'REST API', 'Redis', 'jQuery', 'Composer', 'PHPUnit', 'Git', 'Linux']
+    experience: 0,
+    description: 'Aspiring full-stack developer passionate about software development. Proficient in MERN stack, building robust REST APIs with Node.js and Express, integrating MongoDB for efficient data management, and creating responsive UIs using React, Bootstrap, and Tailwind CSS. Developed multiple full-stack projects including portfolio website, social networking platform (Collably), dynamic news app (Newsbird), AI-powered image processing tool (Sharpify), and travel review platform (Wanderlust). Strong foundation in algorithms and data structures with 250+ problems solved on LeetCode. HackerRank certified in Problem Solving and Node.js.',
+    skills: ['C++', 'Python', 'Java', 'JavaScript', 'React.js', 'Node.js', 'Express.js', 'MongoDB', 'Bootstrap', 'Tailwind CSS', 'HTML', 'CSS', 'Git', 'GitHub', 'REST API', 'JWT', 'Framer Motion', 'bcrypt', 'Multer', 'Cloudinary', 'Data Structures', 'Algorithms', 'OOP', 'Problem Solving', 'LeetCode']
   },
   {
     name: 'Ananya Deshmukh',
-    email: 'ananya.deshmukh@freshmail.com',
+    email: 'ananya.deshmukh@mobilemail.com',
     password: 'User@1234',
     phone: '+91-9823456715',
     gender: 'Female',
-    experience: 0,
-    description: 'Recent Computer Science graduate from IIT Delhi. Strong foundation in algorithms and data structures. Eager to contribute to innovative projects.',
-    skills: ['C++', 'Java', 'Python', 'Data Structures', 'Algorithms', 'OOP', 'Problem Solving', 'Git', 'MySQL', 'HTML', 'CSS']
-  },
-  {
-    name: 'Vikram Rao',
-    email: 'vikram.rao@cloudmail.com',
-    password: 'User@1234',
-    phone: '+91-9823456716',
-    gender: 'Male',
-    experience: 6,
-    description: 'DevOps Engineer with extensive experience in cloud infrastructure and automation. Certified AWS Solutions Architect and Kubernetes Administrator.',
-    skills: ['DevOps', 'AWS', 'Azure', 'Terraform', 'Ansible', 'CI/CD', 'Kubernetes', 'Docker', 'Jenkins', 'GitLab CI', 'Prometheus', 'Grafana', 'Linux']
-  },
-  {
-    name: 'Divya Menon',
-    email: 'divya.menon@mobilemail.com',
-    password: 'User@1234',
-    phone: '+91-9823456717',
-    gender: 'Female',
     experience: 2,
-    description: 'Mobile Developer passionate about creating seamless cross-platform experiences. Published 3+ apps with 100K+ downloads on Play Store.',
-    skills: ['React Native', 'JavaScript', 'TypeScript', 'Mobile Development', 'Firebase', 'Redux', 'iOS', 'Android', 'REST API', 'Git', 'App Store Optimization']
-  },
-  {
-    name: 'Rohan Chatterjee',
-    email: 'rohan.chatterjee@qamail.com',
-    password: 'User@1234',
-    phone: '+91-9823456718',
-    gender: 'Male',
-    experience: 3,
-    description: 'QA Engineer specialized in automation testing and ensuring software quality. ISTQB certified with strong analytical skills.',
-    skills: ['Selenium', 'Java', 'TestNG', 'Cucumber', 'API Testing', 'Postman', 'JMeter', 'Manual Testing', 'Agile', 'JIRA', 'SQL', 'Git']
-  },
-  {
-    name: 'Kavya Pillai',
-    email: 'kavya.pillai@datamail.com',
-    password: 'User@1234',
-    phone: '+91-9823456719',
-    gender: 'Female',
-    experience: 5,
-    description: 'Data Scientist with expertise in machine learning and predictive analytics. Published research papers on deep learning applications.',
-    skills: ['Python', 'Machine Learning', 'Deep Learning', 'TensorFlow', 'PyTorch', 'Data Analysis', 'SQL', 'R', 'Statistics', 'NLP', 'Computer Vision', 'Scikit-learn']
-  }
+    description: 'QA Automation Engineer with 2 years of experience building robust test automation frameworks. Skilled in Selenium, API testing, and CI/CD integration. ISTQB certified professional.',
+    skills: ['Selenium', 'Java', 'TestNG', 'JUnit', 'API Testing', 'Postman', 'RestAssured', 'Jenkins', 'Git', 'Cucumber', 'JIRA', 'SQL', 'Python', 'ISTQB']
+  }  
+  
 ];
 
-// Sample jobs with complete data
+// Sample jobs with complete data - 10 strategic jobs covering all filters
 const sampleJobs = [
   {
     title: 'Senior Full Stack Developer (MERN Stack)',
@@ -147,101 +121,6 @@ const sampleJobs = [
       'Experience with version control (Git)',
       'Familiarity with CI/CD pipelines',
       'Good analytical and debugging skills'
-    ]
-  },
-  {
-    title: 'Lead Java Architect',
-    companyName: 'Wipro Digital',
-    location: 'Pune, Maharashtra',
-    salary: 2800000,
-    experienceRequired: 8,
-    jobType: 'Full-time',
-    description: 'Join Wipro Digital as a Lead Java Architect to design and implement enterprise-level microservices architecture. Lead technical teams, mentor developers, and drive architectural decisions for large-scale distributed systems. This is a leadership role with significant impact on product direction.',
-    requirements: [
-      '8+ years of Java enterprise application development',
-      'Expert-level knowledge of Spring Boot and microservices',
-      'Hands-on experience with Kubernetes and Docker orchestration',
-      'Strong understanding of distributed systems and cloud architecture',
-      'Experience with event-driven architecture (Kafka, RabbitMQ)',
-      'Proven leadership and team mentoring abilities',
-      'Excellent communication and stakeholder management skills',
-      'AWS/Azure certification preferred'
-    ]
-  },
-  {
-    title: 'Frontend Developer (React)',
-    companyName: 'Flipkart Internet Pvt Ltd',
-    location: 'Bengaluru, Karnataka',
-    salary: 1600000,
-    experienceRequired: 3,
-    jobType: 'Full-time',
-    description: 'Flipkart is looking for passionate Frontend Developers to build world-class e-commerce experiences. Work on high-traffic applications serving millions of Indian users daily. Enjoy a fast-paced startup culture within a leading Indian unicorn.',
-    requirements: [
-      '3+ years of modern frontend development experience',
-      'Strong proficiency in React.js and JavaScript ES6+',
-      'Experience with state management (Redux, Context API)',
-      'Solid understanding of HTML5, CSS3, and responsive design',
-      'Performance optimization and web vitals knowledge',
-      'Experience with modern build tools (Webpack, Vite)',
-      'Understanding of SEO and accessibility best practices',
-      'Portfolio showcasing previous projects'
-    ]
-  },
-  {
-    title: 'PHP Laravel Developer',
-    companyName: 'Tech Mahindra',
-    location: 'Noida, Uttar Pradesh',
-    salary: 1100000,
-    experienceRequired: 4,
-    jobType: 'Full-time',
-    description: 'Tech Mahindra seeks experienced Laravel developers to maintain and enhance enterprise web applications for global clients. Work in a supportive environment with continuous upskilling opportunities and international exposure.',
-    requirements: [
-      '4+ years of PHP development experience',
-      'Strong expertise in Laravel framework (v8+)',
-      'Proficiency in MySQL database design and optimization',
-      'Experience building secure RESTful APIs',
-      'Knowledge of front-end technologies (Vue.js/React)',
-      'Understanding of MVC architecture patterns',
-      'Experience with version control systems (Git)',
-      'Good understanding of OWASP security principles'
-    ]
-  },
-  {
-    title: 'Software Development Engineer - Trainee',
-    companyName: 'Accenture Solutions Pvt Ltd',
-    location: 'Mumbai, Maharashtra',
-    salary: 450000,
-    experienceRequired: 0,
-    jobType: 'Internship',
-    description: 'Accenture invites fresh graduates to join our comprehensive training program. Gain hands-on experience in software development, work on real projects, and build your career with one of the world\'s leading professional services companies. Excellent conversion opportunities for high performers.',
-    requirements: [
-      'B.Tech/B.E. in Computer Science or related field (2023/2024 batch)',
-      'Strong programming fundamentals in any language (C++/Java/Python)',
-      'Good understanding of data structures and algorithms',
-      'Knowledge of object-oriented programming concepts',
-      'Excellent problem-solving and analytical skills',
-      'Eagerness to learn new technologies',
-      'Good communication skills in English',
-      'Minimum 60% marks in 10th, 12th, and graduation'
-    ]
-  },
-  {
-    title: 'Senior DevOps Engineer',
-    companyName: 'Amazon Development Centre India',
-    location: 'Gurugram, Haryana',
-    salary: 2500000,
-    experienceRequired: 6,
-    jobType: 'Full-time',
-    description: 'Amazon India is seeking experienced DevOps Engineers to manage and scale cloud infrastructure supporting Amazon\'s operations in India. Work with cutting-edge AWS technologies, automate everything, and ensure 99.99% uptime for critical services. Competitive compensation with Amazon stock options.',
-    requirements: [
-      '6+ years of DevOps/Site Reliability Engineering experience',
-      'Expert-level knowledge of AWS services and architecture',
-      'Strong experience with Infrastructure as Code (Terraform/CloudFormation)',
-      'Proficiency in scripting languages (Python, Bash, Shell)',
-      'Hands-on experience with Kubernetes and container orchestration',
-      'Experience implementing CI/CD pipelines (Jenkins, GitLab CI)',
-      'Knowledge of monitoring tools (Prometheus, Grafana, CloudWatch)',
-      'AWS certifications (Solutions Architect/DevOps Engineer) required'
     ]
   },
   {
@@ -283,60 +162,98 @@ const sampleJobs = [
     ]
   },
   {
-    title: 'Machine Learning Engineer',
-    companyName: 'Microsoft India Development Center',
+    title: 'DevOps Engineer',
+    companyName: 'Amazon Development Centre India',
     location: 'Bengaluru, Karnataka',
-    salary: 2200000,
-    experienceRequired: 4,
+    salary: 2500000,
+    experienceRequired: 5,
     jobType: 'Full-time',
-    description: 'Microsoft India R&D is seeking Machine Learning Engineers to build AI-powered features for Microsoft products. Work on cutting-edge ML projects, collaborate with global teams, and contribute to products used by billions. Excellent growth opportunities and world-class benefits.',
+    description: 'Amazon India is seeking experienced DevOps Engineers to manage and scale cloud infrastructure supporting Amazon\'s operations in India. Work with cutting-edge AWS technologies, automate everything, and ensure 99.99% uptime for critical services. Competitive compensation with Amazon stock options.',
     requirements: [
-      '4+ years of machine learning engineering experience',
-      'Strong programming skills in Python and ML libraries',
-      'Hands-on experience with TensorFlow, PyTorch, or scikit-learn',
-      'Deep understanding of ML algorithms and neural networks',
-      'Experience deploying ML models in production environments',
-      'Knowledge of cloud ML platforms (Azure ML, AWS SageMaker)',
-      'Strong mathematical foundation (Statistics, Linear Algebra)',
-      'M.Tech/PhD in Computer Science or related field preferred'
+      '5+ years of DevOps/Site Reliability Engineering experience',
+      'Expert-level knowledge of AWS services and architecture',
+      'Strong experience with Infrastructure as Code (Terraform/CloudFormation)',
+      'Proficiency in scripting languages (Python, Bash, Shell)',
+      'Hands-on experience with Kubernetes and container orchestration',
+      'Experience implementing CI/CD pipelines (Jenkins, GitLab CI)',
+      'Knowledge of monitoring tools (Prometheus, Grafana, CloudWatch)',
+      'AWS certifications (Solutions Architect/DevOps Engineer) preferred'
     ]
   },
   {
-    title: 'UI/UX Designer',
-    companyName: 'Swiggy',
-    location: 'Bengaluru, Karnataka',
-    salary: 1500000,
-    experienceRequired: 3,
-    jobType: 'Full-time',
-    description: 'Swiggy is looking for creative UI/UX Designers to craft delightful user experiences for India\'s leading food delivery platform. Design intuitive interfaces, conduct user research, and iterate based on data. Work in a design-first culture with significant product impact.',
-    requirements: [
-      '3+ years of UI/UX design experience for mobile/web',
-      'Expert proficiency in Figma and Adobe Creative Suite',
-      'Strong portfolio demonstrating user-centered design process',
-      'Experience conducting user research and usability testing',
-      'Knowledge of design systems and component libraries',
-      'Understanding of iOS/Android design guidelines',
-      'Excellent visual design and typography skills',
-      'Bachelor\'s degree in Design or related field'
-    ]
-  },
-  {
-    title: 'Cybersecurity Analyst',
-    companyName: 'ICICI Bank',
+    title: 'Software Development Engineer - Trainee',
+    companyName: 'Accenture Solutions Pvt Ltd',
     location: 'Mumbai, Maharashtra',
-    salary: 1600000,
+    salary: 450000,
+    experienceRequired: 0,
+    jobType: 'Internship',
+    description: 'Accenture invites fresh graduates to join our comprehensive training program. Gain hands-on experience in software development, work on real projects, and build your career with one of the world\'s leading professional services companies. Excellent conversion opportunities for high performers.',
+    requirements: [
+      'B.Tech/B.E. in Computer Science or related field (2025/2026 batch)',
+      'Strong programming fundamentals in any language (C++/Java/Python)',
+      'Good understanding of data structures and algorithms',
+      'Knowledge of object-oriented programming concepts',
+      'Excellent problem-solving and analytical skills',
+      'Eagerness to learn new technologies',
+      'Good communication skills in English',
+      'Minimum 60% marks in 10th, 12th, and graduation'
+    ]
+  },
+  {
+    title: 'Junior Full Stack Developer (MEAN Stack)',
+    companyName: 'Cognizant Technology Solutions',
+    location: 'Pune, Maharashtra',
+    salary: 650000,
+    experienceRequired: 1,
+    jobType: 'Full-time',
+    description: 'Cognizant is looking for energetic Junior Full Stack Developers to join our growing engineering team. Work on client projects using Angular, Node.js, Express, and MongoDB. Perfect opportunity for developers with 1-2 years of experience to advance their careers with mentorship from senior engineers.',
+    requirements: [
+      '1-2 years of hands-on web development experience',
+      'Working knowledge of Angular, Node.js, Express.js, and MongoDB',
+      'Understanding of RESTful API design and implementation',
+      'Familiarity with Git version control',
+      'Basic knowledge of HTML5, CSS3, and JavaScript ES6+',
+      'Good problem-solving and debugging skills',
+      'Ability to work in Agile teams',
+      'B.E/B.Tech in Computer Science or equivalent'
+    ]
+  },
+  {
+    title: 'Cloud Solutions Architect',
+    companyName: 'Deloitte USI',
+    location: 'Hyderabad, Telangana',
+    salary: 3500000,
+    experienceRequired: 8,
+    jobType: 'Full-time',
+    description: 'Deloitte USI is seeking experienced Cloud Solutions Architects to design and implement enterprise cloud strategies for Fortune 500 clients. Lead cloud migration projects, architect multi-cloud solutions, and mentor technical teams. Work on high-impact consulting engagements with international exposure.',
+    requirements: [
+      '8+ years of experience in software architecture and cloud technologies',
+      'Expert-level knowledge of AWS, Azure, or Google Cloud Platform',
+      'Strong experience with cloud-native architecture patterns',
+      'Hands-on experience with IaC tools (Terraform, CloudFormation)',
+      'Deep understanding of networking, security, and compliance in cloud',
+      'Experience leading technical teams and client presentations',
+      'Certifications: AWS Solutions Architect Professional or Azure Architect Expert',
+      'Excellent stakeholder management and communication skills'
+    ]
+  },
+  {
+    title: 'Full Stack Developer (Remote)',
+    companyName: 'Razorpay Software Pvt Ltd',
+    location: 'Remote',
+    salary: 1700000,
     experienceRequired: 4,
     jobType: 'Full-time',
-    description: 'ICICI Bank is hiring Cybersecurity Analysts to protect critical financial infrastructure and customer data. Monitor security threats, conduct vulnerability assessments, and implement security best practices. Work in India\'s leading private sector bank with excellent stability and benefits.',
+    description: 'Razorpay is India\'s leading fintech unicorn revolutionizing digital payments. We\'re looking for talented Full Stack Developers to build features for our payment gateway and merchant dashboard. Work remotely from anywhere in India while contributing to products serving 8M+ businesses.',
     requirements: [
-      '4+ years of information security experience',
-      'Knowledge of security frameworks (ISO 27001, NIST)',
-      'Experience with SIEM tools and security monitoring',
-      'Understanding of network security and firewall management',
-      'Familiarity with penetration testing and ethical hacking',
-      'Knowledge of banking regulations and compliance (RBI guidelines)',
-      'Certifications like CEH, CISSP, or CompTIA Security+ preferred',
-      'B.Tech in Computer Science or related field'
+      '4+ years of full stack development experience',
+      'Strong expertise in React.js and Node.js',
+      'Experience with payment systems or fintech is a plus',
+      'Proficiency in MongoDB/PostgreSQL',
+      'Understanding of secure coding practices and PCI compliance',
+      'Experience with AWS services (EC2, S3, Lambda)',
+      'Strong debugging and problem-solving skills',
+      'Self-motivated with excellent remote communication skills'
     ]
   }
 ];
@@ -400,66 +317,54 @@ async function seedDatabase() {
     console.log('📝 Creating sample applications...');
     let applicationCount = 0;
     
-    // User 0 applies to jobs 0, 1, 2 with different statuses
-    const user0Statuses = ['Shortlisted', 'Pending', 'Rejected'];
-    for (let i = 0; i < 3; i++) {
-      const status = user0Statuses[i];
-      await Job.findByIdAndUpdate(createdJobs[i]._id, {
-        $push: {
-          applicants: {
-            userId: createdUsers[0]._id,
-            status: status
-          }
-        }
-      });
-      await User.findByIdAndUpdate(createdUsers[0]._id, {
-        $push: {
-          appliedJobs: {
-            jobId: createdJobs[i]._id,
-            status: status
-          }
-        }
-      });
-      applicationCount++;
-    }
-
-    // User 1 applies to jobs 1, 3 with Under Review status
-    for (let i of [1, 3]) {
-      await Job.findByIdAndUpdate(createdJobs[i]._id, {
-        $push: {
-          applicants: {
-            userId: createdUsers[1]._id,
-            status: 'Under Review'
-          }
-        }
-      });
-      await User.findByIdAndUpdate(createdUsers[1]._id, {
-        $push: {
-          appliedJobs: {
-            jobId: createdJobs[i]._id,
-            status: 'Under Review'
-          }
-        }
-      });
-      applicationCount++;
-    }
-
-    // User 5 (fresher) applies to job 5 (internship)
-    await Job.findByIdAndUpdate(createdJobs[5]._id, {
-      $push: {
-        applicants: {
-          userId: createdUsers[5]._id,
-          status: 'Pending'
-        }
-      }
+    const now = new Date();
+    const daysAgo = (days) => new Date(now.getTime() - (days * 24 * 60 * 60 * 1000));
+    
+    // Daksh (User 0) - Primary test user with 7 YOE, senior developer
+    // Job 0: Senior Full Stack - Infosys (Under Review 3 days ago)
+    await Job.findByIdAndUpdate(createdJobs[0]._id, {
+      $push: { applicants: { userId: createdUsers[0]._id, status: 'Under Review', appliedAt: daysAgo(3) } }
     });
-    await User.findByIdAndUpdate(createdUsers[5]._id, {
-      $push: {
-        appliedJobs: {
-          jobId: createdJobs[5]._id,
-          status: 'Pending'
-        }
-      }
+    await User.findByIdAndUpdate(createdUsers[0]._id, {
+      $push: { appliedJobs: { jobId: createdJobs[0]._id, status: 'Under Review', appliedAt: daysAgo(3) } }
+    });
+    applicationCount++;
+
+    // Job 7: Cloud Architect - Deloitte (Pending 1 day ago)
+    await Job.findByIdAndUpdate(createdJobs[7]._id, {
+      $push: { applicants: { userId: createdUsers[0]._id, status: 'Pending', appliedAt: daysAgo(1) } }
+    });
+    await User.findByIdAndUpdate(createdUsers[0]._id, {
+      $push: { appliedJobs: { jobId: createdJobs[7]._id, status: 'Pending', appliedAt: daysAgo(1) } }
+    });
+    applicationCount++;
+
+    // Manav (User 4) - Fresher applies to entry-level jobs
+    // Job 5: Internship - Accenture (Rejected 5 days ago)
+    await Job.findByIdAndUpdate(createdJobs[5]._id, {
+      $push: { applicants: { userId: createdUsers[4]._id, status: 'Rejected', appliedAt: daysAgo(5) } }
+    });
+    await User.findByIdAndUpdate(createdUsers[4]._id, {
+      $push: { appliedJobs: { jobId: createdJobs[5]._id, status: 'Rejected', appliedAt: daysAgo(5) } }
+    });
+    applicationCount++;
+
+    // Job 6: Junior Full Stack - Cognizant (Shortlisted 2 days ago)
+    await Job.findByIdAndUpdate(createdJobs[6]._id, {
+      $push: { applicants: { userId: createdUsers[4]._id, status: 'Shortlisted', appliedAt: daysAgo(2) } }
+    });
+    await User.findByIdAndUpdate(createdUsers[4]._id, {
+      $push: { appliedJobs: { jobId: createdJobs[6]._id, status: 'Shortlisted', appliedAt: daysAgo(2) } }
+    });
+    applicationCount++;
+
+    // Priya (User 2) - Backend/DevOps 4 YOE
+    // Job 4: DevOps - Amazon (Shortlisted 4 days ago)
+    await Job.findByIdAndUpdate(createdJobs[4]._id, {
+      $push: { applicants: { userId: createdUsers[2]._id, status: 'Shortlisted', appliedAt: daysAgo(4) } }
+    });
+    await User.findByIdAndUpdate(createdUsers[2]._id, {
+      $push: { appliedJobs: { jobId: createdJobs[4]._id, status: 'Shortlisted', appliedAt: daysAgo(4) } }
     });
     applicationCount++;
 
@@ -469,43 +374,27 @@ async function seedDatabase() {
     console.log('🔖 Creating sample bookmarks...');
     let bookmarkCount = 0;
 
-    // User 0 bookmarks jobs 3, 4, 7 (different from applied jobs)
+    // Daksh (User 0) - Primary test user bookmarks senior roles
     await User.findByIdAndUpdate(createdUsers[0]._id, {
-      $push: {
-        bookmarkedJobs: {
-          $each: [createdJobs[3]._id, createdJobs[4]._id, createdJobs[7]._id]
-        }
-      }
-    });
-    bookmarkCount += 3;
-
-    // User 1 bookmarks jobs 0, 5, 6
-    await User.findByIdAndUpdate(createdUsers[1]._id, {
-      $push: {
-        bookmarkedJobs: {
-          $each: [createdJobs[0]._id, createdJobs[5]._id, createdJobs[6]._id]
-        }
-      }
-    });
-    bookmarkCount += 3;
-
-    // User 2 bookmarks jobs 2, 8
-    await User.findByIdAndUpdate(createdUsers[2]._id, {
-      $push: {
-        bookmarkedJobs: {
-          $each: [createdJobs[2]._id, createdJobs[8]._id]
-        }
-      }
+      $push: { bookmarkedJobs: { $each: [createdJobs[7]._id, createdJobs[8]._id] } }
     });
     bookmarkCount += 2;
 
-    // User 5 (fresher) bookmarks jobs 5, 9 (internship and entry-level)
-    await User.findByIdAndUpdate(createdUsers[5]._id, {
-      $push: {
-        bookmarkedJobs: {
-          $each: [createdJobs[5]._id, createdJobs[9]._id]
-        }
-      }
+    // Dhanush (User 1) - Fresher bookmarks entry-level opportunities
+    await User.findByIdAndUpdate(createdUsers[1]._id, {
+      $push: { bookmarkedJobs: { $each: [createdJobs[5]._id, createdJobs[6]._id] } }
+    });
+    bookmarkCount += 2;
+
+    // Priya (User 2) - Backend/DevOps specialist bookmarks relevant roles
+    await User.findByIdAndUpdate(createdUsers[2]._id, {
+      $push: { bookmarkedJobs: { $each: [createdJobs[1]._id, createdJobs[4]._id] } }
+    });
+    bookmarkCount += 2;
+
+    // Manav (User 4) - Fresher exploring diverse opportunities
+    await User.findByIdAndUpdate(createdUsers[4]._id, {
+      $push: { bookmarkedJobs: { $each: [createdJobs[0]._id, createdJobs[2]._id] } }
     });
     bookmarkCount += 2;
 
@@ -513,13 +402,13 @@ async function seedDatabase() {
 
     console.log('🎉 Database seeding completed successfully!\n');
     console.log('📊 Summary:');
-    console.log(`   - Users: ${createdUsers.length}`);
-    console.log(`   - Jobs: ${createdJobs.length}`);
-    console.log(`   - Applications: ${applicationCount}`);
-    console.log(`   - Bookmarks: ${bookmarkCount}`);
-    console.log(`   - Admin: ${process.env.DEFAULT_ADMIN_USERNAME}`);
+    console.log(`   Users: ${createdUsers.length}`);
+    console.log(`   Jobs: ${createdJobs.length}`);
+    console.log(`   Applications: ${applicationCount}`);
+    console.log(`   Bookmarks: ${bookmarkCount}`);
+    console.log(`   Admin: ${process.env.DEFAULT_ADMIN_USERNAME}`);
     console.log('\n💡 Test Credentials:');
-    console.log(`   User: arjun.mehta@techmail.com / User@1234`);
+    console.log(`   User: daksh.varshneya@gmail.com / User@1234`);
     console.log(`   Admin: ${process.env.DEFAULT_ADMIN_USERNAME} / ${process.env.DEFAULT_ADMIN_PASSWORD}\n`);
 
     mongoose.disconnect();

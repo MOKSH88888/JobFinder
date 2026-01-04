@@ -73,13 +73,14 @@ app.get('/', (req, res) => {
     version: '1.2.0',
     status: 'running',
     endpoints: {
+      docs: '/api/docs',
       health: '/api/health',
       auth: '/api/auth',
       jobs: '/api/jobs',
       users: '/api/users',
       admin: '/api/admin'
     },
-    documentation: 'See README.md for API documentation'
+    documentation: 'Visit /api/docs for complete API documentation'
   });
 });
 
@@ -178,6 +179,7 @@ app.get('/api/health', async (req, res) => {
 });
 
 // API Routes
+app.use('/api/docs', require('./routes/api/docs'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/admin', require('./routes/api/admin'));
 app.use('/api/users', require('./routes/api/users'));

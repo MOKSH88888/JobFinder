@@ -79,8 +79,28 @@ exports.deleteAdmin = asyncHandler(async (req, res) => {
 // === User Management ===
 
 exports.getAllUsers = asyncHandler(async (req, res) => {
-  const users = await User.find({ isDeleted: false }).select('-password');
-  res.json({ success: true, users });
+  const { page, limit } = req.query;
+
+  // Pagination enabled by default
+  const pageNum = parseInt(page, 10) || 1;
+  const limitNum = parseInt(limit, 10) || 50; // Default 50 items per page
+  const skip = (pageNum - 1) * limitNum;
+
+  const [users, total] = await Promise.all([
+    User.find({ isDeleted: false }).select('-password').skip(skip).limit(limitNum),
+    User.countDocuments({ isDeleted: false })
+  ]);
+
+  res.json({
+    success: true,
+    users,
+    pagination: {
+      page: pageNum,
+      limit: limitNum,
+      total,
+      pages: Math.ceil(total / limitNum)
+    }
+  });
 });
 
 exports.deleteUser = asyncHandler(async (req, res) => {
@@ -120,10 +140,22 @@ exports.deleteUser = asyncHandler(async (req, res) => {
 // === Job Management ===
 
 exports.getAllJobs = asyncHandler(async (req, res) => {
-  const jobs = await Job.find({ isDeleted: false })
-    .populate('applicants.userId', '_id')
-    .sort({ createdAt: -1 });
-  
+  const { page, limit } = req.query;
+
+  // Pagination enabled by default
+  const pageNum = parseInt(page, 10) || 1;
+  const limitNum = parseInt(limit, 10) || 50; // Default 50 items per page
+  const skip = (pageNum - 1) * limitNum;
+
+  const [jobs, total] = await Promise.all([
+    Job.find({ isDeleted: false })
+      .populate('applicants.userId', '_id')
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limitNum),
+    Job.countDocuments({ isDeleted: false })
+  ]);
+
   // Filter out applicants with deleted users
   const cleanedJobs = jobs.map(job => {
     const jobObj = job.toObject();
@@ -131,7 +163,16 @@ exports.getAllJobs = asyncHandler(async (req, res) => {
     return jobObj;
   });
   
-  res.json({ success: true, jobs: cleanedJobs });
+  res.json({
+    success: true,
+    jobs: cleanedJobs,
+    pagination: {
+      page: pageNum,
+      limit: limitNum,
+      total,
+      pages: Math.ceil(total / limitNum)
+    }
+  });
 });
 
 exports.postJob = asyncHandler(async (req, res) => {
@@ -283,7 +324,8 @@ exports.updateApplicationStatus = asyncHandler(async (req, res) => {
   const { jobId, applicantId } = req.params;
   const { status } = req.body;
 
-  if (!['Pending', 'Under Review', 'Shortlisted', 'Rejected'].includes(status)) {
+  const validStatuses = Object.values(constants.APPLICATION_STATUS);
+  if (!validStatuses.includes(status)) {
     throw new APIError(constants.ERROR_MESSAGES.INVALID_STATUS, 400);
   }
 

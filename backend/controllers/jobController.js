@@ -2,11 +2,12 @@
 
 const Job = require('../models/Job');
 const logger = require('../config/logger');
+const constants = require('../config/constants');
 const { asyncHandler, APIError } = require('../middleware/errorMiddleware');
 
-// === Get all jobs with filtering ===
+// === Get all jobs with filtering and optional pagination ===
 exports.getAllJobs = asyncHandler(async (req, res) => {
-  const { experience, salary } = req.query;
+  const { experience, salary, page, limit } = req.query;
   let filter = { isDeleted: false };
 
   // Handle experience filter
@@ -27,8 +28,26 @@ exports.getAllJobs = asyncHandler(async (req, res) => {
     filter.salary = { $gte: parseInt(salary, 10) };
   }
 
-  const jobs = await Job.find(filter).sort({ createdAt: -1 });
-  res.json({ success: true, jobs });
+  // Pagination enabled by default
+  const pageNum = parseInt(page, 10) || 1;
+  const limitNum = parseInt(limit, 10) || 50; // Default 50 items per page
+  const skip = (pageNum - 1) * limitNum;
+
+  const [jobs, total] = await Promise.all([
+    Job.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limitNum),
+    Job.countDocuments(filter)
+  ]);
+
+  res.json({
+    success: true,
+    jobs,
+    pagination: {
+      page: pageNum,
+      limit: limitNum,
+      total,
+      pages: Math.ceil(total / limitNum)
+    }
+  });
 });
 
 // === Get a single job by ID ===
