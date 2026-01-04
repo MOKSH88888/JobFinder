@@ -186,9 +186,8 @@ const JobCard = ({ job, isNewJob = false }) => {
             sx={{ 
               fontWeight: 600, 
               color: 'text.secondary',
-              textTransform: 'uppercase',
-              fontSize: '0.75rem',
-              letterSpacing: '0.8px'
+              fontSize: '0.8125rem',
+              letterSpacing: '0.2px'
             }}
           >
             {job.companyName}

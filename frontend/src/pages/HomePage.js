@@ -18,6 +18,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import TuneIcon from '@mui/icons-material/Tune';
 import VerifiedIcon from '@mui/icons-material/Verified';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SecurityIcon from '@mui/icons-material/Security';
 import SpeedIcon from '@mui/icons-material/Speed';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -284,7 +285,7 @@ const HomePage = () => {
                     {/* Trust Badge - High Contrast & Depth */}
                     <Chip
                       icon={<VerifiedIcon sx={{ fontSize: 18 }} />}
-                      label="Trusted by 10,000+ Job Seekers"
+                      label="Verified Opportunities"
                       sx={{
                         bgcolor: 'rgba(255,255,255,0.95)',
                         color: '#667eea',
@@ -360,9 +361,9 @@ const HomePage = () => {
                       letterSpacing: '-1px'
                     }}
                   >
-                    Your Dream Job
+                    Find Your Next
                     <br />
-                    <Box component="span" sx={{ color: '#ffd700', fontWeight: 900 }}>Starts Here</Box>
+                    Opportunity
                   </Typography>
                   
                   {/* Supporting Text - Clarity */}
@@ -377,8 +378,8 @@ const HomePage = () => {
                       maxWidth: '600px'
                     }}
                   >
-                    Connect with {jobs.length}+ verified opportunities from top companies. 
-                    Find your perfect role in minutes, not months.
+                    Browse {jobs.length} curated job listings from top companies. 
+                    Apply quickly and track your applications in one place.
                   </Typography>
                   
                   {/* Social Proof Metrics - Trust Building */}
@@ -450,14 +451,14 @@ const HomePage = () => {
                           justifyContent: 'center'
                         }}
                       >
-                        <GroupsIcon sx={{ fontSize: 24 }} />
+                        <CheckCircleIcon sx={{ fontSize: 24 }} />
                       </Box>
                       <Box>
                         <Typography variant="h5" sx={{ fontWeight: 700, lineHeight: 1.2 }}>
-                          500+
+                          100%
                         </Typography>
                         <Typography variant="caption" sx={{ opacity: 0.9, fontSize: '0.85rem' }}>
-                          Top Companies
+                          Verified Jobs
                         </Typography>
                       </Box>
                     </Box>
