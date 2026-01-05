@@ -259,22 +259,33 @@ const LoginPage = () => {
                 textTransform: 'none',
                 borderRadius: 2,
                 mb: 3,
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                boxShadow: '0 4px 14px rgba(102,126,234,0.4)',
+                background: isFormValid() 
+                  ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                  : '#cbd5e1',
+                color: isFormValid() ? 'white' : '#64748b',
+                boxShadow: isFormValid() 
+                  ? '0 4px 14px rgba(102,126,234,0.4)'
+                  : 'none',
+                cursor: isFormValid() ? 'pointer' : 'not-allowed',
                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%)',
-                  boxShadow: '0 6px 20px rgba(102,126,234,0.5)',
-                  transform: 'translateY(-2px)'
+                  background: isFormValid()
+                    ? 'linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%)'
+                    : '#cbd5e1',
+                  boxShadow: isFormValid() 
+                    ? '0 6px 20px rgba(102,126,234,0.5)'
+                    : 'none',
+                  transform: isFormValid() ? 'translateY(-2px)' : 'none'
                 },
                 '&:active': {
-                  transform: 'translateY(0px)',
-                  boxShadow: '0 2px 8px rgba(102,126,234,0.3)'
+                  transform: isFormValid() ? 'translateY(0px)' : 'none',
+                  boxShadow: isFormValid() ? '0 2px 8px rgba(102,126,234,0.3)' : 'none'
                 },
-                '&:disabled': {
-                  background: '#e2e8f0',
-                  color: '#94a3b8',
-                  boxShadow: 'none'
+                '&.Mui-disabled': {
+                  background: '#cbd5e1',
+                  color: '#64748b',
+                  boxShadow: 'none',
+                  opacity: 0.7
                 }
               }}
             >
@@ -417,10 +428,10 @@ const LoginPage = () => {
           </Box>
           
           <Typography variant="h3" fontWeight="700" gutterBottom sx={{ fontSize: '2.75rem', mb: 2.5, lineHeight: 1.2 }}>
-            Your Career Journey
+            Find Your Next Role
           </Typography>
           <Typography variant="h6" sx={{ opacity: 0.95, lineHeight: 1.7, fontSize: '1.125rem', fontWeight: 400, maxWidth: 380, mx: 'auto' }}>
-            Access verified opportunities and track your progress
+            Track applications, upload your resume, and discover opportunities tailored to your experience
           </Typography>
         </Box>
         
