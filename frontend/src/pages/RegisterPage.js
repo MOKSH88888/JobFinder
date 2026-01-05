@@ -15,10 +15,7 @@ import {
 } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import StarIcon from '@mui/icons-material/Star';
-import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import { validateEmail, validatePassword, validateName, getErrorMessage } from '../utils/errorHandler';
 
 const RegisterPage = () => {
@@ -572,116 +569,65 @@ const RegisterPage = () => {
           filter: 'blur(70px)'
         }} />
         
-        <Box sx={{ textAlign: 'center', maxWidth: 550, zIndex: 1 }}>
-          {/* Sparkles emoji */}
+        <Box sx={{ textAlign: 'center', maxWidth: 500, zIndex: 1 }}>
+          {/* Geometric illustration - different from login */}
           <Box sx={{ 
-            display: 'inline-flex',
+            position: 'relative',
+            width: 180,
+            height: 180,
+            margin: '0 auto 3rem',
+            display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            width: 110,
-            height: 110,
-            borderRadius: '50%',
-            bgcolor: 'rgba(255,255,255,0.18)',
-            mb: 4,
-            border: '3px solid rgba(255,255,255,0.2)',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-            fontSize: '3.5rem'
+            justifyContent: 'center'
           }}>
-            ✨
+            {/* Hexagon shape */}
+            <Box sx={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              background: 'rgba(255,255,255,0.15)',
+              clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)',
+              backdropFilter: 'blur(10px)',
+              animation: 'pulse 3s ease-in-out infinite',
+              '@keyframes pulse': {
+                '0%, 100%': { transform: 'scale(1)' },
+                '50%': { transform: 'scale(1.05)' }
+              }
+            }} />
+            
+            {/* Inner diamond */}
+            <Box sx={{
+              position: 'absolute',
+              width: '65%',
+              height: '65%',
+              background: 'rgba(255,255,255,0.25)',
+              transform: 'rotate(45deg)',
+              borderRadius: '8px',
+              backdropFilter: 'blur(5px)'
+            }} />
+            
+            {/* Center icon */}
+            <Box sx={{
+              position: 'relative',
+              width: 60,
+              height: 60,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              bgcolor: 'white',
+              borderRadius: '12px',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.15)'
+            }}>
+              <AccountCircleIcon sx={{ fontSize: 32, color: '#764ba2' }} />
+            </Box>
           </Box>
           
-          <Typography variant="h3" fontWeight="700" gutterBottom sx={{ fontSize: '2.75rem', mb: 2, lineHeight: 1.2 }}>
-            Get Started
+          <Typography variant="h3" fontWeight="700" gutterBottom sx={{ fontSize: '2.75rem', mb: 2.5, lineHeight: 1.2 }}>
+            Start Your Journey
           </Typography>
-          <Typography variant="h6" sx={{ mb: 6, opacity: 0.95, lineHeight: 1.8, fontSize: '1.125rem', fontWeight: 400 }}>
-            Create your account and start tracking job applications
+          <Typography variant="h6" sx={{ opacity: 0.95, lineHeight: 1.7, fontSize: '1.125rem', fontWeight: 400, maxWidth: 380, mx: 'auto' }}>
+            Join today and discover your next career opportunity
           </Typography>
-          
-          {/* Feature list */}
-          <Box sx={{ 
-            display: 'flex', 
-            flexDirection: 'column',
-            gap: 3, 
-            mt: 6,
-            pt: 5,
-            borderTop: '1px solid rgba(255,255,255,0.2)',
-            textAlign: 'left',
-            maxWidth: 420,
-            mx: 'auto'
-          }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
-              <Box sx={{ 
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 48,
-                height: 48,
-                borderRadius: '12px',
-                bgcolor: 'rgba(255,255,255,0.15)',
-                flexShrink: 0
-              }}>
-                <StarIcon sx={{ fontSize: 24, color: '#FFD700' }} />
-              </Box>
-              <Box>
-                <Typography variant="body1" fontWeight="600" sx={{ fontSize: '1.05rem', mb: 0.3 }}>Curated Job Listings</Typography>
-                <Typography variant="body2" sx={{ opacity: 0.85, fontSize: '0.9rem' }}>Browse verified opportunities from various companies</Typography>
-              </Box>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
-              <Box sx={{ 
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 48,
-                height: 48,
-                borderRadius: '12px',
-                bgcolor: 'rgba(255,255,255,0.15)',
-                flexShrink: 0
-              }}>
-                <ConnectWithoutContactIcon sx={{ fontSize: 24, color: 'white' }} />
-              </Box>
-              <Box>
-                <Typography variant="body1" fontWeight="600" sx={{ fontSize: '1.05rem', mb: 0.3 }}>Quick Apply</Typography>
-                <Typography variant="body2" sx={{ opacity: 0.85, fontSize: '0.9rem' }}>Apply to jobs with a single click</Typography>
-              </Box>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
-              <Box sx={{ 
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 48,
-                height: 48,
-                borderRadius: '12px',
-                bgcolor: 'rgba(255,255,255,0.15)',
-                flexShrink: 0
-              }}>
-                <AccountCircleIcon sx={{ fontSize: 24, color: 'white' }} />
-              </Box>
-              <Box>
-                <Typography variant="body1" fontWeight="600" sx={{ fontSize: '1.05rem', mb: 0.3 }}>Simple Profile</Typography>
-                <Typography variant="body2" sx={{ opacity: 0.85, fontSize: '0.9rem' }}>Manage your job search in one place</Typography>
-              </Box>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
-              <Box sx={{ 
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 48,
-                height: 48,
-                borderRadius: '12px',
-                bgcolor: 'rgba(255,255,255,0.15)',
-                flexShrink: 0
-              }}>
-                <TrackChangesIcon sx={{ fontSize: 24, color: 'white' }} />
-              </Box>
-              <Box>
-                <Typography variant="body1" fontWeight="600" sx={{ fontSize: '1.05rem', mb: 0.3 }}>Application Tracking</Typography>
-                <Typography variant="body2" sx={{ opacity: 0.85, fontSize: '0.9rem' }}>Monitor your job application status</Typography>
-              </Box>
-            </Box>
-          </Box>
         </Box>
       </Box>
     </Box>

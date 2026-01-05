@@ -15,9 +15,7 @@ import {
 } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
-import GroupsIcon from '@mui/icons-material/Groups';
 import { validateEmail, validatePassword, getErrorMessage } from '../utils/errorHandler';
 
 const LoginPage = () => {
@@ -357,98 +355,73 @@ const LoginPage = () => {
           filter: 'blur(70px)'
         }} />
         
-        <Box sx={{ textAlign: 'center', maxWidth: 550, zIndex: 1 }}>
-          {/* Handshake emoji for connection/partnership */}
+        <Box sx={{ textAlign: 'center', maxWidth: 500, zIndex: 1 }}>
+          {/* Geometric illustration */}
           <Box sx={{ 
-            display: 'inline-flex',
+            position: 'relative',
+            width: 180,
+            height: 180,
+            margin: '0 auto 3rem',
+            display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            width: 110,
-            height: 110,
-            borderRadius: '50%',
-            bgcolor: 'rgba(255,255,255,0.18)',
-            mb: 4,
-            border: '3px solid rgba(255,255,255,0.2)',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-            fontSize: '3.5rem'
+            justifyContent: 'center'
           }}>
-            🤝
+            {/* Outer rotating circle */}
+            <Box sx={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              border: '3px solid rgba(255,255,255,0.25)',
+              borderRadius: '50%',
+              borderTopColor: 'rgba(255,255,255,0.6)',
+              borderRightColor: 'rgba(255,255,255,0.4)',
+              animation: 'spin 20s linear infinite',
+              '@keyframes spin': {
+                '0%': { transform: 'rotate(0deg)' },
+                '100%': { transform: 'rotate(360deg)' }
+              }
+            }} />
+            
+            {/* Inner circles */}
+            <Box sx={{
+              position: 'absolute',
+              width: '70%',
+              height: '70%',
+              bgcolor: 'rgba(255,255,255,0.2)',
+              borderRadius: '50%',
+              backdropFilter: 'blur(10px)'
+            }} />
+            <Box sx={{
+              position: 'absolute',
+              width: '45%',
+              height: '45%',
+              bgcolor: 'rgba(255,255,255,0.3)',
+              borderRadius: '50%',
+              backdropFilter: 'blur(5px)'
+            }} />
+            
+            {/* Center icon */}
+            <Box sx={{
+              position: 'relative',
+              width: 60,
+              height: 60,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              bgcolor: 'white',
+              borderRadius: '12px',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.15)'
+            }}>
+              <BusinessCenterIcon sx={{ fontSize: 32, color: '#667eea' }} />
+            </Box>
           </Box>
           
-          <Typography variant="h3" fontWeight="700" gutterBottom sx={{ fontSize: '2.75rem', mb: 2, lineHeight: 1.2 }}>
-            Start Your Career
+          <Typography variant="h3" fontWeight="700" gutterBottom sx={{ fontSize: '2.75rem', mb: 2.5, lineHeight: 1.2 }}>
+            Your Career Journey
           </Typography>
-          <Typography variant="h6" sx={{ mb: 6, opacity: 0.95, lineHeight: 1.8, fontSize: '1.125rem', fontWeight: 400 }}>
-            Browse verified job opportunities and track your applications
+          <Typography variant="h6" sx={{ opacity: 0.95, lineHeight: 1.7, fontSize: '1.125rem', fontWeight: 400, maxWidth: 380, mx: 'auto' }}>
+            Access verified opportunities and track your progress
           </Typography>
-          
-          {/* Feature highlights instead of fake stats */}
-          <Box sx={{ 
-            display: 'flex', 
-            flexDirection: 'column',
-            gap: 3, 
-            mt: 6,
-            pt: 5,
-            borderTop: '1px solid rgba(255,255,255,0.2)',
-            textAlign: 'left',
-            maxWidth: 420,
-            mx: 'auto'
-          }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
-              <Box sx={{ 
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 48,
-                height: 48,
-                borderRadius: '12px',
-                bgcolor: 'rgba(255,255,255,0.15)',
-                flexShrink: 0
-              }}>
-                <TrendingUpIcon sx={{ fontSize: 24, color: 'white' }} />
-              </Box>
-              <Box>
-                <Typography variant="body1" fontWeight="600" sx={{ fontSize: '1.05rem', mb: 0.3 }}>Real-Time Updates</Typography>
-                <Typography variant="body2" sx={{ opacity: 0.85, fontSize: '0.9rem' }}>Get instant notifications on application status</Typography>
-              </Box>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
-              <Box sx={{ 
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 48,
-                height: 48,
-                borderRadius: '12px',
-                bgcolor: 'rgba(255,255,255,0.15)',
-                flexShrink: 0
-              }}>
-                <BusinessCenterIcon sx={{ fontSize: 24, color: 'white' }} />
-              </Box>
-              <Box>
-                <Typography variant="body1" fontWeight="600" sx={{ fontSize: '1.05rem', mb: 0.3 }}>Verified Opportunities</Typography>
-                <Typography variant="body2" sx={{ opacity: 0.85, fontSize: '0.9rem' }}>All job listings are manually reviewed</Typography>
-              </Box>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
-              <Box sx={{ 
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 48,
-                height: 48,
-                borderRadius: '12px',
-                bgcolor: 'rgba(255,255,255,0.15)',
-                flexShrink: 0
-              }}>
-                <GroupsIcon sx={{ fontSize: 24, color: 'white' }} />
-              </Box>
-              <Box>
-                <Typography variant="body1" fontWeight="600" sx={{ fontSize: '1.05rem', mb: 0.3 }}>Easy Application Tracking</Typography>
-                <Typography variant="body2" sx={{ opacity: 0.85, fontSize: '0.9rem' }}>Monitor all your applications in one place</Typography>
-              </Box>
-            </Box>
-          </Box>
         </Box>
         
         {/* CSS Animation */}
