@@ -1,28 +1,22 @@
-# ============================================================================
-# JOBFINDER - MERN Stack Application
-# Node.js + Express.js + MongoDB + React + Socket.io
-# ============================================================================
+# JobFinder - MERN Stack Learning Project
+# Protects sensitive data while keeping demo/learning files visible
 
 # ============================================================================
-# ENVIRONMENT VARIABLES & SECRETS (CRITICAL - NEVER COMMIT)
+# SECRETS & ENVIRONMENT VARIABLES
 # ============================================================================
 .env
-.env.*
 .env.local
-.env.development
-.env.development.local
-.env.test
-.env.test.local
-.env.production
-.env.production.local
+.env.*.local
+/backend/.env
+/frontend/.env
 
 # ============================================================================
-# DEPENDENCIES & PACKAGES
+# DEPENDENCIES
 # ============================================================================
 node_modules/
 
 # ============================================================================
-# LOGS
+# LOGS & RUNTIME DATA
 # ============================================================================
 logs/
 *.log
@@ -31,127 +25,49 @@ npm-debug.log*
 # ============================================================================
 # BUILD OUTPUTS
 # ============================================================================
-
-# Frontend build (React)
+# React build (Vercel generates during deployment)
 /frontend/build/
 /frontend/dist/
-
-# Backend build
 /backend/dist/
 
 # ============================================================================
 # TESTING & COVERAGE
 # ============================================================================
 coverage/
-/frontend/coverage/
-
-# Temporary test files
-test-core-features.js
 test-security.js
 
 # ============================================================================
-# USER UPLOADS (Project Specific)
+# USER UPLOADS
 # ============================================================================
-
-# Resume uploads - keep folder structure
-uploads/*
-!uploads/.gitkeep
-/backend/uploads/resumes/*
-!/backend/uploads/resumes/.gitkeep
+uploads/
 
 # ============================================================================
-# BACKUP & TEMPORARY FILES
+# TEMPORARY FILES
 # ============================================================================
-
-# Backup files
-*_BACKUP.*
-*_backup/
-*.backup
-*.bak
-*.old
-controllers_backup/
-
-# Temporary files
 *.tmp
-*.temp
 *.swp
-*.swo
+*.bak
 *~
 .cache/
-
-# PowerShell test scripts
-*.ps1
-
-# Temporary documentation
-REFACTORING_SUMMARY.md
+MANUAL_TESTING_GUIDE.md
 
 # ============================================================================
-# OPERATING SYSTEM FILES
+# IDE SETTINGS
 # ============================================================================
-
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
-._*
-
-# Windows
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-$RECYCLE.BIN/
-
-# Linux
-*~
-.directory
-.Trash-*
-
-# ============================================================================
-# IDE & EDITOR CONFIGURATIONS
-# ============================================================================
-
-# Visual Studio Code
 .vscode/
-.history/
-
-# JetBrains IDEs (WebStorm, IntelliJ IDEA)
 .idea/
-*.iml
-
-# Sublime Text
-*.sublime-project
 *.sublime-workspace
 
 # ============================================================================
-# DATABASE FILES
+# OPERATING SYSTEM
 # ============================================================================
-
-# MongoDB dumps
-*.mongodb
-dump/
-mongo-data/
+.DS_Store
+Thumbs.db
+Desktop.ini
 
 # ============================================================================
-# DEPLOYMENT PLATFORMS
+# DEPLOYMENT
 # ============================================================================
-
-# Vercel (Frontend)
 .vercel
-
-# ============================================================================
-# OPTIONAL DEVELOPMENT TOOLS
-# ============================================================================
-
-# ESLint cache
-.eslintcache
-
-# Optional npm cache
-.npm
-
-# TypeScript
-*.tsbuildinfo
-
-# extra
-MANUAL_TESTING_GUIDE.md 
 
 # ============================================================================
