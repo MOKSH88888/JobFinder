@@ -1,14 +1,18 @@
-# Frontend Application Documentation
+# Frontend - JobFinder
 
-Modern React SPA for JobFinder job portal with Material-UI and real-time features.
+React single-page application for the JobFinder job portal with Material-UI and real-time WebSocket features.
 
 ## 🚀 Quick Start
 
 ```bash
 npm install
+npm start  # http://localhost:3000
+```
+
+**Environment Setup:**
+```bash
 echo "REACT_APP_API_URL=http://localhost:5000" > .env
 echo "REACT_APP_API_BASE_URL=http://localhost:5000/api" >> .env
-npm start  # http://localhost:3000
 ```
 
 ## 🛠️ Tech Stack
@@ -30,16 +34,38 @@ src/
 └── theme.js      # Material-UI customization
 ```
 
-## 🎨 Features
+## 🎨 Application Features
 
-**User Portal:** Job search/filters, resume upload, application tracking, bookmarks, real-time status updates  
-**Admin Portal:** Analytics dashboard, job CRUD, applicant management, multi-admin system  
-**Real-time:** Socket.io notifications, auto-reconnect, toast alerts
+**Single-Page Application** with dual authentication flows:
+
+**User Portal:**
+- Job search with advanced filters
+- Resume and profile photo upload
+- Application tracking with real-time status updates
+- Job bookmarking
+
+**Admin Portal:**
+- Analytics dashboard with statistics
+- Job CRUD operations
+- Applicant management
+- Multi-admin system
+
+**Real-time Features:**
+- Socket.io notifications
+- Auto-reconnection with retry logic
+- Toast alerts for instant updates
 
 ## 🔐 Authentication
 
-**User:** JWT in `localStorage.token` → `UserProtectedRoute` → Auto-attach to API requests  
-**Admin:** JWT in `localStorage.adminToken` → `AdminProtectedRoute` → Separate admin endpoints
+**User Authentication:**
+- JWT stored in `localStorage.token`
+- Protected routes via `UserProtectedRoute` component
+- Token automatically attached to API requests
+
+**Admin Authentication:**
+- Separate JWT in `localStorage.adminToken`
+- Protected routes via `AdminProtectedRoute` component
+- Isolated admin API endpoints
 
 ## 🌐 Environment Variables
 
@@ -50,36 +76,26 @@ GENERATE_SOURCEMAP=false  # Production only
 CI=true  # Vercel deployment
 ```
 
-## 🚀 Build & Deploy
+## 🚀 Production Build
 
 ```bash
-npm run build  # Creates optimized build/ directory
+npm run build  # Creates optimized production build in build/ directory
 ```
 
-**Vercel:** Auto-deploy on push, SPA routing via `vercel.json` rewrites
+**Deployment:**
+- **Platform**: Vercel
+- **CI/CD**: Auto-deploy on Git push
+- **Routing**: SPA routing configured via `vercel.json` rewrites
+
+> **Note:** The `build/` folder is generated during deployment and is not version controlled.
 
 ## 📱 Responsive Design
 
-Mobile-first with Material-UI Grid (12-column), responsive Drawer navigation, optimized Card components.
-
-## 🔔 Real-time Events
-
-```javascript
-socket.on('application-status-updated', ({ jobTitle, status }) => {
-  toast.success(`${jobTitle}: ${status}`);
-});
-```
-
-## 📤 File Upload
-
-```javascript
-const formData = new FormData();
-formData.append('resume', file);
-await api.put('/users/profile', formData, {
-  headers: { 'Content-Type': 'multipart/form-data' },
-});
-```
+- Mobile-first approach using Material-UI Grid (12-column system)
+- Responsive navigation with collapsible Drawer
+- Optimized Card components for all screen sizes
+- Breakpoints: xs, sm, md, lg, xl
 
 ---
 
-See [Main README](../README.md) for full project documentation.
+**For complete project documentation, see [Main README](../README.md)**

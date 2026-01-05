@@ -1,38 +1,28 @@
-# Running Tests
-
-## Setup
-
-Install the test dependency (supertest):
-
-```bash
-cd backend
-npm install --save-dev supertest
-```
+# Testing Guide
 
 ## Run Tests
 
 ```bash
+cd backend
 npm test
 ```
 
-This will run the authentication tests against your local or deployed API.
-
 ## Test Configuration
 
-Tests use the following environment variables from your `.env` file:
-- `MONGO_URI` - Database connection (uses test database if available)
+Tests use environment variables from `.env`:
+- `MONGO_URI` - Database connection
 - `TEST_API_URL` - API endpoint (defaults to http://localhost:5000)
 
-## What's Tested
+## Test Coverage
 
-The auth.test.js file includes:
-1. ✅ User registration
-2. ✅ User login
-3. ✅ Invalid login rejection
-4. ✅ Duplicate registration prevention
-5. ✅ Admin login
-6. ✅ Invalid admin login rejection
+The `auth.test.js` suite includes:
+1. User registration
+2. User login and JWT generation
+3. Invalid login rejection
+4. Duplicate registration prevention
+5. Admin authentication
+6. Invalid admin login rejection
 
-## Adding More Tests
+## Adding Tests
 
-To add more tests, create new files in the `backend/tests/` directory following the same pattern.
+Create new test files in `backend/tests/` following the existing pattern with supertest.

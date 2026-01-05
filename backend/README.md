@@ -1,14 +1,14 @@
-# Backend API Documentation
+# Backend - JobFinder API
 
-Node.js/Express REST API server for JobFinder job portal.
+Node.js/Express REST API server for the JobFinder job portal with real-time WebSocket support.
 
 ## 🚀 Quick Start
 
 ```bash
 npm install
-cp .env.example .env  # Configure environment
-node config/seedDatabase.js  # Populate demo data
-npm start  # http://localhost:5000
+cp .env.example .env  # Create and configure environment file
+node config/seedDatabase.js  # Seed demo data
+npm start  # Server runs on http://localhost:5000
 ```
 
 ## 🛠️ Tech Stack
@@ -30,13 +30,26 @@ backend/
 └── server.js     # Express app entry point
 ```
 
-## 🔌 Key API Endpoints
+## 🔌 API Endpoints
 
-**Public:** `POST /api/auth/register|login|admin/login`, `GET /api/jobs?page=1&limit=20`  
-**User:** `GET|PUT /api/users/profile`, `POST /api/users/jobs/:id/apply|bookmark`  
-**Admin:** `GET /api/admin/stats`, `POST|PUT|DELETE /api/admin/jobs/:id`
+**Public Routes:**
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `POST /api/auth/admin/login` - Admin login
+- `GET /api/jobs?page=1&limit=20` - Browse jobs
 
-📖 **Complete API Docs:** `GET /api/docs`
+**User Protected:**
+- `GET|PUT /api/users/profile` - Profile management
+- `POST /api/users/jobs/:id/apply` - Apply for job
+- `POST /api/users/jobs/:id/bookmark` - Bookmark job
+
+**Admin Protected:**
+- `GET /api/admin/stats` - Dashboard statistics
+- `POST|PUT|DELETE /api/admin/jobs/:id` - Job CRUD
+
+**System:**
+- `GET /api/health` - Health check
+- `GET /api/docs` - Complete API documentation
 
 ## ⚙️ Environment Variables
 
@@ -51,10 +64,25 @@ FRONTEND_URL=https://your-frontend.vercel.app
 
 ## 🔐 Security
 
-- **Auth:** JWT (5h expiration), bcrypt (10 rounds)
-- **Rate Limits:** 100 req/15min (API), 5 req/15min (auth), 10 uploads/15min
-- **Validation:** express-validator, xss-clean, mongo-sanitize
-- **File Upload:** MIME + extension + magic number checks, 2MB photos / 5MB resumes
+**Authentication:**
+- JWT tokens with 5-hour expiration
+- bcrypt password hashing (10 salt rounds)
+
+**Rate Limiting:**
+- API endpoints: 100 requests/15 minutes
+- Auth endpoints: 5 requests/15 minutes
+- File uploads: 10 uploads/15 minutes
+
+**Input Protection:**
+- express-validator for input validation
+- xss-clean for XSS prevention
+- mongo-sanitize for NoSQL injection protection
+
+**File Security:**
+- MIME type validation
+- File extension checking
+- Magic number verification
+- Size limits: 2MB (photos) / 5MB (resumes)
 
 ## ⚡ Real-time Events
 
@@ -65,22 +93,27 @@ FRONTEND_URL=https://your-frontend.vercel.app
 | `new-job-posted` | Admin creates job | All users |
 | `job-deleted` | Admin deletes job | All users |
 
-## 🧪 Testing
-
-```bash
-npm test  # Runs authentication test suite
-```
-
 ## 🗄️ Database
 
-**15+ Indexes:** createdAt, salary, experience, location, text search (title/company/location)  
-**Transactions:** Multi-document operations (job application flow)  
-**Soft Deletes:** Audit trail with isDeleted + deletedAt
+**Optimization:**
+- 15+ strategic indexes (createdAt, salary, experience, location)
+- Text search index for title/company/location
+- MongoDB transactions for data consistency
+- Soft delete pattern with audit trail (isDeleted + deletedAt)
 
-## 📝 Logging
-
-Winston logger → Console + `logs/error.log` + `logs/combined.log`
+**Connection:**
+- Connection pooling (min: 2, max: 10)
+- Auto-retry with exponential backoff
 
 ---
 
-See [Main README](../README.md) for full project documentation.
+## 📝 Logging
+
+Winston logger writes to:
+- Console output
+- `logs/error.log` - Error-level logs
+- `logs/combined.log` - All logs
+
+---
+
+**For complete project documentation, see [Main README](../README.md)**

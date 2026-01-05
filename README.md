@@ -1,27 +1,29 @@
 # 🎯 JobFinder - Full Stack Job Portal
 
-**Live Demo:** [View Application](https://your-deployed-url.vercel.app)  
-**Tech Stack:** MongoDB · Express.js · React · Node.js  
-**Deployment:** Render (Backend) + Vercel (Frontend)
+A full-stack MERN job portal built for learning and demonstrating web development skills. Features dual authentication (user/admin), real-time notifications via WebSocket, file uploads with GridFS, and RESTful API design.
 
-> **Full-stack MERN job portal demonstrating core concepts: MVC architecture, real-time WebSocket communication, JWT authentication, and comprehensive security practices.**
+**🔗 Live Demo:** [https://job-finder-pink-six.vercel.app](https://job-finder-pink-six.vercel.app)  
+**📚 Tech Stack:** MongoDB · Express.js · React 19 · Node.js  
+**🚀 Deployment:** Render (Backend) + Vercel (Frontend)
 
 ---
 
-## 📌 Quick Navigation
+## � Table of Contents
 
-- [Features](#-features)
+- [Key Features](#-key-features)
 - [Tech Stack](#-tech-stack-details)
-- [Live Demo Credentials](#-demo-credentials)
-- [Architecture](#-architecture-highlights)
-- [Security](#-security-implementations)
-- [Local Setup](#-local-development-setup)
-- [API Documentation](#-api-endpoints)
-- [Database Design](#-database-schema)
+- [Demo Access](#-demo-access)
+- [Architecture](#-architecture-overview)
+- [Security](#-security-features)
+- [Local Setup](#-local-setup-guide)
+- [API Reference](#-api-reference)
+- [Database Design](#-database-design)
+- [Deployment](#-deployment-guide)
+- [Testing](#-testing)
 
 ---
 
-## ✨ Features
+## ✨ Key Features
 
 ### 🔐 Dual Authentication System
 - **User Portal**: JWT-based authentication with secure password hashing (bcrypt, 10 salt rounds)
@@ -91,9 +93,9 @@
 
 ---
 
-## 🎭 Demo Credentials
+## 🎭 Demo Access
 
-### User Account
+### User Portal
 ```
 Email: daksh.varshneya@gmail.com
 Password: User@1234
@@ -105,7 +107,9 @@ Password: User@1234
 - Track application status
 - Bookmark jobs
 
-### Admin Account
+**Routes:** `/`, `/browse`, `/applications`, `/bookmarks`, `/dashboard`
+
+### Admin Portal
 ```
 Username: admin
 Password: Newadmin@2025
@@ -118,11 +122,13 @@ Password: Newadmin@2025
 - Download resumes
 - Manage users and admins
 
-> **Note:** Demo database includes 6 users, 9 jobs, and 5 sample applications with realistic data.
+**Routes:** `/admin-dashboard`, `/admin-jobs`, `/admin-users`, `/admin-admins`
+
+> **Project Note:** This is a learning project. Demo data includes 6 sample users, 9 jobs, and 5 applications.
 
 ---
 
-## 🏗️ Architecture Highlights
+## 🏗️ Architecture Overview
 
 ### MVC Pattern Implementation
 ```
@@ -159,7 +165,7 @@ User Upload → Multer (memory) → Validation → GridFS → MongoDB
 
 ---
 
-## 🔒 Security Implementations
+## 🔒 Security Features
 
 ### Authentication & Authorization
 - **Password Security**: bcrypt hashing with 10 salt rounds
@@ -197,7 +203,7 @@ File Uploads:      10 uploads / 15 minutes / IP
 
 ---
 
-## 💻 Local Development Setup
+## 💻 Local Setup Guide
 
 ### Prerequisites
 ```
@@ -246,6 +252,8 @@ npm run seed
 ```
 Creates: 1 admin, 6 users, 9 jobs, 5 applications, 8 bookmarks
 
+> **Note:** Sample users use password `User@1234` for demo purposes only. Admin password is set via environment variable.
+
 ### 4. Start Development
 ```bash
 # Terminal 1 - Backend (http://localhost:5000)
@@ -262,11 +270,10 @@ npm start
 cd backend
 npm test
 ```
-**Test Coverage**: 6 authentication tests (user registration, login, validation, admin auth)
 
 ---
 
-## 📡 API Endpoints
+## 📡 API Reference
 
 ### Full API Documentation
 Access live API docs at: `GET /api/docs`
@@ -321,7 +328,7 @@ Access live API docs at: `GET /api/docs`
 
 ---
 
-## 🗄️ Database Schema
+## 🗄️ Database Design
 
 ### User Model
 ```javascript
@@ -410,7 +417,13 @@ Socket.io Rooms:
 
 ---
 
-## 🚀 Production Deployment
+## 🚀 Deployment Guide
+
+### Application Structure
+This project deploys as a **single-page application** with dual authentication:
+- **User Portal**: Main application routes (/, /browse, /applications, etc.)
+- **Admin Portal**: Admin management routes (/admin-dashboard, /admin-jobs, etc.)
+- **Deployment**: One React SPA on Vercel + One Node.js API on Render
 
 ### MongoDB Atlas Setup
 1. Create cluster at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
@@ -434,16 +447,19 @@ Socket.io Rooms:
 
 ### Deploy Frontend (Vercel)
 1. Import project from GitHub
-2. Add environment variables:
+2. Set root directory to `frontend`
+3. Add environment variables:
    ```
    REACT_APP_API_URL=https://your-backend.onrender.com
    REACT_APP_API_BASE_URL=https://your-backend.onrender.com/api
    GENERATE_SOURCEMAP=false
    CI=true
    ```
-3. Deploy and copy frontend URL
-4. Update `FRONTEND_URL` in Render backend
-5. Redeploy backend for CORS update
+4. Deploy and copy frontend URL
+5. Update `FRONTEND_URL` in Render backend
+6. Redeploy backend for CORS update
+
+> **Note:** Vercel builds automatically. The `build/` folder is generated during CI/CD and is not committed to Git.
 
 ### Post-Deployment
 ```bash
@@ -458,34 +474,31 @@ curl https://your-backend.onrender.com/api/health
 
 ## 🧪 Testing
 
-### Run Test Suite
+### Automated Tests
 ```bash
 cd backend
 npm test
 ```
 
-**Test Coverage:**
-- ✅ User registration (validation, duplicate check)
-- ✅ User login (JWT generation)
-- ✅ Invalid credentials rejection
-- ✅ Admin authentication
-- ✅ Admin login validation
+**Coverage:**
+- User registration and validation
+- User and admin login flows
+- Invalid credential handling
+- Duplicate registration prevention
 
-### Manual Testing Checklist
-- [ ] User registration and login
-- [ ] File upload (resume, photo)
-- [ ] Job application flow
-- [ ] Real-time notifications (Socket.io)
-- [ ] Admin job CRUD operations
-- [ ] Application status updates
-- [ ] Bookmark functionality
-- [ ] Health check endpoint
-- [ ] API rate limiting
-- [ ] Error handling
+### Manual Testing
+- User registration and login flow
+- File upload (resume and profile photo)
+- Job application process
+- Real-time notifications via Socket.io
+- Admin CRUD operations on jobs
+- Application status updates
+- Job bookmarking
+- Health check endpoint verification
 
 ---
 
-## 📊 Performance Metrics
+## 📊 Project Metrics
 
 ### Backend
 - **API Response Time**: < 200ms (avg)
@@ -495,98 +508,53 @@ npm test
 
 ### Frontend
 - **Build Size**: ~800KB (gzipped)
-- **Load Time**: < 2s (first contentful paint)
-- **Lighthouse Score**: 90+ Performance
+- **Initial Load**: < 2s (first contentful paint)
+- **Performance**: Lighthouse score 90+
+
+---
+
+## 📚 Learning Outcomes
+
+This project demonstrates practical implementation of:
+- RESTful API design with Express.js
+- MVC architecture pattern
+- Authentication and authorization (JWT, bcrypt)
+- Real-time bidirectional communication (Socket.io)
+- File handling and GridFS storage
+- Modern React development (Hooks, Context API, Material-UI)
+- Database design and optimization (indexing, transactions)
+- Security best practices (rate limiting, input validation, XSS prevention)
 
 ---
 
 ## 🔧 Configuration Files
 
-### `backend/config/constants.js`
-Centralized configuration for:
-- Security constants (JWT expiration, bcrypt rounds)
-- Rate limits (API, auth, uploads)
-- File limits and allowed types
-- Application status enums
-- Error messages
+### Backend
+- **`config/constants.js`** - Centralized app configuration (rate limits, file limits, enums)
+- **`render.yaml`** - Render deployment configuration
+- **`package.json`** - Dependencies and scripts
 
-### `backend/render.yaml`
-Render deployment configuration:
-- Build command
-- Start command
-- Health check endpoint
-- Environment variables template
-
-### `frontend/vercel.json`
-Vercel deployment configuration:
-- Rewrites for SPA routing
-- Build output directory
-- Environment variables
-
----
-
-## 📚 Additional Resources
-
-- **API Documentation**: Access at `/api/docs` when server is running
-- **Health Check**: `/api/health` - Shows database, Socket.io, and GridFS status
-- **Test Suite**: `backend/tests/` - Authentication test examples
-- **Seed Script**: `backend/config/seedDatabase.js` - Database seeding logic
-
----
-
-## 👨‍💻 Development Best Practices
-
-### Code Quality
-- ✅ MVC architecture pattern
-- ✅ Async/await for all async operations
-- ✅ Centralized error handling
-- ✅ Comprehensive input validation
-- ✅ Transaction-based critical operations
-- ✅ No magic strings (constants file)
-- ✅ Structured logging (Winston)
-
-### Security
-- ✅ Password hashing (never store plaintext)
-- ✅ JWT with expiration
-- ✅ Rate limiting on all endpoints
-- ✅ Input validation and sanitization
-- ✅ File upload validation (MIME + extension + magic numbers)
-- ✅ Soft deletes for audit trails
-- ✅ MongoDB transactions for data consistency
-
-### Performance
-- ✅ Database indexing strategy
-- ✅ Connection pooling
-- ✅ Pagination for large datasets
-- ✅ GridFS for file storage
-- ✅ Efficient query patterns
+### Frontend
+- **`vercel.json`** - Vercel deployment config (SPA routing rewrites)
+- **`package.json`** - Dependencies and build scripts
+- **`src/theme.js`** - Material-UI customization
 
 ---
 
 ## 📝 License
 
-MIT License - See LICENSE file for details
+MIT License
 
 ---
 
-## 🤝 Contributing
+## 👨‍💻 Developer
 
-This is a portfolio/demo project. For questions or suggestions:
-1. Open an issue on GitHub
-2. Provide detailed description
-3. Include relevant code snippets or screenshots
-
----
-
-## 📧 Contact
-
-**Developer**: Daksh Varshneya  
-**Email**: daksh.varshneya@gmail.com  
-**GitHub**: [@MOKSH88888](https://github.com/MOKSH88888)  
-**Live Demo**: [JobFinder Platform](https://your-deployed-url.vercel.app)
+**Daksh Varshneya**  
+📧 Email: daksh.varshneya@gmail.com  
+🐙 GitHub: [@MOKSH88888](https://github.com/MOKSH88888)
 
 ---
 
-**Built with ❤️ using MERN Stack**
+**Built with the MERN Stack**
 
 *Last Updated: January 2026*
