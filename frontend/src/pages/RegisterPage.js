@@ -1,18 +1,17 @@
 // src/pages/RegisterPage.js
 
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import { 
-  Box, 
-  Typography, 
-  TextField, 
-  Button, 
+import { useAuth } from '../context/AuthContext';
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Link,
   Alert,
   InputAdornment,
-  IconButton,
-  Link,
-  LinearProgress
+  IconButton
 } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -20,20 +19,16 @@ import StarIcon from '@mui/icons-material/Star';
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import TrackChangesIcon from '@mui/icons-material/TrackChanges';
-import { 
-  validateEmail, 
-  validatePassword, 
-  validateName, 
-  getErrorMessage,
-  getPasswordStrengthColor 
-} from '../utils/errorHandler';
+import { validateEmail, validatePassword, validateName, getErrorMessage } from '../utils/errorHandler';
 
 const RegisterPage = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [gender, setGender] = useState('');
+  const [formData, setFormData] = useState({ 
+    name: '', 
+    email: '', 
+    password: '', 
+    confirmPassword: '',
+    gender: '' 
+  });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -52,78 +47,79 @@ const RegisterPage = () => {
     confirmPassword: '',
     gender: '' 
   });
-  const [passwordStrength, setPasswordStrength] = useState('none');
   const { registerUser } = useAuth();
   const navigate = useNavigate();
 
-  const handleBlur = (field) => {
-    setTouched({ ...touched, [field]: true });
-    validateField(field);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    
+    // Real-time validation
+    if (touched[name]) {
+      validateField(name, value);
+    }
   };
 
-  const validateField = (field) => {
+  const handleBlur = (e) => {
+    const { name } = e.target;
+    setTouched({ ...touched, [name]: true });
+    validateField(name, formData[name]);
+  };
+
+  const validateField = (name, value) => {
     let error = '';
     
-    switch(field) {
-      case 'name':
-        const nameValidation = validateName(name);
-        error = nameValidation.valid ? '' : nameValidation.message;
-        break;
-      case 'email':
-        const emailValidation = validateEmail(email);
-        error = emailValidation.valid ? '' : emailValidation.message;
-        break;
-      case 'password':
-        const passwordValidation = validatePassword(password);
-        error = passwordValidation.valid ? '' : passwordValidation.message;
-        setPasswordStrength(passwordValidation.strength);
-        break;
-      case 'confirmPassword':
-        if (!confirmPassword) {
-          error = 'Please confirm your password';
-        } else if (confirmPassword !== password) {
-          error = 'Passwords do not match';
-        }
-        break;
-      case 'gender':
-        if (!gender) {
-          error = 'Please select your gender';
-        }
-        break;
-      default:
-        break;
+    if (name === 'name') {
+      const validation = validateName(value);
+      error = validation.valid ? '' : validation.message;
+    } else if (name === 'email') {
+      const validation = validateEmail(value);
+      error = validation.valid ? '' : validation.message;
+    } else if (name === 'password') {
+      const validation = validatePassword(value);
+      error = validation.valid ? '' : validation.message;
+    } else if (name === 'confirmPassword') {
+      if (!value) {
+        error = 'Please confirm your password';
+      } else if (value !== formData.password) {
+        error = 'Passwords do not match';
+      }
+    } else if (name === 'gender') {
+      if (!value) {
+        error = 'Please select your gender';
+      }
     }
     
-    setValidationErrors(prev => ({ ...prev, [field]: error }));
+    setValidationErrors(prev => ({ ...prev, [name]: error }));
   };
 
   const isFormValid = () => {
-    return validateName(name).valid &&
-           validateEmail(email).valid &&
-           validatePassword(password).valid &&
-           confirmPassword === password &&
-           password.length >= 8 &&
-           gender !== '';
+    const nameValid = validateName(formData.name).valid;
+    const emailValid = validateEmail(formData.email).valid;
+    const passwordValid = validatePassword(formData.password).valid;
+    const confirmValid = formData.confirmPassword === formData.password && formData.password.length >= 8;
+    const genderValid = formData.gender !== '';
+    return nameValid && emailValid && passwordValid && confirmValid && genderValid;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     
-    // Mark all fields as touched
-    setTouched({ name: true, email: true, password: true, confirmPassword: true, gender: true });
+    // Mark all fields as touched and validate
+    const allTouched = { name: true, email: true, password: true, confirmPassword: true, gender: true };
+    setTouched(allTouched);
     
-    // Validate all fields
-    const nameValidation = validateName(name);
-    const emailValidation = validateEmail(email);
-    const passwordValidation = validatePassword(password);
+    const nameValidation = validateName(formData.name);
+    const emailValidation = validateEmail(formData.email);
+    const passwordValidation = validatePassword(formData.password);
     
     const errors = {
       name: nameValidation.valid ? '' : nameValidation.message,
       email: emailValidation.valid ? '' : emailValidation.message,
       password: passwordValidation.valid ? '' : passwordValidation.message,
-      confirmPassword: confirmPassword !== password ? 'Passwords do not match' : '',
-      gender: !gender ? 'Please select your gender' : ''
+      confirmPassword: formData.confirmPassword !== formData.password ? 'Passwords do not match' : '',
+      gender: !formData.gender ? 'Please select your gender' : ''
     };
     
     setValidationErrors(errors);
@@ -134,7 +130,7 @@ const RegisterPage = () => {
     
     setLoading(true);
     try {
-      await registerUser(name, email, password, gender);
+      await registerUser(formData.name, formData.email, formData.password, formData.gender);
       navigate('/login');
     } catch (err) {
       const errorInfo = getErrorMessage(err);
@@ -158,8 +154,8 @@ const RegisterPage = () => {
         }}
       >
         <Box sx={{ maxWidth: 460, width: '100%' }}>
-          {/* Header with better hierarchy */}
-          <Box sx={{ mb: 4.5, textAlign: 'center' }}>
+          {/* Header */}
+          <Box sx={{ mb: 5, textAlign: 'center' }}>
             <Typography 
               variant="h3" 
               fontWeight="700" 
@@ -167,223 +163,6 @@ const RegisterPage = () => {
               sx={{ 
                 fontSize: { xs: '2rem', md: '2.75rem' },
                 background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                mb: 1,
-                letterSpacing: '-0.03em',
-                lineHeight: 1.2
-              }}
-            >
-              Get Started
-            </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ fontSize: '1rem', fontWeight: 500, letterSpacing: '0.01em' }}>
-              Create your account in seconds
-            </Typography>
-          </Box>
-        {/* Dot pattern */}
-        <Box sx={{ 
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-          backgroundSize: '30px 30px',
-          opacity: 0.6
-        }} />
-        
-        {/* Soft glow effects */}
-        <Box sx={{ 
-          position: 'absolute', 
-          top: '10%', 
-          left: '-5%', 
-          width: '300px', 
-          height: '300px', 
-          borderRadius: '50%', 
-          background: 'rgba(255,255,255,0.1)',
-          filter: 'blur(60px)'
-        }} />
-        <Box sx={{ 
-          position: 'absolute', 
-          bottom: '-10%', 
-          right: '-5%', 
-          width: '350px', 
-          height: '350px', 
-          borderRadius: '50%', 
-          background: 'rgba(255,255,255,0.08)',
-          filter: 'blur(70px)'
-        }} />
-        
-        <Box sx={{ textAlign: 'center', maxWidth: 550, zIndex: 1 }}>
-          {/* Sparkles emoji for new beginnings */}
-          <Box sx={{ 
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: 110,
-            height: 110,
-            borderRadius: '50%',
-            bgcolor: 'rgba(255,255,255,0.18)',
-            mb: 4,
-            border: '3px solid rgba(255,255,255,0.25)',
-            boxShadow: '0 10px 40px rgba(0,0,0,0.15)',
-            backdropFilter: 'blur(10px)',
-            fontSize: '3.5rem'
-          }}>
-            ✨
-          </Box>
-          
-          <Typography variant="h3" fontWeight="700" gutterBottom sx={{ fontSize: '2.75rem', mb: 2, lineHeight: 1.2 }}>
-            Get Started
-          </Typography>
-          <Typography variant="h6" sx={{ mb: 6, opacity: 0.95, lineHeight: 1.8, fontSize: '1.125rem', fontWeight: 400 }}>
-            Create your account and start tracking job applications
-          </Typography>
-          
-          {/* Feature list with unique icons */}
-          <Box sx={{ mt: 7, textAlign: 'left', maxWidth: 480, mx: 'auto' }}>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2.5, mb: 3.5 }}>
-              <Box sx={{ 
-                minWidth: 52, 
-                height: 52, 
-                borderRadius: '14px', 
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.15))',
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
-              }}>
-                <StarIcon sx={{ fontSize: 26, color: '#FFD700' }} />
-              </Box>
-              <Box sx={{ pt: 0.5 }}>
-                <Typography variant="body1" sx={{ fontSize: '1.125rem', fontWeight: 600, mb: 0.5 }}>
-                  Curated Job Listings
-                </Typography>
-                <Typography variant="body2" sx={{ fontSize: '0.95rem', opacity: 0.85 }}>
-                  Browse verified opportunities from various companies
-                </Typography>
-              </Box>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2.5, mb: 3.5 }}>
-              <Box sx={{ 
-                minWidth: 52, 
-                height: 52, 
-                borderRadius: '14px', 
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.15))',
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
-              }}>
-                <ConnectWithoutContactIcon sx={{ fontSize: 26, color: 'white' }} />
-              </Box>
-              <Box sx={{ pt: 0.5 }}>
-                <Typography variant="body1" sx={{ fontSize: '1.125rem', fontWeight: 600, mb: 0.5 }}>
-                  Quick Apply
-                </Typography>
-                <Typography variant="body2" sx={{ fontSize: '0.95rem', opacity: 0.85 }}>
-                  Apply to jobs with a single click
-                </Typography>
-              </Box>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2.5, mb: 3.5 }}>
-              <Box sx={{ 
-                minWidth: 52, 
-                height: 52, 
-                borderRadius: '14px', 
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.15))',
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
-              }}>
-                <AccountCircleIcon sx={{ fontSize: 26, color: 'white' }} />
-              </Box>
-              <Box sx={{ pt: 0.5 }}>
-                <Typography variant="body1" sx={{ fontSize: '1.125rem', fontWeight: 600, mb: 0.5 }}>
-                  Simple Profile
-                </Typography>
-                <Typography variant="body2" sx={{ fontSize: '0.95rem', opacity: 0.85 }}>
-                  Manage your job search in one place
-                </Typography>
-              </Box>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2.5 }}>
-              <Box sx={{ 
-                minWidth: 52, 
-                height: 52, 
-                borderRadius: '14px', 
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.15))',
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
-              }}>
-                <TrackChangesIcon sx={{ fontSize: 26, color: 'white' }} />
-              </Box>
-              <Box sx={{ pt: 0.5 }}>
-                <Typography variant="body1" sx={{ fontSize: '1.125rem', fontWeight: 600, mb: 0.5 }}>
-                  Application Tracking
-                </Typography>
-                <Typography variant="body2" sx={{ fontSize: '0.95rem', opacity: 0.85 }}>
-                  Monitor your job application status
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
-        </Box>
-        
-        {/* CSS Animations */}
-        <style>
-          {`
-            @keyframes morphing {
-              0%, 100% {
-                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-              }
-              50% {
-                border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
-              }
-            }
-          `}
-        </style>
-      </Box>
-
-      </Box>
-
-      {/* Right Side - Hero Section */}
-      <Box
-        sx={{
-          width: '50%',
-          display: { xs: 'none', lg: 'flex' },
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          color: 'white',
-          p: 8,
-          position: 'relative',
-          overflow: 'hidden'
-        }}
-      >
-        <Box sx={{ maxWidth: 460, width: '100%' }}>
-          {/* Header with better hierarchy */}
-          <Box sx={{ mb: 4.5, textAlign: 'center' }}>
-            <Typography 
-              variant="h3" 
-              fontWeight="700" 
-              gutterBottom 
-              sx={{ 
-                fontSize: { xs: '2rem', md: '2.75rem' },
-                background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -412,32 +191,50 @@ const RegisterPage = () => {
             <TextField
               required
               fullWidth
-              id="fullName"
-              name="fullName"
+              id="name"
+              name="name"
               autoComplete="name"
               autoFocus
               placeholder="John Doe"
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-                if (touched.name) validateField('name');
-              }}
-              onBlur={() => handleBlur('name')}
+              value={formData.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
               error={touched.name && !!validationErrors.name}
               helperText={touched.name && validationErrors.name}
               sx={{
                 mb: 3,
                 '& .MuiOutlinedInput-root': {
-                  borderRadius: 1.5,
-                  bgcolor: 'white',
-                  '& fieldset': { borderColor: '#d0d7de' },
-                  '&:hover fieldset': { borderColor: '#667eea' },
-                  '&.Mui-focused fieldset': { borderColor: '#667eea', borderWidth: '2px' }
+                  borderRadius: 2,
+                  bgcolor: '#fafafa',
+                  transition: 'all 0.2s ease',
+                  '& fieldset': {
+                    borderColor: '#e5e7eb',
+                    borderWidth: '1.5px'
+                  },
+                  '&:hover': {
+                    bgcolor: '#f5f5f5',
+                    '& fieldset': {
+                      borderColor: '#d1d5db'
+                    }
+                  },
+                  '&.Mui-focused': {
+                    bgcolor: 'white',
+                    boxShadow: '0 0 0 4px rgba(102,126,234,0.1)',
+                    '& fieldset': {
+                      borderColor: '#667eea',
+                      borderWidth: '2px'
+                    }
+                  }
+                },
+                '& input': {
+                  fontSize: '0.9375rem',
+                  py: 1.25,
+                  color: '#1e293b'
                 }
               }}
             />
-            
-            <Typography variant="body2" fontWeight="600" sx={{ mb: 1, color: '#24292f' }}>
+
+            <Typography variant="body2" fontWeight="600" sx={{ mb: 1, color: '#1e293b', fontSize: '0.875rem' }}>
               Email Address *
             </Typography>
             <TextField
@@ -447,27 +244,45 @@ const RegisterPage = () => {
               name="email"
               autoComplete="email"
               placeholder="your.email@example.com"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                if (touched.email) validateField('email');
-              }}
-              onBlur={() => handleBlur('email')}
+              value={formData.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
               error={touched.email && !!validationErrors.email}
               helperText={touched.email && validationErrors.email}
               sx={{
                 mb: 3,
                 '& .MuiOutlinedInput-root': {
-                  borderRadius: 1.5,
-                  bgcolor: 'white',
-                  '& fieldset': { borderColor: '#d0d7de' },
-                  '&:hover fieldset': { borderColor: '#667eea' },
-                  '&.Mui-focused fieldset': { borderColor: '#667eea', borderWidth: '2px' }
+                  borderRadius: 2,
+                  bgcolor: '#fafafa',
+                  transition: 'all 0.2s ease',
+                  '& fieldset': {
+                    borderColor: '#e5e7eb',
+                    borderWidth: '1.5px'
+                  },
+                  '&:hover': {
+                    bgcolor: '#f5f5f5',
+                    '& fieldset': {
+                      borderColor: '#d1d5db'
+                    }
+                  },
+                  '&.Mui-focused': {
+                    bgcolor: 'white',
+                    boxShadow: '0 0 0 4px rgba(102,126,234,0.1)',
+                    '& fieldset': {
+                      borderColor: '#667eea',
+                      borderWidth: '2px'
+                    }
+                  }
+                },
+                '& input': {
+                  fontSize: '0.9375rem',
+                  py: 1.25,
+                  color: '#1e293b'
                 }
               }}
             />
-            
-            <Typography variant="body2" fontWeight="600" sx={{ mb: 1, color: '#24292f' }}>
+
+            <Typography variant="body2" fontWeight="600" sx={{ mb: 1, color: '#1e293b', fontSize: '0.875rem' }}>
               Password *
             </Typography>
             <TextField
@@ -478,12 +293,9 @@ const RegisterPage = () => {
               id="password"
               autoComplete="new-password"
               placeholder="Create a strong password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                if (touched.password) validateField('password');
-              }}
-              onBlur={() => handleBlur('password')}
+              value={formData.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
               error={touched.password && !!validationErrors.password}
               helperText={touched.password && validationErrors.password}
               InputProps={{
@@ -493,6 +305,7 @@ const RegisterPage = () => {
                       onClick={() => setShowPassword(!showPassword)}
                       edge="end"
                       size="small"
+                      sx={{ color: 'text.secondary' }}
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
@@ -500,53 +313,39 @@ const RegisterPage = () => {
                 ),
               }}
               sx={{
-                mb: 1,
+                mb: 3,
                 '& .MuiOutlinedInput-root': {
-                  borderRadius: 1.5,
-                  bgcolor: 'white',
-                  '& fieldset': { borderColor: '#d0d7de' },
-                  '&:hover fieldset': { borderColor: '#667eea' },
-                  '&.Mui-focused fieldset': { borderColor: '#667eea', borderWidth: '2px' }
+                  borderRadius: 2,
+                  bgcolor: '#fafafa',
+                  transition: 'all 0.2s ease',
+                  '& fieldset': {
+                    borderColor: '#e5e7eb',
+                    borderWidth: '1.5px'
+                  },
+                  '&:hover': {
+                    bgcolor: '#f5f5f5',
+                    '& fieldset': {
+                      borderColor: '#d1d5db'
+                    }
+                  },
+                  '&.Mui-focused': {
+                    bgcolor: 'white',
+                    boxShadow: '0 0 0 4px rgba(102,126,234,0.1)',
+                    '& fieldset': {
+                      borderColor: '#667eea',
+                      borderWidth: '2px'
+                    }
+                  }
+                },
+                '& input': {
+                  fontSize: '0.9375rem',
+                  py: 1.25,
+                  color: '#1e293b'
                 }
               }}
             />
-            {password && passwordStrength !== 'none' && (
-              <Box sx={{ mb: 3 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                  <Typography variant="caption" color="text.secondary">
-                    Password Strength:
-                  </Typography>
-                  <Typography 
-                    variant="caption" 
-                    sx={{ 
-                      color: getPasswordStrengthColor(passwordStrength),
-                      fontWeight: 600,
-                      textTransform: 'capitalize'
-                    }}
-                  >
-                    {passwordStrength}
-                  </Typography>
-                </Box>
-                <LinearProgress 
-                  variant="determinate" 
-                  value={
-                    passwordStrength === 'weak' ? 33 : 
-                    passwordStrength === 'medium' ? 66 : 100
-                  }
-                  sx={{
-                    height: 6,
-                    borderRadius: 3,
-                    backgroundColor: '#e0e0e0',
-                    '& .MuiLinearProgress-bar': {
-                      backgroundColor: getPasswordStrengthColor(passwordStrength),
-                      borderRadius: 3
-                    }
-                  }}
-                />
-              </Box>
-            )}
-            
-            <Typography variant="body2" fontWeight="600" sx={{ mb: 1, color: '#24292f' }}>
+
+            <Typography variant="body2" fontWeight="600" sx={{ mb: 1, color: '#1e293b', fontSize: '0.875rem' }}>
               Confirm Password *
             </Typography>
             <TextField
@@ -557,12 +356,9 @@ const RegisterPage = () => {
               id="confirmPassword"
               autoComplete="new-password"
               placeholder="Re-enter your password"
-              value={confirmPassword}
-              onChange={(e) => {
-                setConfirmPassword(e.target.value);
-                if (touched.confirmPassword) validateField('confirmPassword');
-              }}
-              onBlur={() => handleBlur('confirmPassword')}
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              onBlur={handleBlur}
               error={touched.confirmPassword && !!validationErrors.confirmPassword}
               helperText={touched.confirmPassword && validationErrors.confirmPassword}
               InputProps={{
@@ -572,6 +368,7 @@ const RegisterPage = () => {
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       edge="end"
                       size="small"
+                      sx={{ color: 'text.secondary' }}
                     >
                       {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
@@ -581,41 +378,82 @@ const RegisterPage = () => {
               sx={{
                 mb: 3,
                 '& .MuiOutlinedInput-root': {
-                  borderRadius: 1.5,
-                  bgcolor: 'white',
-                  '& fieldset': { borderColor: '#d0d7de' },
-                  '&:hover fieldset': { borderColor: '#667eea' },
-                  '&.Mui-focused fieldset': { borderColor: '#667eea', borderWidth: '2px' }
+                  borderRadius: 2,
+                  bgcolor: '#fafafa',
+                  transition: 'all 0.2s ease',
+                  '& fieldset': {
+                    borderColor: '#e5e7eb',
+                    borderWidth: '1.5px'
+                  },
+                  '&:hover': {
+                    bgcolor: '#f5f5f5',
+                    '& fieldset': {
+                      borderColor: '#d1d5db'
+                    }
+                  },
+                  '&.Mui-focused': {
+                    bgcolor: 'white',
+                    boxShadow: '0 0 0 4px rgba(102,126,234,0.1)',
+                    '& fieldset': {
+                      borderColor: '#667eea',
+                      borderWidth: '2px'
+                    }
+                  }
+                },
+                '& input': {
+                  fontSize: '0.9375rem',
+                  py: 1.25,
+                  color: '#1e293b'
                 }
               }}
             />
-            
-            <Typography variant="body2" fontWeight="600" sx={{ mb: 1, color: '#24292f' }}>
+
+            <Typography variant="body2" fontWeight="600" sx={{ mb: 1, color: '#1e293b', fontSize: '0.875rem' }}>
               Gender *
             </Typography>
             <TextField
               select
+              required
               fullWidth
               id="gender"
-              value={gender}
-              onChange={(e) => {
-                setGender(e.target.value);
-                if (touched.gender) validateField('gender');
-              }}
-              onBlur={() => handleBlur('gender')}
+              name="gender"
+              value={formData.gender}
+              onChange={handleChange}
+              onBlur={handleBlur}
               error={touched.gender && !!validationErrors.gender}
               helperText={touched.gender && validationErrors.gender}
               SelectProps={{
                 native: true,
               }}
               sx={{
-                mb: 4,
+                mb: 3.5,
                 '& .MuiOutlinedInput-root': {
-                  borderRadius: 1.5,
-                  bgcolor: 'white',
-                  '& fieldset': { borderColor: '#d0d7de' },
-                  '&:hover fieldset': { borderColor: '#667eea' },
-                  '&.Mui-focused fieldset': { borderColor: '#667eea', borderWidth: '2px' }
+                  borderRadius: 2,
+                  bgcolor: '#fafafa',
+                  transition: 'all 0.2s ease',
+                  '& fieldset': {
+                    borderColor: '#e5e7eb',
+                    borderWidth: '1.5px'
+                  },
+                  '&:hover': {
+                    bgcolor: '#f5f5f5',
+                    '& fieldset': {
+                      borderColor: '#d1d5db'
+                    }
+                  },
+                  '&.Mui-focused': {
+                    bgcolor: 'white',
+                    boxShadow: '0 0 0 4px rgba(102,126,234,0.1)',
+                    '& fieldset': {
+                      borderColor: '#667eea',
+                      borderWidth: '2px'
+                    }
+                  }
+                },
+                '& select': {
+                  fontSize: '0.9375rem',
+                  py: 1.25,
+                  color: '#1e293b'
                 }
               }}
             >
@@ -638,17 +476,17 @@ const RegisterPage = () => {
                 textTransform: 'none',
                 borderRadius: 2,
                 mb: 3,
-                background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-                boxShadow: '0 4px 14px rgba(240,147,251,0.4)',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                boxShadow: '0 4px 14px rgba(102,126,234,0.4)',
                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #e77fea 0%, #e4405f 100%)',
-                  boxShadow: '0 6px 20px rgba(240,147,251,0.5)',
+                  background: 'linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%)',
+                  boxShadow: '0 6px 20px rgba(102,126,234,0.5)',
                   transform: 'translateY(-2px)'
                 },
                 '&:active': {
                   transform: 'translateY(0px)',
-                  boxShadow: '0 2px 8px rgba(240,147,251,0.3)'
+                  boxShadow: '0 2px 8px rgba(102,126,234,0.3)'
                 },
                 '&:disabled': {
                   background: '#e2e8f0',
@@ -667,12 +505,12 @@ const RegisterPage = () => {
                   component={RouterLink}
                   to="/login"
                   sx={{ 
-                    color: '#f093fb',
+                    color: '#667eea',
                     fontWeight: 600, 
                     textDecoration: 'none',
                     transition: 'all 0.2s ease',
                     '&:hover': {
-                      color: '#e77fea',
+                      color: '#5568d3',
                       textDecoration: 'underline'
                     }
                   }}
@@ -680,6 +518,168 @@ const RegisterPage = () => {
                   Sign In
                 </Link>
               </Typography>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Right Side - Hero Section */}
+      <Box
+        sx={{
+          width: '50%',
+          display: { xs: 'none', lg: 'flex' },
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          color: 'white',
+          p: 8,
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
+        {/* Dot pattern */}
+        <Box sx={{ 
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+          backgroundSize: '30px 30px',
+          opacity: 0.6
+        }} />
+        
+        {/* Soft glow effects */}
+        <Box sx={{ 
+          position: 'absolute', 
+          top: '-10%', 
+          right: '-5%', 
+          width: '300px', 
+          height: '300px', 
+          borderRadius: '50%', 
+          background: 'rgba(255,255,255,0.1)',
+          filter: 'blur(60px)'
+        }} />
+        <Box sx={{ 
+          position: 'absolute', 
+          bottom: '-10%', 
+          left: '-5%', 
+          width: '350px', 
+          height: '350px', 
+          borderRadius: '50%', 
+          background: 'rgba(255,255,255,0.08)',
+          filter: 'blur(70px)'
+        }} />
+        
+        <Box sx={{ textAlign: 'center', maxWidth: 550, zIndex: 1 }}>
+          {/* Sparkles emoji */}
+          <Box sx={{ 
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: 110,
+            height: 110,
+            borderRadius: '50%',
+            bgcolor: 'rgba(255,255,255,0.18)',
+            mb: 4,
+            border: '3px solid rgba(255,255,255,0.2)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+            fontSize: '3.5rem'
+          }}>
+            ✨
+          </Box>
+          
+          <Typography variant="h3" fontWeight="700" gutterBottom sx={{ fontSize: '2.75rem', mb: 2, lineHeight: 1.2 }}>
+            Get Started
+          </Typography>
+          <Typography variant="h6" sx={{ mb: 6, opacity: 0.95, lineHeight: 1.8, fontSize: '1.125rem', fontWeight: 400 }}>
+            Create your account and start tracking job applications
+          </Typography>
+          
+          {/* Feature list */}
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: 'column',
+            gap: 3, 
+            mt: 6,
+            pt: 5,
+            borderTop: '1px solid rgba(255,255,255,0.2)',
+            textAlign: 'left',
+            maxWidth: 420,
+            mx: 'auto'
+          }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
+              <Box sx={{ 
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 48,
+                height: 48,
+                borderRadius: '12px',
+                bgcolor: 'rgba(255,255,255,0.15)',
+                flexShrink: 0
+              }}>
+                <StarIcon sx={{ fontSize: 24, color: '#FFD700' }} />
+              </Box>
+              <Box>
+                <Typography variant="body1" fontWeight="600" sx={{ fontSize: '1.05rem', mb: 0.3 }}>Curated Job Listings</Typography>
+                <Typography variant="body2" sx={{ opacity: 0.85, fontSize: '0.9rem' }}>Browse verified opportunities from various companies</Typography>
+              </Box>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
+              <Box sx={{ 
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 48,
+                height: 48,
+                borderRadius: '12px',
+                bgcolor: 'rgba(255,255,255,0.15)',
+                flexShrink: 0
+              }}>
+                <ConnectWithoutContactIcon sx={{ fontSize: 24, color: 'white' }} />
+              </Box>
+              <Box>
+                <Typography variant="body1" fontWeight="600" sx={{ fontSize: '1.05rem', mb: 0.3 }}>Quick Apply</Typography>
+                <Typography variant="body2" sx={{ opacity: 0.85, fontSize: '0.9rem' }}>Apply to jobs with a single click</Typography>
+              </Box>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
+              <Box sx={{ 
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 48,
+                height: 48,
+                borderRadius: '12px',
+                bgcolor: 'rgba(255,255,255,0.15)',
+                flexShrink: 0
+              }}>
+                <AccountCircleIcon sx={{ fontSize: 24, color: 'white' }} />
+              </Box>
+              <Box>
+                <Typography variant="body1" fontWeight="600" sx={{ fontSize: '1.05rem', mb: 0.3 }}>Simple Profile</Typography>
+                <Typography variant="body2" sx={{ opacity: 0.85, fontSize: '0.9rem' }}>Manage your job search in one place</Typography>
+              </Box>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
+              <Box sx={{ 
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 48,
+                height: 48,
+                borderRadius: '12px',
+                bgcolor: 'rgba(255,255,255,0.15)',
+                flexShrink: 0
+              }}>
+                <TrackChangesIcon sx={{ fontSize: 24, color: 'white' }} />
+              </Box>
+              <Box>
+                <Typography variant="body1" fontWeight="600" sx={{ fontSize: '1.05rem', mb: 0.3 }}>Application Tracking</Typography>
+                <Typography variant="body2" sx={{ opacity: 0.85, fontSize: '0.9rem' }}>Monitor your job application status</Typography>
+              </Box>
             </Box>
           </Box>
         </Box>
