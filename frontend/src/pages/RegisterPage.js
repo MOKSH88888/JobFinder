@@ -215,10 +215,10 @@ const RegisterPage = () => {
           </Box>
           
           <Typography variant="h3" fontWeight="700" gutterBottom sx={{ fontSize: '2.75rem', mb: 2, lineHeight: 1.2 }}>
-            Create Account
+            Get Started
           </Typography>
           <Typography variant="h6" sx={{ mb: 6, opacity: 0.95, lineHeight: 1.8, fontSize: '1.125rem', fontWeight: 400 }}>
-            Join professionals finding great opportunities
+            Create your account and start tracking job applications
           </Typography>
           
           {/* Feature list with unique icons */}
@@ -240,10 +240,10 @@ const RegisterPage = () => {
               </Box>
               <Box sx={{ pt: 0.5 }}>
                 <Typography variant="body1" sx={{ fontSize: '1.125rem', fontWeight: 600, mb: 0.5 }}>
-                  Quality Job Listings
+                  Curated Job Listings
                 </Typography>
                 <Typography variant="body2" sx={{ fontSize: '0.95rem', opacity: 0.85 }}>
-                  Access opportunities from top companies
+                  Browse verified opportunities from various companies
                 </Typography>
               </Box>
             </Box>
@@ -264,10 +264,10 @@ const RegisterPage = () => {
               </Box>
               <Box sx={{ pt: 0.5 }}>
                 <Typography variant="body1" sx={{ fontSize: '1.125rem', fontWeight: 600, mb: 0.5 }}>
-                  Direct Connection
+                  Quick Apply
                 </Typography>
                 <Typography variant="body2" sx={{ fontSize: '0.95rem', opacity: 0.85 }}>
-                  Connect directly with hiring teams
+                  Apply to jobs with a single click
                 </Typography>
               </Box>
             </Box>
@@ -288,10 +288,10 @@ const RegisterPage = () => {
               </Box>
               <Box sx={{ pt: 0.5 }}>
                 <Typography variant="body1" sx={{ fontSize: '1.125rem', fontWeight: 600, mb: 0.5 }}>
-                  Professional Profile
+                  Simple Profile
                 </Typography>
                 <Typography variant="body2" sx={{ fontSize: '0.95rem', opacity: 0.85 }}>
-                  Showcase your skills and experience
+                  Manage your job search in one place
                 </Typography>
               </Box>
             </Box>

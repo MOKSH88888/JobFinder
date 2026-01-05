@@ -379,65 +379,74 @@ const LoginPage = () => {
             Start Your Career
           </Typography>
           <Typography variant="h6" sx={{ mb: 6, opacity: 0.95, lineHeight: 1.8, fontSize: '1.125rem', fontWeight: 400 }}>
-            Connect with leading employers and discover opportunities matched to your skills
+            Browse verified job opportunities and track your applications
           </Typography>
           
-          {/* Stats with unique icons */}
+          {/* Feature highlights instead of fake stats */}
           <Box sx={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(3, 1fr)', 
-            gap: 4, 
+            display: 'flex', 
+            flexDirection: 'column',
+            gap: 3, 
             mt: 6,
             pt: 5,
-            borderTop: '1px solid rgba(255,255,255,0.2)'
+            borderTop: '1px solid rgba(255,255,255,0.2)',
+            textAlign: 'left',
+            maxWidth: 420,
+            mx: 'auto'
           }}>
-            <Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
               <Box sx={{ 
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: 50,
-                height: 50,
+                width: 48,
+                height: 48,
                 borderRadius: '12px',
                 bgcolor: 'rgba(255,255,255,0.15)',
-                mb: 2
+                flexShrink: 0
               }}>
-                <TrendingUpIcon sx={{ fontSize: 28, color: 'white' }} />
+                <TrendingUpIcon sx={{ fontSize: 24, color: 'white' }} />
               </Box>
-              <Typography variant="h3" fontWeight="700" sx={{ fontSize: '2.5rem', mb: 1 }}>1000+</Typography>
-              <Typography variant="body2" sx={{ opacity: 0.9, fontSize: '0.9rem', letterSpacing: '0.5px' }}>Active Jobs</Typography>
+              <Box>
+                <Typography variant="body1" fontWeight="600" sx={{ fontSize: '1.05rem', mb: 0.3 }}>Real-Time Updates</Typography>
+                <Typography variant="body2" sx={{ opacity: 0.85, fontSize: '0.9rem' }}>Get instant notifications on application status</Typography>
+              </Box>
             </Box>
-            <Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
               <Box sx={{ 
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: 50,
-                height: 50,
+                width: 48,
+                height: 48,
                 borderRadius: '12px',
                 bgcolor: 'rgba(255,255,255,0.15)',
-                mb: 2
+                flexShrink: 0
               }}>
-                <BusinessCenterIcon sx={{ fontSize: 28, color: 'white' }} />
+                <BusinessCenterIcon sx={{ fontSize: 24, color: 'white' }} />
               </Box>
-              <Typography variant="h3" fontWeight="700" sx={{ fontSize: '2.5rem', mb: 1 }}>500+</Typography>
-              <Typography variant="body2" sx={{ opacity: 0.9, fontSize: '0.9rem', letterSpacing: '0.5px' }}>Companies</Typography>
+              <Box>
+                <Typography variant="body1" fontWeight="600" sx={{ fontSize: '1.05rem', mb: 0.3 }}>Verified Opportunities</Typography>
+                <Typography variant="body2" sx={{ opacity: 0.85, fontSize: '0.9rem' }}>All job listings are manually reviewed</Typography>
+              </Box>
             </Box>
-            <Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
               <Box sx={{ 
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: 50,
-                height: 50,
+                width: 48,
+                height: 48,
                 borderRadius: '12px',
                 bgcolor: 'rgba(255,255,255,0.15)',
-                mb: 2
+                flexShrink: 0
               }}>
-                <GroupsIcon sx={{ fontSize: 28, color: 'white' }} />
+                <GroupsIcon sx={{ fontSize: 24, color: 'white' }} />
               </Box>
-              <Typography variant="h3" fontWeight="700" sx={{ fontSize: '2.5rem', mb: 1 }}>10k+</Typography>
-              <Typography variant="body2" sx={{ opacity: 0.9, fontSize: '0.9rem', letterSpacing: '0.5px' }}>Job Seekers</Typography>
+              <Box>
+                <Typography variant="body1" fontWeight="600" sx={{ fontSize: '1.05rem', mb: 0.3 }}>Easy Application Tracking</Typography>
+                <Typography variant="body2" sx={{ opacity: 0.85, fontSize: '0.9rem' }}>Monitor all your applications in one place</Typography>
+              </Box>
             </Box>
           </Box>
         </Box>
