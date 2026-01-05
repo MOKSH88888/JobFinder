@@ -401,13 +401,12 @@ const LoginPage = () => {
             textAlign: 'left',
             px: { lg: 2, xl: 3 }
           }}>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2.5 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
               <Box sx={{ 
                 width: 10, 
                 height: 10, 
                 borderRadius: '50%', 
                 bgcolor: 'white', 
-                mt: 0.6,
                 flexShrink: 0,
                 boxShadow: '0 2px 8px rgba(255,255,255,0.3)'
               }} />
@@ -415,13 +414,12 @@ const LoginPage = () => {
                 Track all your applications in one place
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2.5 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
               <Box sx={{ 
                 width: 10, 
                 height: 10, 
                 borderRadius: '50%', 
                 bgcolor: 'white', 
-                mt: 0.6,
                 flexShrink: 0,
                 boxShadow: '0 2px 8px rgba(255,255,255,0.3)'
               }} />
@@ -429,13 +427,12 @@ const LoginPage = () => {
                 Get real-time updates on application status
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2.5 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
               <Box sx={{ 
                 width: 10, 
                 height: 10, 
                 borderRadius: '50%', 
                 bgcolor: 'white', 
-                mt: 0.6,
                 flexShrink: 0,
                 boxShadow: '0 2px 8px rgba(255,255,255,0.3)'
               }} />
@@ -443,13 +440,12 @@ const LoginPage = () => {
                 Filter jobs by experience and salary
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2.5 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
               <Box sx={{ 
                 width: 10, 
                 height: 10, 
                 borderRadius: '50%', 
                 bgcolor: 'white', 
-                mt: 0.6,
                 flexShrink: 0,
                 boxShadow: '0 2px 8px rgba(255,255,255,0.3)'
               }} />

@@ -192,7 +192,7 @@ const RegisterPage = () => {
               name="name"
               autoComplete="name"
               autoFocus
-              placeholder="John Doe"
+              placeholder="Enter your full name"
               value={formData.name}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -240,7 +240,7 @@ const RegisterPage = () => {
               id="email"
               name="email"
               autoComplete="email"
-              placeholder="your.email@example.com"
+              placeholder="name@company.com"
               value={formData.email}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -423,7 +423,7 @@ const RegisterPage = () => {
                 native: true,
               }}
               sx={{
-                mb: 3.5,
+                mb: 4,
                 '& .MuiOutlinedInput-root': {
                   borderRadius: 2,
                   bgcolor: '#fafafa',
@@ -473,27 +473,26 @@ const RegisterPage = () => {
                 textTransform: 'none',
                 borderRadius: 2,
                 mb: 3,
-                background: (!loading && isFormValid()) 
+                background: isFormValid() 
                   ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
                   : '#cbd5e1',
-                color: (!loading && isFormValid()) ? 'white' : '#64748b',
-                boxShadow: (!loading && isFormValid()) 
+                color: isFormValid() ? 'white' : '#64748b',
+                boxShadow: isFormValid() 
                   ? '0 4px 14px rgba(102,126,234,0.4)'
                   : 'none',
-                cursor: (!loading && isFormValid()) ? 'pointer' : 'not-allowed',
                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 '&:hover': {
-                  background: (!loading && isFormValid())
+                  background: isFormValid()
                     ? 'linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%)'
                     : '#cbd5e1',
-                  boxShadow: (!loading && isFormValid()) 
+                  boxShadow: isFormValid() 
                     ? '0 6px 20px rgba(102,126,234,0.5)'
                     : 'none',
-                  transform: (!loading && isFormValid()) ? 'translateY(-2px)' : 'none'
+                  transform: isFormValid() ? 'translateY(-2px)' : 'none'
                 },
                 '&:active': {
-                  transform: (!loading && isFormValid()) ? 'translateY(0px)' : 'none',
-                  boxShadow: (!loading && isFormValid()) ? '0 2px 8px rgba(102,126,234,0.3)' : 'none'
+                  transform: isFormValid() ? 'translateY(0px)' : 'none',
+                  boxShadow: isFormValid() ? '0 2px 8px rgba(102,126,234,0.3)' : 'none'
                 },
                 '&.Mui-disabled': {
                   background: '#cbd5e1',
@@ -615,13 +614,12 @@ const RegisterPage = () => {
             textAlign: 'left',
             px: { lg: 2, xl: 3 }
           }}>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2.5 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
               <Box sx={{ 
                 width: 10, 
                 height: 10, 
                 borderRadius: '50%', 
                 bgcolor: 'white', 
-                mt: 0.6,
                 flexShrink: 0,
                 boxShadow: '0 2px 8px rgba(255,255,255,0.3)'
               }} />
@@ -629,13 +627,12 @@ const RegisterPage = () => {
                 Create your professional profile
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2.5 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
               <Box sx={{ 
                 width: 10, 
                 height: 10, 
                 borderRadius: '50%', 
                 bgcolor: 'white', 
-                mt: 0.6,
                 flexShrink: 0,
                 boxShadow: '0 2px 8px rgba(255,255,255,0.3)'
               }} />
@@ -643,13 +640,12 @@ const RegisterPage = () => {
                 Upload your resume and showcase skills
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2.5 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
               <Box sx={{ 
                 width: 10, 
                 height: 10, 
                 borderRadius: '50%', 
                 bgcolor: 'white', 
-                mt: 0.6,
                 flexShrink: 0,
                 boxShadow: '0 2px 8px rgba(255,255,255,0.3)'
               }} />
@@ -657,13 +653,12 @@ const RegisterPage = () => {
                 Apply to jobs that match your experience
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2.5 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
               <Box sx={{ 
                 width: 10, 
                 height: 10, 
                 borderRadius: '50%', 
                 bgcolor: 'white', 
-                mt: 0.6,
                 flexShrink: 0,
                 boxShadow: '0 2px 8px rgba(255,255,255,0.3)'
               }} />
