@@ -7,6 +7,9 @@
 // - Sample applications with realistic status progression
 // - Bookmark data to demonstrate user engagement features
 // 
+// DEMO PASSWORDS: All sample users use 'User@1234' (intended for public demo)
+// ADMIN PASSWORD: Set via DEFAULT_ADMIN_PASSWORD environment variable
+// 
 // Usage: node backend/config/seedDatabase.js
 // Note: This clears existing data except the default admin account
 // ============================================================================
