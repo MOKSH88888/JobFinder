@@ -98,13 +98,13 @@ const LoginPage = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          p: { xs: 3, md: 6 },
+          p: { xs: 3, sm: 4, md: 5, lg: 6 },
           bgcolor: 'white'
         }}
       >
-        <Box sx={{ maxWidth: 460, width: '100%' }}>
+        <Box sx={{ maxWidth: 480, width: '100%', px: { xs: 0, sm: 2 } }}>
           {/* Header with better hierarchy */}
-          <Box sx={{ mb: 5, textAlign: 'center' }}>
+          <Box sx={{ mb: { xs: 4, md: 5 }, textAlign: 'center' }}>
             <Typography 
               variant="h3" 
               fontWeight="700" 
@@ -327,7 +327,7 @@ const LoginPage = () => {
           justifyContent: 'center',
           background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
           color: 'white',
-          p: 8,
+          p: { lg: 6, xl: 8 },
           position: 'relative',
           overflow: 'hidden'
         }}
@@ -366,73 +366,97 @@ const LoginPage = () => {
           filter: 'blur(70px)'
         }} />
         
-        <Box sx={{ textAlign: 'center', maxWidth: 500, zIndex: 1 }}>
-          {/* Geometric illustration */}
+        <Box sx={{ textAlign: 'center', maxWidth: 520, zIndex: 1, width: '100%' }}>
+          {/* Smaller icon illustration */}
           <Box sx={{ 
-            position: 'relative',
-            width: 180,
-            height: 180,
-            margin: '0 auto 3rem',
+            margin: '0 auto 2.5rem',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
           }}>
-            {/* Outer rotating circle */}
             <Box sx={{
-              position: 'absolute',
-              width: '100%',
-              height: '100%',
-              border: '3px solid rgba(255,255,255,0.25)',
-              borderRadius: '50%',
-              borderTopColor: 'rgba(255,255,255,0.6)',
-              borderRightColor: 'rgba(255,255,255,0.4)',
-              animation: 'spin 20s linear infinite',
-              '@keyframes spin': {
-                '0%': { transform: 'rotate(0deg)' },
-                '100%': { transform: 'rotate(360deg)' }
-              }
-            }} />
-            
-            {/* Inner circles */}
-            <Box sx={{
-              position: 'absolute',
-              width: '70%',
-              height: '70%',
-              bgcolor: 'rgba(255,255,255,0.2)',
-              borderRadius: '50%',
-              backdropFilter: 'blur(10px)'
-            }} />
-            <Box sx={{
-              position: 'absolute',
-              width: '45%',
-              height: '45%',
-              bgcolor: 'rgba(255,255,255,0.3)',
-              borderRadius: '50%',
-              backdropFilter: 'blur(5px)'
-            }} />
-            
-            {/* Center icon */}
-            <Box sx={{
-              position: 'relative',
-              width: 60,
-              height: 60,
+              width: 80,
+              height: 80,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               bgcolor: 'white',
-              borderRadius: '12px',
-              boxShadow: '0 8px 32px rgba(0,0,0,0.15)'
+              borderRadius: '16px',
+              boxShadow: '0 12px 40px rgba(0,0,0,0.2)'
             }}>
-              <BusinessCenterIcon sx={{ fontSize: 32, color: '#667eea' }} />
+              <BusinessCenterIcon sx={{ fontSize: 42, color: '#667eea' }} />
             </Box>
           </Box>
           
-          <Typography variant="h3" fontWeight="700" gutterBottom sx={{ fontSize: '2.75rem', mb: 2.5, lineHeight: 1.2 }}>
+          <Typography variant="h3" fontWeight="700" gutterBottom sx={{ fontSize: { lg: '2.5rem', xl: '2.75rem' }, mb: 2, lineHeight: 1.2 }}>
             Find Your Next Role
           </Typography>
-          <Typography variant="h6" sx={{ opacity: 0.95, lineHeight: 1.7, fontSize: '1.125rem', fontWeight: 400, maxWidth: 380, mx: 'auto' }}>
-            Track applications, upload your resume, and discover opportunities tailored to your experience
+          <Typography variant="body1" sx={{ opacity: 0.95, lineHeight: 1.6, fontSize: '1.05rem', fontWeight: 400, mb: 4, px: 2 }}>
+            Your personalized job search platform
           </Typography>
+          
+          {/* Feature highlights */}
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            gap: 2.5, 
+            mt: 4,
+            textAlign: 'left',
+            px: 3
+          }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+              <Box sx={{ 
+                width: 8, 
+                height: 8, 
+                borderRadius: '50%', 
+                bgcolor: 'white', 
+                mt: 0.75,
+                flexShrink: 0
+              }} />
+              <Typography variant="body2" sx={{ fontSize: '0.95rem', lineHeight: 1.6, opacity: 0.95 }}>
+                Track all your applications in one place
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+              <Box sx={{ 
+                width: 8, 
+                height: 8, 
+                borderRadius: '50%', 
+                bgcolor: 'white', 
+                mt: 0.75,
+                flexShrink: 0
+              }} />
+              <Typography variant="body2" sx={{ fontSize: '0.95rem', lineHeight: 1.6, opacity: 0.95 }}>
+                Get real-time updates on application status
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+              <Box sx={{ 
+                width: 8, 
+                height: 8, 
+                borderRadius: '50%', 
+                bgcolor: 'white', 
+                mt: 0.75,
+                flexShrink: 0
+              }} />
+              <Typography variant="body2" sx={{ fontSize: '0.95rem', lineHeight: 1.6, opacity: 0.95 }}>
+                Filter jobs by experience and salary
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+              <Box sx={{ 
+                width: 8, 
+                height: 8, 
+                borderRadius: '50%', 
+                bgcolor: 'white', 
+                mt: 0.75,
+                flexShrink: 0
+              }} />
+              <Typography variant="body2" sx={{ fontSize: '0.95rem', lineHeight: 1.6, opacity: 0.95 }}>
+                Bookmark opportunities for later
+              </Typography>
+            </Box>
+          </Box>
         </Box>
         
         {/* CSS Animation */}

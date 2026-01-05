@@ -146,13 +146,13 @@ const RegisterPage = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          p: { xs: 3, md: 6 },
+          p: { xs: 3, sm: 4, md: 5, lg: 6 },
           bgcolor: 'white'
         }}
       >
-        <Box sx={{ maxWidth: 460, width: '100%' }}>
+        <Box sx={{ maxWidth: 480, width: '100%', px: { xs: 0, sm: 2 } }}>
           {/* Header */}
-          <Box sx={{ mb: 5, textAlign: 'center' }}>
+          <Box sx={{ mb: { xs: 4, md: 5 }, textAlign: 'center' }}>
             <Typography 
               variant="h3" 
               fontWeight="700" 
@@ -541,7 +541,7 @@ const RegisterPage = () => {
           justifyContent: 'center',
           background: 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)',
           color: 'white',
-          p: 8,
+          p: { lg: 6, xl: 8 },
           position: 'relative',
           overflow: 'hidden'
         }}
@@ -580,65 +580,97 @@ const RegisterPage = () => {
           filter: 'blur(70px)'
         }} />
         
-        <Box sx={{ textAlign: 'center', maxWidth: 500, zIndex: 1 }}>
-          {/* Geometric illustration - different from login */}
+        <Box sx={{ textAlign: 'center', maxWidth: 520, zIndex: 1, width: '100%' }}>
+          {/* Smaller icon illustration */}
           <Box sx={{ 
-            position: 'relative',
-            width: 180,
-            height: 180,
-            margin: '0 auto 3rem',
+            margin: '0 auto 2.5rem',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
           }}>
-            {/* Hexagon shape */}
             <Box sx={{
-              position: 'absolute',
-              width: '100%',
-              height: '100%',
-              background: 'rgba(255,255,255,0.15)',
-              clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)',
-              backdropFilter: 'blur(10px)',
-              animation: 'pulse 3s ease-in-out infinite',
-              '@keyframes pulse': {
-                '0%, 100%': { transform: 'scale(1)' },
-                '50%': { transform: 'scale(1.05)' }
-              }
-            }} />
-            
-            {/* Inner diamond */}
-            <Box sx={{
-              position: 'absolute',
-              width: '65%',
-              height: '65%',
-              background: 'rgba(255,255,255,0.25)',
-              transform: 'rotate(45deg)',
-              borderRadius: '8px',
-              backdropFilter: 'blur(5px)'
-            }} />
-            
-            {/* Center icon */}
-            <Box sx={{
-              position: 'relative',
-              width: 60,
-              height: 60,
+              width: 80,
+              height: 80,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               bgcolor: 'white',
-              borderRadius: '12px',
-              boxShadow: '0 8px 32px rgba(0,0,0,0.15)'
+              borderRadius: '16px',
+              boxShadow: '0 12px 40px rgba(0,0,0,0.2)'
             }}>
-              <AccountCircleIcon sx={{ fontSize: 32, color: '#764ba2' }} />
+              <AccountCircleIcon sx={{ fontSize: 42, color: '#764ba2' }} />
             </Box>
           </Box>
           
-          <Typography variant="h3" fontWeight="700" gutterBottom sx={{ fontSize: '2.75rem', mb: 2.5, lineHeight: 1.2 }}>
+          <Typography variant="h3" fontWeight="700" gutterBottom sx={{ fontSize: { lg: '2.5rem', xl: '2.75rem' }, mb: 2, lineHeight: 1.2 }}>
             Begin Your Career Path
           </Typography>
-          <Typography variant="h6" sx={{ opacity: 0.95, lineHeight: 1.7, fontSize: '1.125rem', fontWeight: 400, maxWidth: 380, mx: 'auto' }}>
-            Create your profile, showcase your skills, and apply to jobs that match your experience
+          <Typography variant="body1" sx={{ opacity: 0.95, lineHeight: 1.6, fontSize: '1.05rem', fontWeight: 400, mb: 4, px: 2 }}>
+            Join and unlock your job search potential
           </Typography>
+          
+          {/* Feature highlights */}
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            gap: 2.5, 
+            mt: 4,
+            textAlign: 'left',
+            px: 3
+          }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+              <Box sx={{ 
+                width: 8, 
+                height: 8, 
+                borderRadius: '50%', 
+                bgcolor: 'white', 
+                mt: 0.75,
+                flexShrink: 0
+              }} />
+              <Typography variant="body2" sx={{ fontSize: '0.95rem', lineHeight: 1.6, opacity: 0.95 }}>
+                Create your professional profile
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+              <Box sx={{ 
+                width: 8, 
+                height: 8, 
+                borderRadius: '50%', 
+                bgcolor: 'white', 
+                mt: 0.75,
+                flexShrink: 0
+              }} />
+              <Typography variant="body2" sx={{ fontSize: '0.95rem', lineHeight: 1.6, opacity: 0.95 }}>
+                Upload your resume and showcase skills
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+              <Box sx={{ 
+                width: 8, 
+                height: 8, 
+                borderRadius: '50%', 
+                bgcolor: 'white', 
+                mt: 0.75,
+                flexShrink: 0
+              }} />
+              <Typography variant="body2" sx={{ fontSize: '0.95rem', lineHeight: 1.6, opacity: 0.95 }}>
+                Apply to jobs that match your experience
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+              <Box sx={{ 
+                width: 8, 
+                height: 8, 
+                borderRadius: '50%', 
+                bgcolor: 'white', 
+                mt: 0.75,
+                flexShrink: 0
+              }} />
+              <Typography variant="body2" sx={{ fontSize: '0.95rem', lineHeight: 1.6, opacity: 0.95 }}>
+                Get instant notifications on your applications
+              </Typography>
+            </Box>
+          </Box>
         </Box>
       </Box>
     </Box>
