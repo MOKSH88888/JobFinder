@@ -602,71 +602,72 @@ const RegisterPage = () => {
             </Box>
           </Box>
           
-          <Typography variant="h3" fontWeight="700" gutterBottom sx={{ fontSize: { lg: '2.5rem', xl: '2.75rem' }, mb: 2, lineHeight: 1.2 }}>
+          <Typography variant="h3" fontWeight="700" gutterBottom sx={{ fontSize: { lg: '2.5rem', xl: '2.75rem' }, mb: 4.5, lineHeight: 1.2 }}>
             Begin Your Career Path
-          </Typography>
-          <Typography variant="body1" sx={{ opacity: 0.95, lineHeight: 1.6, fontSize: '1.05rem', fontWeight: 400, mb: 4, px: 2 }}>
-            Join and unlock your job search potential
           </Typography>
           
           {/* Feature highlights */}
           <Box sx={{ 
             display: 'flex', 
             flexDirection: 'column', 
-            gap: 2.5, 
-            mt: 4,
+            gap: 3, 
+            mt: 5,
             textAlign: 'left',
-            px: 3
+            px: { lg: 2, xl: 3 }
           }}>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2.5 }}>
               <Box sx={{ 
-                width: 8, 
-                height: 8, 
+                width: 10, 
+                height: 10, 
                 borderRadius: '50%', 
                 bgcolor: 'white', 
-                mt: 0.75,
-                flexShrink: 0
+                mt: 0.6,
+                flexShrink: 0,
+                boxShadow: '0 2px 8px rgba(255,255,255,0.3)'
               }} />
-              <Typography variant="body2" sx={{ fontSize: '0.95rem', lineHeight: 1.6, opacity: 0.95 }}>
+              <Typography variant="body2" sx={{ fontSize: '1rem', lineHeight: 1.7, opacity: 0.98, fontWeight: 400 }}>
                 Create your professional profile
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2.5 }}>
               <Box sx={{ 
-                width: 8, 
-                height: 8, 
+                width: 10, 
+                height: 10, 
                 borderRadius: '50%', 
                 bgcolor: 'white', 
-                mt: 0.75,
-                flexShrink: 0
+                mt: 0.6,
+                flexShrink: 0,
+                boxShadow: '0 2px 8px rgba(255,255,255,0.3)'
               }} />
-              <Typography variant="body2" sx={{ fontSize: '0.95rem', lineHeight: 1.6, opacity: 0.95 }}>
+              <Typography variant="body2" sx={{ fontSize: '1rem', lineHeight: 1.7, opacity: 0.98, fontWeight: 400 }}>
                 Upload your resume and showcase skills
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2.5 }}>
               <Box sx={{ 
-                width: 8, 
-                height: 8, 
+                width: 10, 
+                height: 10, 
                 borderRadius: '50%', 
                 bgcolor: 'white', 
-                mt: 0.75,
-                flexShrink: 0
+                mt: 0.6,
+                flexShrink: 0,
+                boxShadow: '0 2px 8px rgba(255,255,255,0.3)'
               }} />
-              <Typography variant="body2" sx={{ fontSize: '0.95rem', lineHeight: 1.6, opacity: 0.95 }}>
+              <Typography variant="body2" sx={{ fontSize: '1rem', lineHeight: 1.7, opacity: 0.98, fontWeight: 400 }}>
                 Apply to jobs that match your experience
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2.5 }}>
               <Box sx={{ 
-                width: 8, 
-                height: 8, 
+                width: 10, 
+                height: 10, 
                 borderRadius: '50%', 
                 bgcolor: 'white', 
-                mt: 0.75,
-                flexShrink: 0
+                mt: 0.6,
+                flexShrink: 0,
+                boxShadow: '0 2px 8px rgba(255,255,255,0.3)'
               }} />
-              <Typography variant="body2" sx={{ fontSize: '0.95rem', lineHeight: 1.6, opacity: 0.95 }}>
+              <Typography variant="body2" sx={{ fontSize: '1rem', lineHeight: 1.7, opacity: 0.98, fontWeight: 400 }}>
                 Get instant notifications on your applications
               </Typography>
             </Box>
