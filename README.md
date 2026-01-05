@@ -2,7 +2,10 @@
 
 A full-stack MERN job portal built for learning and demonstrating web development skills. Features dual authentication (user/admin), real-time notifications via WebSocket, file uploads with GridFS, and RESTful API design.
 
-**🔗 Live Demo:** [https://job-finder-pink-six.vercel.app](https://job-finder-pink-six.vercel.app)  
+**🔗 Live Demo:**  
+- **User Portal:** [https://job-finder-pink-six.vercel.app](https://job-finder-pink-six.vercel.app)  
+- **Admin Dashboard:** [https://job-finder-pink-six.vercel.app/admin-dashboard](https://job-finder-pink-six.vercel.app/admin-dashboard)
+
 **📚 Tech Stack:** MongoDB · Express.js · React 19 · Node.js  
 **🚀 Deployment:** Render (Backend) + Vercel (Frontend)
 
@@ -94,6 +97,10 @@ A full-stack MERN job portal built for learning and demonstrating web developmen
 ---
 
 ## 🎭 Demo Access
+
+> **Quick Test Credentials:**  
+> **User:** daksh.varshneya@gmail.com / User@1234  
+> **Admin:** admin / Newadmin@2025
 
 ### User Portal
 ```
