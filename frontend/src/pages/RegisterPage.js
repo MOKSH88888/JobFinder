@@ -146,21 +146,41 @@ const RegisterPage = () => {
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#f8f9fa' }}>
-      {/* Left Side - Hero Section */}
+      {/* Left Side - Form */}
       <Box
         sx={{
-          width: '50%',
-          display: { xs: 'none', lg: 'flex' },
-          flexDirection: 'column',
+          width: { xs: '100%', lg: '50%' },
+          display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-          color: 'white',
-          p: 8,
-          position: 'relative',
-          overflow: 'hidden'
+          p: { xs: 3, md: 6 },
+          bgcolor: 'white'
         }}
       >
+        <Box sx={{ maxWidth: 460, width: '100%' }}>
+          {/* Header with better hierarchy */}
+          <Box sx={{ mb: 4.5, textAlign: 'center' }}>
+            <Typography 
+              variant="h3" 
+              fontWeight="700" 
+              gutterBottom 
+              sx={{ 
+                fontSize: { xs: '2rem', md: '2.75rem' },
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                mb: 1,
+                letterSpacing: '-0.03em',
+                lineHeight: 1.2
+              }}
+            >
+              Get Started
+            </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{ fontSize: '1rem', fontWeight: 500, letterSpacing: '0.01em' }}>
+              Create your account in seconds
+            </Typography>
+          </Box>
         {/* Dot pattern */}
         <Box sx={{ 
           position: 'absolute',
@@ -337,15 +357,21 @@ const RegisterPage = () => {
         </style>
       </Box>
 
-      {/* Right Side - Form */}
+      </Box>
+
+      {/* Right Side - Hero Section */}
       <Box
         sx={{
-          width: { xs: '100%', lg: '50%' },
-          display: 'flex',
+          width: '50%',
+          display: { xs: 'none', lg: 'flex' },
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          p: { xs: 3, md: 6 },
-          bgcolor: 'white'
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          color: 'white',
+          p: 8,
+          position: 'relative',
+          overflow: 'hidden'
         }}
       >
         <Box sx={{ maxWidth: 460, width: '100%' }}>
@@ -380,7 +406,7 @@ const RegisterPage = () => {
           )}
 
           <Box component="form" onSubmit={handleSubmit} noValidate>
-            <Typography variant="body2" fontWeight="600" sx={{ mb: 1, color: '#24292f' }}>
+            <Typography variant="body2" fontWeight="600" sx={{ mb: 1, color: '#1e293b', fontSize: '0.875rem' }}>
               Full Name *
             </Typography>
             <TextField
