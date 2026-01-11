@@ -123,8 +123,8 @@ NODE_ENV=development
 PORT=5000
 MONGO_URI=mongodb://127.0.0.1:27017/job_portal_db
 JWT_SECRET=your-secret-key-change-in-production
-DEFAULT_ADMIN_USERNAME=admin
-DEFAULT_ADMIN_PASSWORD=Main@2026
+DEFAULT_ADMIN_USERNAME=set_admin_username
+DEFAULT_ADMIN_PASSWORD=set_admin_password
 FRONTEND_URL=http://localhost:3000
 ```
 
