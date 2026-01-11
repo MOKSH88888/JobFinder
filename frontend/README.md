@@ -2,7 +2,7 @@
 
 React single-page application for the JobFinder job portal with Material-UI and real-time WebSocket features.
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 npm install
@@ -15,14 +15,14 @@ echo "REACT_APP_API_URL=http://localhost:5000" > .env
 echo "REACT_APP_API_BASE_URL=http://localhost:5000/api" >> .env
 ```
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 **Core:** React 19.1.1 (Hooks) • React Router 7.9.2 • Material-UI 7.3.2  
 **HTTP:** Axios 1.12.2 (auto-retry, JWT interceptors)  
 **Real-time:** Socket.io-client 4.6.1 (WebSocket notifications)  
 **Auth:** jwt-decode 4.0.0 • localStorage token management
 
-## 📂 Architecture
+## Architecture
 
 ```
 src/
@@ -34,7 +34,7 @@ src/
 └── theme.js      # Material-UI customization
 ```
 
-## 🎨 Application Features
+## Application Features
 
 **Single-Page Application** with dual authentication flows:
 
@@ -55,7 +55,7 @@ src/
 - Auto-reconnection with retry logic
 - Toast alerts for instant updates
 
-## 🔐 Authentication
+## Authentication
 
 **User Authentication:**
 - JWT stored in `localStorage.token`
@@ -67,7 +67,7 @@ src/
 - Protected routes via `AdminProtectedRoute` component
 - Isolated admin API endpoints
 
-## 🌐 Environment Variables
+## Environment Variables
 
 ```env
 REACT_APP_API_URL=https://your-backend.onrender.com
@@ -76,7 +76,7 @@ GENERATE_SOURCEMAP=false  # Production only
 CI=true  # Vercel deployment
 ```
 
-## 🚀 Production Build
+## Production Build
 
 ```bash
 npm run build  # Creates optimized production build in build/ directory
@@ -89,7 +89,7 @@ npm run build  # Creates optimized production build in build/ directory
 
 > **Note:** The `build/` folder is generated during deployment and is not version controlled.
 
-## 📱 Responsive Design
+## Responsive Design
 
 - Mobile-first approach using Material-UI Grid (12-column system)
 - Responsive navigation with collapsible Drawer

@@ -2,7 +2,7 @@
 
 Node.js/Express REST API server for the JobFinder job portal with real-time WebSocket support.
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 npm install
@@ -11,14 +11,14 @@ node config/seedDatabase.js  # Seed demo data
 npm start  # Server runs on http://localhost:5000
 ```
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 **Runtime:** Node.js v16+ • Express.js 4.21.2 • MongoDB 5.0+ (Mongoose 8.18.2)  
 **Real-time:** Socket.io 4.6.1 • WebSocket rooms for users/admins  
 **Security:** JWT 9.0.2 • bcryptjs 3.0.2 • helmet • rate-limit • xss-clean  
 **Storage:** GridFS (resumes/photos) • Winston logging
 
-## 📂 Architecture
+## Architecture
 
 ```
 backend/
@@ -30,7 +30,7 @@ backend/
 └── server.js     # Express app entry point
 ```
 
-## 🔌 API Endpoints
+## API Endpoints
 
 **Public Routes:**
 - `POST /api/auth/register` - User registration
@@ -51,7 +51,7 @@ backend/
 - `GET /api/health` - Health check
 - `GET /api/docs` - Complete API documentation
 
-## ⚙️ Environment Variables
+## Environment Variables
 
 ```env
 NODE_ENV=production
@@ -62,7 +62,7 @@ DEFAULT_ADMIN_PASSWORD=<secure-password>
 FRONTEND_URL=https://your-frontend.vercel.app
 ```
 
-## 🔐 Security
+## Security
 
 **Authentication:**
 - JWT tokens with 5-hour expiration
@@ -84,7 +84,7 @@ FRONTEND_URL=https://your-frontend.vercel.app
 - Magic number verification
 - Size limits: 2MB (photos) / 5MB (resumes)
 
-## ⚡ Real-time Events
+## Real-time Events
 
 | Event | Trigger | Recipients |
 |-------|---------|-----------|
@@ -93,7 +93,7 @@ FRONTEND_URL=https://your-frontend.vercel.app
 | `new-job-posted` | Admin creates job | All users |
 | `job-deleted` | Admin deletes job | All users |
 
-## 🗄️ Database
+## Database
 
 **Optimization:**
 - 15+ strategic indexes (createdAt, salary, experience, location)
