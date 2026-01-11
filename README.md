@@ -1,4 +1,4 @@
-# 🎯 JobFinder - Full Stack Job Portal
+# JobFinder - Full Stack Job Portal
 
 ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=flat&logo=mongodb&logoColor=white)
 ![Express.js](https://img.shields.io/badge/Express.js-000000?style=flat&logo=express&logoColor=white)
@@ -32,7 +32,7 @@ A full-stack MERN job portal built to learn and practice web development concept
 
 ## Key Features
 
-### 🔐 Dual Authentication System
+### Dual Authentication System
 - **User Portal**: JWT-based authentication with bcrypt password hashing
 - **Admin Portal**: Separate authentication with role-based access control
 - **Session Management**: Token-based authentication with 5-hour expiration
