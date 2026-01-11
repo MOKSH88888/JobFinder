@@ -7,8 +7,8 @@
 // - Sample applications with realistic status progression
 // - Bookmark data to demonstrate user engagement features
 // 
-// DEMO PASSWORDS: All sample users use 'User@1234' (intended for public demo)
-// ADMIN PASSWORD: Set via DEFAULT_ADMIN_PASSWORD environment variable
+// DEMO PASSWORDS: Sample users use 'User@1234', demo user uses 'Demo$45' (intended for public demo)
+// ADMIN PASSWORDS: Superadmin (admin) set via DEFAULT_ADMIN_PASSWORD, normal admin (testadmin) uses 'Check#2026'
 // 
 // Usage: node backend/config/seedDatabase.js
 // Note: This clears existing data except the default admin account
@@ -24,9 +24,9 @@ const Admin = require('../models/Admin');
 // Sample users with complete data
 const sampleUsers = [
   {
-    name: 'Daksh Varshneya',
-    email: 'daksh.varshneya@gmail.com',
-    password: 'User@1234',
+    name: 'Demo User',
+    email: 'demo.user@example.com',
+    password: 'Demo$45',
     phone: '+91-9506095060',
     gender: 'Male',
     experience: 7,
@@ -271,15 +271,15 @@ async function seedDatabase() {
     console.log('🧹 Clearing existing data...');
     await User.deleteMany({});
     await Job.deleteMany({});
-    await Admin.deleteMany({ isDefault: { $ne: true } }); // Keep default admin
+    await Admin.deleteMany({ isDefault: { $ne: true } }); // Keep default superadmin
     console.log('✅ Existing data cleared\n');
 
-    // Create default admin if not exists
-    console.log('👨‍💼 Creating default admin...');
-    const existingAdmin = await Admin.findOne({ isDefault: true });
+    // Create default superadmin if not exists
+    console.log('👨‍💼 Creating default superadmin...');
+    const existingSuperAdmin = await Admin.findOne({ isDefault: true });
     let adminId;
     
-    if (!existingAdmin) {
+    if (!existingSuperAdmin) {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(process.env.DEFAULT_ADMIN_PASSWORD, salt);
       const defaultAdmin = new Admin({
@@ -289,10 +289,27 @@ async function seedDatabase() {
       });
       const savedAdmin = await defaultAdmin.save();
       adminId = savedAdmin._id;
-      console.log(`✅ Default admin created: ${process.env.DEFAULT_ADMIN_USERNAME}\n`);
+      console.log(`✅ Default superadmin created: ${process.env.DEFAULT_ADMIN_USERNAME}\n`);
     } else {
-      adminId = existingAdmin._id;
-      console.log(`✅ Default admin already exists: ${existingAdmin.username}\n`);
+      adminId = existingSuperAdmin._id;
+      console.log(`✅ Default superadmin already exists: ${existingSuperAdmin.username}\n`);
+    }
+
+    // Create testadmin (normal admin without superadmin privileges)
+    console.log('👨‍💼 Creating test admin...');
+    const existingTestAdmin = await Admin.findOne({ username: 'testadmin' });
+    
+    if (!existingTestAdmin) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash('Check#2026', salt);
+      await Admin.create({
+        username: 'testadmin',
+        password: hashedPassword,
+        isDefault: false,  // Not a superadmin
+      });
+      console.log('✅ Test admin created: testadmin\n');
+    } else {
+      console.log('✅ Test admin already exists: testadmin\n');
     }
 
     // Create users
@@ -323,7 +340,7 @@ async function seedDatabase() {
     const now = new Date();
     const daysAgo = (days) => new Date(now.getTime() - (days * 24 * 60 * 60 * 1000));
     
-    // Daksh (User 0) - Primary test user with 7 YOE, senior developer
+    // Demo User (User 0) - Primary test user with 7 YOE, senior developer
     // Job 0: Senior Full Stack - Infosys (Under Review 3 days ago)
     await Job.findByIdAndUpdate(createdJobs[0]._id, {
       $push: { applicants: { userId: createdUsers[0]._id, status: 'Under Review', appliedAt: daysAgo(3) } }
@@ -377,7 +394,7 @@ async function seedDatabase() {
     console.log('🔖 Creating sample bookmarks...');
     let bookmarkCount = 0;
 
-    // Daksh (User 0) - Primary test user bookmarks senior roles
+    // Demo User (User 0) - Primary test user bookmarks senior roles
     await User.findByIdAndUpdate(createdUsers[0]._id, {
       $push: { bookmarkedJobs: { $each: [createdJobs[7]._id, createdJobs[8]._id] } }
     });
@@ -410,9 +427,10 @@ async function seedDatabase() {
     console.log(`   Applications: ${applicationCount}`);
     console.log(`   Bookmarks: ${bookmarkCount}`);
     console.log(`   Admin: ${process.env.DEFAULT_ADMIN_USERNAME}`);
-    console.log('\n💡 Test Credentials:');
-    console.log(`   User: daksh.varshneya@gmail.com / User@1234`);
-    console.log(`   Admin: ${process.env.DEFAULT_ADMIN_USERNAME} / ${process.env.DEFAULT_ADMIN_PASSWORD}\n`);
+    console.log('\nTest Credentials:');
+    console.log(`   User: demo.user@example.com / Demo$45`);
+    console.log(`   Superadmin: ${process.env.DEFAULT_ADMIN_USERNAME} / ${process.env.DEFAULT_ADMIN_PASSWORD}`);
+    console.log(`   Admin: testadmin / Check#2026\n`);
 
     mongoose.disconnect();
   } catch (error) {
